@@ -31,3 +31,8 @@
  * After this, you will type ``` .\venv\Scripts\Activate ``` and will install dependencies ``` pip install -r requirements.txt ```.
  * After this, you should be able to run Flask application ``` python app.py ```
 
+5. Setting up Angular
+ * If you don't have, install Node.js by running ``` winget install --id=OpenJS.NodeJS -e  ``` and check if it's properly install by running ``` npm --version ```
+ * Install Angular CLI by running ``` npm install -g @angular/cli ``` and verify the installation by running ``` ng version ```
+ * From the **root** repo folder, navigate to ``` cd .\frontend\survey-project\ ``` and run ``` npm i ```.
+ * You can start Angular application by running ``` npm start ``` or ``` ng serve ``` for development purposes.
