@@ -24,3 +24,10 @@
     * In **Username**: dev (check from docker-compose.yml)
     * In **Password**: Drs1312! (check from docker-compose.yml)
   * Click Save and you should be able to browse to the database 'survey'
+4. Setting up Python
+ * If you don't have, you should install python 3.9 by running ``` winget install --id=Python.Python.3.9 --source=winget ```
+ * After installing Python, verify that you have it bu running ``` python --version ``` and you should get something like ``` Python 3.9.13 ```
+ * Now, from the **root** folder, navigate to ``` cd .\backend\api\ ``` and run the following ``` python -m venv venv ```.
+ * After this, you will type ``` .\venv\Scripts\Activate ``` and will install dependencies ``` pip install -r requirements.txt ```.
+ * After this, you should be able to run Flask application ``` python app.py ```
+
