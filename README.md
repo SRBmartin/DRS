@@ -9,6 +9,6 @@
 2. Start up Docker
   * Open the command prompt in the base folder of your newly cloned repository.
   * Navigate to docker folder ``` cd .\docker\ ```
-  * Pull and run the containers by running command ``` docker-compose up -d ```
-  * This should create two containers (postgres_ & pgadmin_), verify this.
+  * Pull and run the containers by running command ``` docker-compose -p survey-project up -d --build ```
+  * This should create two containers (postgres_container & pgadmin_container), verify this.
   * After this, the containers will be started and you can manage them easily by using **Docker desktop**
