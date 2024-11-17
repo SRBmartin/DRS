@@ -2,20 +2,21 @@ from flask import Flask
 from .core.config import Config
 from .core.extensions import db, migrate, ma
 from .domains.user.routes import user_bp
-from dotenv import load_dotenv
 import os
+from flask_migrate import Migrate
 
 def create_app():
-    load_dotenv()
     app = Flask(__name__)
-    #app.config.from_object(Config)
-    app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "default_secret_key")
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config.from_object(Config)
     db.init_app(app)
-    migrate.init_app(app, db)
     ma.init_app(app)
 
-    #app.register_blueprint(user_bp)
+    migrations_dir = os.path.join(app.root_path, '..', 'app', 'Infrastructure', 'persistence', 'migrations')
+    migrations_dir = os.path.abspath(migrations_dir)
+    migrate = Migrate(app, db, directory=migrations_dir)
+
+    from .domains.user.models import User
+
+    app.register_blueprint(user_bp)
 
     return app
