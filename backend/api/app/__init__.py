@@ -1,7 +1,7 @@
 from flask import Flask
 from .core.config import Config
 from .core.extensions import db, migrate, ma
-from .domains.user.routes import user_bp
+from .presentation.user.routes import user_bp
 import os
 from flask_migrate import Migrate
 
@@ -17,6 +17,7 @@ def create_app():
 
     from .domains.user.models import User
 
+    #TODO: Add all new routes blueprint when adding a new module
     app.register_blueprint(user_bp)
 
     return app

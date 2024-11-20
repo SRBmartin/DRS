@@ -14,4 +14,3 @@ class UserRepository:
     @staticmethod
     def get_all():
         return User.query.all()
-
