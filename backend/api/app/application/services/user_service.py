@@ -2,6 +2,7 @@ from ...domains.user.models import User, Session
 from ..contracts.schemas.user.schemas import SessionSchema
 from ...core.extensions import db
 from ...domains.user.repositories import UserRepository, SessionRepository
+import uuid
 
 class UserService:
 
@@ -64,3 +65,14 @@ class UserService:
         serialized_session = session_schema.dump(new_session)
 
         return serialized_session
+    
+    def verifySSID(self, ssid: str, ip_address: str):
+        if not ssid:
+            raise ValueError({"message":"Data is missing.", "status":400})
+        
+        ses_id = uuid.UUID(ssid)
+        session = SessionRepository.get_active_by_id(ses_id, ip_address)
+        if session:
+            return True
+        else:
+            return False

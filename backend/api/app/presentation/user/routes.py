@@ -3,6 +3,7 @@ from ...application.contracts.schemas.user.schemas import UserSchema, LoginSchem
 from marshmallow import ValidationError
 from ...application.features.user.commands.CreateUserCommand import CreateUserCommand
 from ...application.features.user.commands.LoginUserCommand import LoginUserCommand
+from ...application.features.user.commands.VerifySSIDCommand import VerifySSIDCommand
 
 user_bp = Blueprint('user', __name__, url_prefix='/users')
 user_schema = UserSchema()
@@ -66,3 +67,27 @@ def login_user():
         return jsonify(result["message"]), result["status"]
     
     return jsonify(result), 200
+
+@user_bp.route('/verify', methods=['POST'])
+def verify_ssid():
+    json_data = request.get_json()
+    if not json_data:
+        return jsonify({}), 400
+    
+    try:
+        command = VerifySSIDCommand(
+            ssid=json_data.get('ssid'),
+            ip_address=request.remote_addr
+        )
+
+        mediator = current_app.config.get('mediator')
+        result = mediator.send(command)
+        if(result):
+            http_status = 200
+        else:
+            http_status = 401
+        
+        return jsonify({}), http_status
+    except Exception:
+        return jsonify({}), 500
+    

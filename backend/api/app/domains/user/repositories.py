@@ -54,3 +54,16 @@ class SessionRepository:
     def get_by_id(id: uuid):
         ssid = uuid.UUID(id)
         return Session.query.filter_by(id=ssid).first()
+    
+    @staticmethod
+    def get_active_by_id(id: uuid.UUID, ip_address) -> Session:
+        current_time = datetime.utcnow()
+        return Session.query.filter(
+            and_(
+                Session.id == id,
+                Session.logged_out == False,
+                Session.ip_address == ip_address,
+                Session.started_time <= current_time,
+                Session.ending_time >= current_time
+            )
+        ).first()
