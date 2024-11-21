@@ -14,3 +14,9 @@ class UserRepository:
     @staticmethod
     def get_all():
         return User.query.all()
+    
+class SessionRepository:
+    @staticmethod
+    def add(session):
+        db.session.add(session)
+        db.session.commit()
