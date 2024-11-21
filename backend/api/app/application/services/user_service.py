@@ -1,5 +1,5 @@
 from ...domains.user.models import User, Session
-from ...domains.user.schemas import SessionSchema
+from ..contracts.schemas.user.schemas import SessionSchema
 from ...core.extensions import db
 from ...domains.user.repositories import UserRepository, SessionRepository
 
@@ -37,3 +37,30 @@ class UserService:
             return serialized_session_schema
         except Exception:
             return {"message":"There was an error while registering account.", "status":500}
+
+    def login_user(self, email: str, password: str, ip_address: str):
+        if not email or not password or not ip_address:
+            raise ValueError({"message":"Data is missing.", "status":400})
+        
+        user = UserRepository.get_by_email(email)
+        if not user:
+            raise ValueError({"message":"User is not found.", "status":404})
+        
+        if not user.check_password(password):
+            raise ValueError({"message": "Password is incorrect.", "status": 401})
+        
+        active_session = SessionRepository.get_active_by_user_id(user.id, ip_address)
+        if not active_session:
+            session = Session(
+                user=user,
+                ip_address=ip_address
+            )
+            SessionRepository.add(session)
+            new_session = session
+        else:
+            new_session = active_session
+
+        session_schema = SessionSchema()
+        serialized_session = session_schema.dump(new_session)
+
+        return serialized_session

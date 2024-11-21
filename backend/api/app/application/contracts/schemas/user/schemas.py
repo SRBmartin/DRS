@@ -1,6 +1,6 @@
 from marshmallow import Schema, fields, validate, post_load
 from datetime import datetime
-from ..user.models import Session
+from .....domains.user.models import Session
 
 class UserSchema(Schema):
     id = fields.UUID(dump_only=True)
@@ -19,7 +19,12 @@ class SessionSchema(Schema):
     started_time = fields.DateTime(dump_only=True)
     ending_time = fields.DateTime(allow_none=True)
     ip_address = fields.Str(required=True, validate=validate.Length(max=45))
+    logged_out = fields.Boolean(required=True)
 
     @post_load
     def make_session(self, data, **kwargs):
         return Session(**data)
+    
+class LoginSchema(Schema):
+    email = fields.Str(required=True)
+    password = fields.Str(required=True)

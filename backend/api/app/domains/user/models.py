@@ -42,5 +42,6 @@ class Session(db.Model):
     started_time = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     ending_time = db.Column(db.DateTime, default=lambda: datetime.utcnow() + timedelta(hours=2), nullable=True)
     ip_address = db.Column(db.String(45), nullable=False)
+    logged_out = db.Column(db.Boolean, default=False, nullable=False)
 
     user = relationship("User", backref=db.backref("sessions", lazy=True))

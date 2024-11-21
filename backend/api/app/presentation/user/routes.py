@@ -1,7 +1,8 @@
 from flask import Blueprint, request, jsonify, current_app
-from ...domains.user.schemas import UserSchema
+from ...application.contracts.schemas.user.schemas import UserSchema, LoginSchema
 from marshmallow import ValidationError
 from ...application.features.user.commands.CreateUserCommand import CreateUserCommand
+from ...application.features.user.commands.LoginUserCommand import LoginUserCommand
 
 user_bp = Blueprint('user', __name__, url_prefix='/users')
 user_schema = UserSchema()
@@ -13,12 +14,12 @@ def create_user():
     if not json_data:
         return jsonify({"message":"No data provided."}), 400
     
-    from app.domains.user.schemas import UserSchema
+    from app.application.contracts.schemas.user.schemas import UserSchema
     user_schema = UserSchema()
     try:
         user_data = user_schema.load(json_data)
-    except ValidationError as err:
-        return jsonify({"message": err.messages}), 422
+    except ValidationError:
+        return jsonify({"message": "Check the fields and try again"}), 422
     
     command = CreateUserCommand(
         name=json_data.get('name'),
@@ -39,3 +40,29 @@ def create_user():
         return jsonify(result["message"]), result["status"]
 
     return jsonify(result), 201
+
+@user_bp.route('/login', methods=['POST'])
+def login_user():
+    json_data = request.get_json()
+    login_schema = LoginSchema()
+    try:
+        req = login_schema.load(json_data)
+        if not json_data:
+            return jsonify({"message":"No data provided."}), 400
+    except ValidationError as err:
+        return jsonify({"message": err.messages}), 422
+    
+    command = LoginUserCommand(
+        email=json_data.get('email'),
+        password=json_data.get('password'),
+        ip_address=request.remote_addr
+    )
+
+    mediator = current_app.config.get('mediator')
+
+    result = mediator.send(command)
+
+    if "message" in result and "status" in result:
+        return jsonify(result["message"]), result["status"]
+    
+    return jsonify(result), 200
