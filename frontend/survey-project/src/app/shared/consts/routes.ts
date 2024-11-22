@@ -1,3 +1,5 @@
 export enum RouteNames {
-    LoginRoute = 'login'
+    HomeRoute  = '/',
+    LoginRoute = 'login',
+    RegisterRoute = 'register'
 };

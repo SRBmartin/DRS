@@ -29,6 +29,7 @@ export const authGuard: CanActivateFn = (route, state) => {
               return true;
             }),
             catchError(() => {
+              cookieService.delete('ssid');
               router.navigate([RouteNames.LoginRoute]);
               return of(false);
             })

@@ -1,0 +1,40 @@
+/* src/app/components/app-input/app-input.component.scss */
+
+:host {
+    display: block;
+  }
+  
+  input.form-control {
+    background-color: #fff;
+    color: #212529;
+  
+    &:focus {
+      border-color: var(--tercial-color);
+      box-shadow: 0 0 0 0.2rem rgba(61, 194, 236, 0.25);
+    }
+  
+    &:not(:placeholder-shown) {
+      border-color: var(--primary-color);
+    }
+  }
+  
+  label.form-label {
+    font-weight: 500;
+  }
+  
+  .text-primary {
+    color: var(--primary-color) !important;
+  }
+  
+  .text-secondary {
+    color: var(--secondary-color) !important;
+  }
+  
+  .text-tercial {
+    color: var(--tercial-color) !important;
+  }
+  
+  .text-accent {
+    color: var(--accent-color) !important;
+  }
+  

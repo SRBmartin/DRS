@@ -21,9 +21,7 @@ class CreateUserCommandHandler(IHandler):
     def handle(self, command: CreateUserCommand):
         try:
             session = self.user_service.register_user(command)
-            return {
-                "session": session
-            }
+            return session
         except ValueError as err:
             return {err.args}
         except Exception as ex:

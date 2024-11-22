@@ -35,7 +35,7 @@ class UserService:
 
             serialized_session_schema = session_schema.dump(session)
 
-            return serialized_session_schema
+            return {"session": serialized_session_schema, "status": 201}
         except Exception:
             return {"message":"There was an error while registering account.", "status":500}
 

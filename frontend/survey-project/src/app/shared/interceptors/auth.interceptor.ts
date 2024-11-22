@@ -20,11 +20,19 @@ export class AuthInterceptor implements HttpInterceptor {
                     Authorization: `Bearer ${ssid}`,
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*',
+                    'Accept': 'application/json'
                 }
             })
             return next.handle(cloned);
         }else{
-            return next.handle(req);
+            const cloned = req.clone({
+                setHeaders: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    'Accept': 'application/json'
+                }
+            })
+            return next.handle(cloned);
         }
     }
 }

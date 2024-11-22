@@ -9,8 +9,11 @@ user_bp = Blueprint('user', __name__, url_prefix='/users')
 user_schema = UserSchema()
 users_schema = UserSchema(many=True)
 
-@user_bp.route('/', methods=['POST'])
+@user_bp.route('', methods=['POST', 'OPTIONS'])
 def create_user():
+    if request.method == 'OPTIONS':
+        return '', 204
+
     json_data = request.get_json()
     if not json_data:
         return jsonify({"message":"No data provided."}), 400
@@ -37,10 +40,7 @@ def create_user():
 
     result = mediator.send(command)
 
-    if "message" in result and "status" in result:
-        return jsonify(result["message"]), result["status"]
-
-    return jsonify(result), 201
+    return jsonify(result), result["status"]
 
 @user_bp.route('/login', methods=['POST'])
 def login_user():

@@ -1,8 +1,11 @@
 import { Location } from "@angular/common";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { CheckSSIDRequest } from "../dto/requests/user/check-ssid-request";
-import { Observable } from "rxjs";
+import { catchError, Observable, throwError } from "rxjs";
+import { RegisterRequest } from "../dto/requests/user/register-request";
+import { RegisterResponse } from "../dto/responses/user/register-response";
+import { environment } from "../environment/environment";
 
 @Injectable({
     providedIn: 'root'
@@ -12,14 +15,23 @@ export class UserService {
 
     constructor(
         private readonly httpClient: HttpClient,
-        private readonly location: Location
     ){
-        this.baseUrl = `${location.prepareExternalUrl('')}/users`;
+        this.baseUrl = `${environment.api}/users`;
     }
 
     verifySSID(request: CheckSSIDRequest): Observable<any> {
         const url = `${this.baseUrl}/verify`;
         return this.httpClient.post(url, request);
+    }
+
+    registerUser(request: RegisterRequest): Observable<RegisterResponse> {
+        const url = `${this.baseUrl}`;
+        return this.httpClient.post<RegisterResponse>(url, request)
+                   .pipe(
+                        catchError((e: HttpErrorResponse) => {
+                            return throwError(e.error);
+                        })
+                   );
     }
 
 }

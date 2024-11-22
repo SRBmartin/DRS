@@ -1,0 +1,39 @@
+:host {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+  
+  .container {
+    width: 80%;
+    max-width: 1200px;
+    padding: 3rem 5rem;
+    background-color: #fff;
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  button.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+    transition: all 0.3s ease;
+  }
+  
+  button.btn-primary:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+  }
+  
+  button.btn-primary:disabled {
+    background-color: #c3c3c3;
+    border-color: #c3c3c3;
+  }
+  
+  .form-label,
+  ::placeholder {
+    color: #212529;
+  }
+  
