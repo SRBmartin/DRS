@@ -1,7 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { noAuthGuard } from './shared/guards/no-auth.guard';
+import { authGuard } from './shared/guards/auth.guard';
+import { RouteNames } from './shared/consts/routes';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: RouteNames.RegisterRoute,
+    loadChildren: () => import('./components/pages/register-page/register-page.module').then(m => m.RegisterPageModule),
+    canActivate: [noAuthGuard]
+  },
+  {
+    path: RouteNames.LoginRoute,
+    loadChildren: () => import('./components/pages/login-page/login-page.module').then(m => m.LoginPageModule),
+    canActivate: [noAuthGuard]
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
