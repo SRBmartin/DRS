@@ -1,5 +1,3 @@
-// src/app/pages/register-page/register-page.component.ts
-
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RegisterRequest } from '../../../shared/dto/requests/user/register-request';
@@ -9,6 +7,7 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { ToastService } from '../../../shared/services/toast.service';
 import { Router } from '@angular/router';
 import { RouteNames } from '../../../shared/consts/routes';
+import { LoaderService } from '../../../shared/services/loader.service';
 
 @Component({
   selector: 'app-register-page',
@@ -23,7 +22,8 @@ export class RegisterPageComponent implements OnInit {
     private readonly userService: UserService,
     private readonly authService: AuthService,
     private readonly toastService: ToastService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {
@@ -36,14 +36,8 @@ export class RegisterPageComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       name: ['', [Validators.required, Validators.maxLength(100)]],
       lastname: ['', [Validators.required, Validators.maxLength(100)]],
-      phoneNumber: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(/^\+?[0-9]{6,15}$/),
-        ],
-      ],
-      address: ['', [Validators.required, Validators.maxLength(200)]],
+      phoneNumber: ['', [Validators.required, Validators.pattern(/^\+?[0-9]{6,15}$/),]],
+      address: ['', [Validators.required, Validators.maxLength(100)]],
       city: ['', [Validators.required, Validators.maxLength(100)]],
       country: ['', [Validators.required, Validators.maxLength(100)]],
     });
@@ -66,6 +60,7 @@ export class RegisterPageComponent implements OnInit {
   onRegister(): void {
     if (this.registerForm.valid) {
       const request = this.createRegisterRequest();
+      this.loaderService.startLoading();
       this.userService
           .registerUser(request)
           .subscribe({
@@ -79,11 +74,18 @@ export class RegisterPageComponent implements OnInit {
               }else{
                 this.toastService.showError(response.message ?? '', "Registration error");
               }
+              this.loaderService.stopLoading();
             },
             error: (e: any) => {
               this.toastService.showError(e.message ?? '', "Registration error");
+              this.loaderService.stopLoading();
             }
           });
     }
   }
+
+  onSignInClick(): void {
+    this.router.navigate([RouteNames.LoginRoute]);
+  }
+
 }

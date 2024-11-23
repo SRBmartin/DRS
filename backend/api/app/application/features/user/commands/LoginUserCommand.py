@@ -15,10 +15,22 @@ class LoginUserCommandHandler(IHandler):
     def handle(self, command: LoginUserCommand):
         try:
             session = self.user_service.login_user(command.email, command.password, command.ip_address)
-            return {
-                "session": session
-            }
+            return session
         except ValueError as err:
-            return err.args
+            if err.args and isinstance(err.args[0], dict):
+                error_info = err.args[0]
+                message = error_info.get("message", "An unexpected error occurred.")
+                status = error_info.get("status", 500)
+                return {"message": message, "status": status}
+            else:
+                message = "An unexpected error occurred."
+                status = 500
         except Exception as ex:
-            return ex.args
+            if ex.args and isinstance(ex.args[0], dict):
+                error_info = ex.args[0]
+                message = error_info.get("message", "An unexpected error occurred.")
+                status = error_info.get("status", 500)
+            else:
+                message = "An unexpected error occurred."
+                status = 500
+            return {"message": message, "status": status}

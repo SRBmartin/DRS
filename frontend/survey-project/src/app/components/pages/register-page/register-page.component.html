@@ -1,6 +1,12 @@
 <div class="container">
   <form [formGroup]="registerForm">
-    <!-- First Row -->
+    
+    <div class="row mb-4">
+      <div class="col-12 text-center">
+        <h2 class="create-account-text">Create a new account</h2>
+      </div>
+    </div>
+
     <div class="row mb-4">
       <div class="col-md-6 col-12">
         <app-input
@@ -10,6 +16,7 @@
           placeholder="Enter your email"
           [required]="true"
           formControlName="email"
+          [hasError]="(registerForm.get('email')?.invalid && registerForm.get('email')?.touched) ?? false"
         ></app-input>
         <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="text-danger">
           <small *ngIf="registerForm.get('email')?.errors?.['required']">Email is required.</small>
@@ -24,6 +31,7 @@
           placeholder="Enter your password"
           [required]="true"
           formControlName="password"
+          [hasError]="(registerForm.get('password')?.invalid && registerForm.get('password')?.touched) ?? false"
         ></app-input>
         <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="text-danger">
           <small *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</small>
@@ -34,7 +42,6 @@
       </div>
     </div>
 
-    <!-- Second Row -->
     <div class="row mb-4">
       <div class="col-md-4 col-12">
         <app-input
@@ -44,6 +51,7 @@
           placeholder="Enter your first name"
           [required]="true"
           formControlName="name"
+          [hasError]="(registerForm.get('name')?.invalid && registerForm.get('name')?.touched) ?? false"
         ></app-input>
         <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched" class="text-danger">
           <small *ngIf="registerForm.get('name')?.errors?.['required']">First name is required.</small>
@@ -58,6 +66,7 @@
           placeholder="Enter your last name"
           [required]="true"
           formControlName="lastname"
+          [hasError]="(registerForm.get('lastname')?.invalid && registerForm.get('lastname')?.touched) ?? false"
         ></app-input>
         <div *ngIf="registerForm.get('lastname')?.invalid && registerForm.get('lastname')?.touched" class="text-danger">
           <small *ngIf="registerForm.get('lastname')?.errors?.['required']">Last name is required.</small>
@@ -72,6 +81,7 @@
           placeholder="Enter your phone number"
           [required]="true"
           formControlName="phoneNumber"
+          [hasError]="(registerForm.get('phoneNumber')?.invalid && registerForm.get('phoneNumber')?.touched) ?? false"
         ></app-input>
         <div *ngIf="registerForm.get('phoneNumber')?.invalid && registerForm.get('phoneNumber')?.touched" class="text-danger">
           <small *ngIf="registerForm.get('phoneNumber')?.errors?.['required']">Phone number is required.</small>
@@ -80,7 +90,6 @@
       </div>
     </div>
 
-    <!-- Third Row -->
     <div class="row mb-4">
       <div class="col-md-4 col-12">
         <app-input
@@ -90,10 +99,11 @@
           placeholder="Enter your address"
           [required]="true"
           formControlName="address"
+          [hasError]="(registerForm.get('address')?.invalid && registerForm.get('address')?.touched) ?? false"
         ></app-input>
         <div *ngIf="registerForm.get('address')?.invalid && registerForm.get('address')?.touched" class="text-danger">
           <small *ngIf="registerForm.get('address')?.errors?.['required']">Address is required.</small>
-          <small *ngIf="registerForm.get('address')?.errors?.['maxlength']">Maximum 200 characters allowed.</small>
+          <small *ngIf="registerForm.get('address')?.errors?.['maxlength']">Maximum 100 characters allowed.</small>
         </div>
       </div>
       <div class="col-md-4 col-12 mt-3 mt-md-0">
@@ -104,6 +114,7 @@
           placeholder="Enter your city"
           [required]="true"
           formControlName="city"
+          [hasError]="(registerForm.get('city')?.invalid && registerForm.get('city')?.touched) ?? false"
         ></app-input>
         <div *ngIf="registerForm.get('city')?.invalid && registerForm.get('city')?.touched" class="text-danger">
           <small *ngIf="registerForm.get('city')?.errors?.['required']">City is required.</small>
@@ -118,6 +129,7 @@
           placeholder="Enter your country"
           [required]="true"
           formControlName="country"
+          [hasError]="(registerForm.get('country')?.invalid && registerForm.get('country')?.touched) ?? false"
         ></app-input>
         <div *ngIf="registerForm.get('country')?.invalid && registerForm.get('country')?.touched" class="text-danger">
           <small *ngIf="registerForm.get('country')?.errors?.['required']">Country is required.</small>
@@ -126,7 +138,6 @@
       </div>
     </div>
 
-    <!-- Submit Button -->
     <div class="text-center">
       <button
         class="btn btn-primary btn-lg"
@@ -137,5 +148,26 @@
         Sign Up
       </button>
     </div>
+
+    <div class="row mt-4">
+      <div class="col-12">
+        <hr class="styled-hr">
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-12 text-center">
+        <h2 class="have-account">You already have an account?</h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 text-center">
+        <button class="btn btn-secondary btn-lg" type="button" (click)="onSignInClick()">
+          Sign in
+        </button>
+      </div>
+    </div>
+
   </form>
 </div>

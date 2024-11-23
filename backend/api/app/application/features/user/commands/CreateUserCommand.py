@@ -23,6 +23,17 @@ class CreateUserCommandHandler(IHandler):
             session = self.user_service.register_user(command)
             return session
         except ValueError as err:
-            return {err.args}
+            if err.args and isinstance(err.args[0], dict):
+                error_info = err.args[0]
+                message = error_info.get("message", "An unexpected error occurred.")
+                status = error_info.get("status", 500)
+                return {"message": message, "status": status}
         except Exception as ex:
-            return {ex.args}
+            if ex.args and isinstance(ex.args[0], dict):
+                error_info = ex.args[0]
+                message = error_info.get("message", "An unexpected error occurred.")
+                status = error_info.get("status", 500)
+            else:
+                message = "An unexpected error occurred."
+                status = 500
+            return {"message": message, "status": status}

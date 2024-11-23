@@ -23,6 +23,7 @@ export class BasicInputComponent implements ControlValueAccessor {
   @Input() name: string = '';
   @Input() size: 'sm' | 'lg' | '' = '';
   @Input() class: string = '';
+  @Input() hasError: boolean = false;
 
   @Output() blur: EventEmitter<any> = new EventEmitter<any>();
 

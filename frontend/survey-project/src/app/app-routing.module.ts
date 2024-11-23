@@ -9,6 +9,11 @@ const routes: Routes = [
     path: RouteNames.RegisterRoute,
     loadChildren: () => import('./components/pages/register-page/register-page.module').then(m => m.RegisterPageModule),
     canActivate: [noAuthGuard]
+  },
+  {
+    path: RouteNames.LoginRoute,
+    loadChildren: () => import('./components/pages/login-page/login-page.module').then(m => m.LoginPageModule),
+    canActivate: [noAuthGuard]
   }
 ];
 

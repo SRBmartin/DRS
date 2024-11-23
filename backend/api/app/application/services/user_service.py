@@ -64,7 +64,7 @@ class UserService:
         session_schema = SessionSchema()
         serialized_session = session_schema.dump(new_session)
 
-        return serialized_session
+        return { "session": serialized_session, "status": 200 }
     
     def verifySSID(self, ssid: str, ip_address: str):
         if not ssid:

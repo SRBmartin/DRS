@@ -1,5 +1,9 @@
 <app-navbar />
 
+<div class="overlay" *ngIf="isLoading | async">
+    <app-loader />
+</div>
+
 <div class="content">
     <router-outlet></router-outlet>
 </div>

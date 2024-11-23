@@ -1,4 +1,4 @@
-<div class="mb-3">
+<div>
   <label *ngIf="label" [for]="name" class="form-label text-primary">
     {{ label }}
     <span *ngIf="required" class="text-danger">*</span>
@@ -16,6 +16,7 @@
     [ngClass]="{
       'form-control-sm': size === 'sm',
       'form-control-lg': size === 'lg',
+      'error-border': hasError,
       class
     }"
     [disabled]="isDisabled"

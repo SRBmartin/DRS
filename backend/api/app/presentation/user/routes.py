@@ -62,11 +62,8 @@ def login_user():
     mediator = current_app.config.get('mediator')
 
     result = mediator.send(command)
-
-    if "message" in result and "status" in result:
-        return jsonify(result["message"]), result["status"]
     
-    return jsonify(result), 200
+    return jsonify(result), result["status"]
 
 @user_bp.route('/verify', methods=['POST'])
 def verify_ssid():

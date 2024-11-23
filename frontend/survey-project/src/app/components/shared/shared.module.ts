@@ -4,6 +4,7 @@ import { NavbarComponent } from './ui/navbar/navbar.component';
 import { FooterComponent } from './ui/footer/footer.component';
 import { BasicInputComponent } from './ui/input/basic-input.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LoaderComponent } from './loader/loader.component';
 
 
 
@@ -11,7 +12,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   declarations: [
     NavbarComponent,
     FooterComponent,
-    BasicInputComponent
+    BasicInputComponent,
+    LoaderComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   exports: [
     NavbarComponent,
     FooterComponent,
-    BasicInputComponent
+    BasicInputComponent,
+    LoaderComponent
   ]
 })
 export class SharedModule { }
