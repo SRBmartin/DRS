@@ -92,7 +92,14 @@
     </div>
 
     <div class="text-center">
-      <app-button label="Sign Up" type="button" size="lg" class="btn-primary" [disabled]="!registerForm.valid" (clickEvent)="onRegister()"/>
+      <app-button 
+        label="Sign Up" 
+        type="button" 
+        size="lg" 
+        class="btn-primary" 
+        [disabled]="!registerForm.valid" 
+        (clickEvent)="onRegister()"
+      />
     </div>
 
     <div class="row mt-4">
@@ -109,9 +116,14 @@
 
     <div class="row">
       <div class="col-12 text-center">
-        <app-button label="Sign In" type="button" class="btn-accent" (clickEvent)="onSignInClick()"/>
+        <app-button 
+          label="Sign In" 
+          type="button" 
+          class="btn-accent" 
+          (clickEvent)="onSignInClick()"
+        />
       </div>
     </div>
-
+    
   </form>
 </div>

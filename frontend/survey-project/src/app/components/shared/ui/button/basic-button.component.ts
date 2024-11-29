@@ -6,11 +6,12 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./basic-button.component.scss'],
 })
 export class BasicButtonComponent {
-  @Input() label: string = 'Click Me';
+  @Input() label: string = '';
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
   @Input() class: string = '';
   @Input() disabled: boolean = false;
   @Input() size: 'sm' | 'md' | 'lg' = 'md';
+  @Input() backgroundImage: string = '';
 
   @Output() clickEvent: EventEmitter<void> = new EventEmitter<void>();
 
@@ -28,5 +29,10 @@ export class BasicButtonComponent {
   
     return `${baseClass} ${this.class}`;
   }
-  
+ 
+  getStyles(): { [key: string]: string } {
+    return this.backgroundImage
+      ? { 'background-image': `url(${this.backgroundImage})`, 'background-size': 'cover' }
+      : {};
+  }
 }

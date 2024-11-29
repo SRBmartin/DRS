@@ -54,7 +54,13 @@
         </div>
   
         <div class="text-center">
-          <app-button label="Log In" type="button" size="lg" class="btn-primary" [disabled]="!loginForm.valid" (clickEvent)="onLogin()"/>
+          <app-button 
+            label="Log In" 
+            type="button" 
+            size="lg" 
+            class="btn-primary" 
+            [disabled]="!loginForm.valid" 
+            (clickEvent)="onLogin()"/>
         </div>
   
         <div class="row mt-4">
@@ -71,7 +77,11 @@
   
         <div class="row">
           <div class="col-12 text-center">
-            <app-button label="Sign Up" type="button" class="btn-accent" (clickEvent)="onSignUpClick()"/>
+            <app-button 
+              label="Sign Up" 
+              type="button" 
+              class="btn-accent" 
+              (clickEvent)="onSignUpClick()"/>
           </div>
         </div>
       </form>

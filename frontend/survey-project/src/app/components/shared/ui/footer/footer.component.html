@@ -1,71 +1,91 @@
 <footer *ngIf="hideFooter">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-                <span class="footer-brand">
-                    <button class="btn-logo" [routerLink]="[RouteNames.HomeRoute]" routerLinkActive="active">
-                        <img class="logo-img" src="../../../../../assets/images/logo-footer.png" alt="Logo Image" />
-                    </button>
-                    <a class="logo-text" [routerLink]="[RouteNames.HomeRoute]" routerLinkActive="active">Survey<span>Master</span></a>
-                </span>
-            </div>
-            <div class="col-md-3">
-                <div class="footer-section" *ngIf="isLoggedIn()">
-                    <h4>Dashboard Actions</h4>
-                    <ul class="footer-menu">
-                        <li class="footer-menu-item">
-                            <a [routerLink]="[RouteNames.HomeRoute]" routerLinkActive="active">My Surveys</a>
-                        </li>
-                        <li class="footer-menu-item">
-                            <a [routerLink]="[RouteNames.CreateSurveyRoute]" routerLinkActive="active">Create New Survey</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="footer-section" *ngIf="isLoggedIn()">
-                    <h4>Account Settings</h4>
-                    <ul class="footer-menu">
-                        <li class="footer-menu-item">
-                            <a [routerLink]="[RouteNames.ProfileRoute]" routerLinkActive="active">General Informations</a>
-                        </li>
-                        <li class="footer-menu-item">
-                            <a [routerLink]="[RouteNames.ProfileRoute]" routerLinkActive="active">Change password</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="footer-section">
-                    <h4>Contact Informations</h4>
-                    <ul class="footer-menu">
-                        <li class="footer-menu-item" *ngIf="isLoggedIn()">
-                            <button [routerLink]="[RouteNames.CreateSurveyRoute]" routerLinkActive="active">
-                                <img src="../../../../../assets/images/send-email-icon.png">
-                                Send Email
-                            </button>
-                            <a href="#"></a>
-                        </li>
-                        <li class="footer-menu-item">
-                            <button>
-                                <img src="../../../../../assets/images/facebook-icon.png">
-                                Facebook
-                            </button>
-                            <a href=""></a>
-                        </li>
-                        <li class="footer-menu-item">
-                            <button>
-                                <img src="../../../../../assets/images/instagram-icon.png">
-                                Instagram
-                            </button>
-                            <a href=""></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-12 footer-copyright">
-                <p>© 2024 Survey<span>Master</span>, Inc. All rights reserved</p>
-            </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <a
+          class="footer-logo"
+          [routerLink]="[RouteNames.HomeRoute]"
+          routerLinkActive="active">
+          <img src="assets/images/logo-footer.png" />
+          <span>Survey<b>Master</b></span>
+        </a>
+      </div>
+      <div class="col-md-3">
+        <div class="footer-section" *ngIf="isLoggedIn()">
+          <h4>Dashboard Actions</h4>
+          <ul class="footer-menu">
+            <li class="footer-menu-item">
+              <a 
+                [routerLink]="[RouteNames.HomeRoute]" 
+                routerLinkActive="active">
+              My Surveys
+              </a>
+            </li>
+            <li class="footer-menu-item">
+              <a
+                [routerLink]="[RouteNames.CreateSurveyRoute]"
+                routerLinkActive="active">
+                Create New Survey
+                </a>
+            </li>
+          </ul>
         </div>
+      </div>
+      <div class="col-md-3">
+        <div class="footer-section" *ngIf="isLoggedIn()">
+          <h4>Account Settings</h4>
+          <ul class="footer-menu">
+            <li class="footer-menu-item">
+              <a
+                [routerLink]="[RouteNames.ProfileRoute]"
+                routerLinkActive="active">
+                General Informations
+                </a>
+            </li>
+            <li class="footer-menu-item">
+              <a
+                [routerLink]="[RouteNames.ProfileRoute]"
+                routerLinkActive="active">
+                Change password
+                </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="footer-section">
+          <h4>Contact Informations</h4>
+          <ul class="footer-menu">
+            <li class="footer-menu-item" *ngIf="isLoggedIn()">
+              <a
+                [routerLink]="[RouteNames.CreateSurveyRoute]"
+                routerLinkActive="active">
+                <img src="assets/images/send-email-icon.png" />
+                Send Email
+              </a>
+            </li>
+            <li class="footer-menu-item">
+              <a 
+                href="https://facebook.com" 
+                target="_blank">
+                <img src="assets/images/facebook-icon.png" />
+                Facebook
+              </a>
+            </li>
+            <li class="footer-menu-item">
+              <a 
+                href="https://instagram.com" 
+                target="_blank">
+                <img src="assets/images/instagram-icon.png" />
+                Instagram
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-12 footer-copyright">
+        <p>© 2024 Survey<span>Master</span>, Inc. All rights reserved</p>
+      </div>
     </div>
+  </div>
 </footer>

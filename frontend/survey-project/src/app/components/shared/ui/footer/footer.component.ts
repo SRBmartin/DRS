@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouteNames } from '../../../../shared/consts/routes'
 import { CookieService } from 'ngx-cookie-service';
+import { BasicButtonComponent } from '../button/basic-button.component';
 
 @Component({
   selector: 'app-footer',
