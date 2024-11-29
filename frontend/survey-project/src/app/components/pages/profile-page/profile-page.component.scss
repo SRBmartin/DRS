@@ -1,0 +1,42 @@
+.my-profile-container {
+    .sidebar {
+      border-right: 1px solid #dee2e6;
+  
+      h2 {
+        text-align: center; // Horizontally center the "Account Settings" title
+        font-size: x-large;
+      }
+  
+      ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        width: 100%; // Ensure the list spans the full width
+  
+        li {
+          width: 100%; // Each list item takes the full width
+  
+          a {
+            text-align: center; // Center-align text within each link
+            color: #6c757d; // Default gray color for links
+  
+            &.active {
+              background-color: #007bff; // Active link's background color (blue)
+              color: #fff; // White text for the active link
+              font-weight: bold;
+            }
+  
+            &:hover {
+              background-color: #9abde0; // Hover effect with a light blue shade
+            }
+          }
+        }
+      }
+    }
+  
+    .content {
+      background-color: #f8f9fa;
+      min-height: 100%; // Fills available height
+    }
+  }
+  

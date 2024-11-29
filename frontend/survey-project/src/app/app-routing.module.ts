@@ -14,6 +14,11 @@ const routes: Routes = [
     path: RouteNames.LoginRoute,
     loadChildren: () => import('./components/pages/login-page/login-page.module').then(m => m.LoginPageModule),
     canActivate: [noAuthGuard]
+  },
+  {
+    path: RouteNames.ProfilePageRoute,
+    loadChildren: () => import('./components/pages/profile-page/profile-page.module').then(m => m.ProfilePageModule),
+    //canActivate: [authGuard]
   }
 ];
 

@@ -1,0 +1,39 @@
+<div class="container-fluid my-profile-container">
+  <div class="row vh-100">
+    <!-- Sidebar -->
+    <aside class="col-md-3 sidebar bg-white p-4">
+      <h2 class="h5 text-dark mb-4 text-center">Account Settings</h2>
+      <ul class="list-unstyled d-flex flex-column align-items-center">
+        <li class="mb-3 w-100">
+          <a 
+            routerLink="general-information" 
+            routerLinkActive="active" 
+            class="text-decoration-none d-block py-2 px-3 rounded text-center">
+            General Information
+          </a>
+        </li>
+        <li class="mb-3 w-100">
+          <a 
+            routerLink="change-password" 
+            routerLinkActive="active" 
+            class="text-decoration-none d-block py-2 px-3 rounded text-center">
+            Change Password
+          </a>
+        </li>
+        <li class="mb-3 w-100">
+          <a 
+            routerLink="delete-my-account" 
+            routerLinkActive="active" 
+            class="text-decoration-none d-block py-2 px-3 rounded text-center">
+            Delete My Account
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="col-md-9 content bg-light p-4">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
