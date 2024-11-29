@@ -93,3 +93,9 @@ celerybeat-schedule
 
 # virtualenv
 venv/
+
+# docker myenv
+docker/myenv
+
+# scripts
+backend/api/Scripts
