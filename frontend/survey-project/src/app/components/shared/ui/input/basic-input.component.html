@@ -1,5 +1,5 @@
 <div>
-  <label *ngIf="label" [for]="name" class="form-label text-primary">
+  <label *ngIf="label" [for]="name" class="form-label text-secondary">
     {{ label }}
     <span *ngIf="required" class="text-danger">*</span>
   </label>
@@ -21,7 +21,7 @@
     }"
     [disabled]="isDisabled"
     style="
-      border-color: var(--primary-color);
+      border-color: var(--secondary-color);
       transition: border-color 0.3s;
     "
     [attr.autocomplete]="'new-password'"

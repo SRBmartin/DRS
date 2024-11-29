@@ -1,7 +1,7 @@
 <div class="container">
     <div class="left-side">
       <div class="content">
-        <h1 class="title">Survey Master</h1>
+        <h1 class="title">Survey<span>Master</span></h1>
         <p class="subtitle">Software for the best survey experience</p>
       </div>
     </div>
@@ -54,14 +54,7 @@
         </div>
   
         <div class="text-center">
-          <button
-            class="btn btn-primary btn-lg"
-            type="button"
-            [disabled]="!loginForm.valid"
-            (click)="onLogin()"
-          >
-            Log In
-          </button>
+          <app-button label="Log In" type="button" size="lg" class="btn-primary" [disabled]="!loginForm.valid" (clickEvent)="onLogin()"/>
         </div>
   
         <div class="row mt-4">
@@ -78,9 +71,7 @@
   
         <div class="row">
           <div class="col-12 text-center">
-            <button class="btn btn-secondary btn-lg" type="button" (click)="onSignUpClick()">
-              Sign Up
-            </button>
+            <app-button label="Sign Up" type="button" class="btn-accent" (clickEvent)="onSignUpClick()"/>
           </div>
         </div>
       </form>

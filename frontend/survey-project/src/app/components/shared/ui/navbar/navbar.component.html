@@ -1,1 +1,29 @@
-<p>navbar works!</p>
+<nav class="navbar navbar-light" *ngIf="hideNavbar">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <span class="navbar-brand">
+            <button class="btn-logo" [routerLink]="[RouteNames.HomeRoute]" routerLinkActive="active">
+              <img src="../../../../../assets/images/logo-navbar.png" alt="Logo Image"  [routerLink]="[RouteNames.HomeRoute]" routerLinkActive="active"/>
+            </button>
+            <a href="">Survey<span>Master</span></a>
+          </span>
+        </div>
+        <div class="col-md-6 right-menu" *ngIf="isLoggedIn()">
+          <ul class="navbar-menu">
+            <li class="navbar-menu-item">
+              <a [routerLink]="[RouteNames.HomeRoute]" routerLinkActive="active">Dashboard</a>
+            </li>
+            <li class="navbar-menu-item">
+              <a [routerLink]="[RouteNames.ProfileRoute]" routerLinkActive="active">My Profile</a>
+            </li>
+            <li class="navbar-menu-item">
+              <button class="btn-logout" [routerLink]="[RouteNames.LoginRoute]" routerLinkActive="active">
+                <img src="../../../../../assets/images/logout.png" alt="Logout Image" />
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>

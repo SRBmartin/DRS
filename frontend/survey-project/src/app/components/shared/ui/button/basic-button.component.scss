@@ -1,0 +1,103 @@
+button {
+    border: none;
+    cursor: pointer;
+    font-weight: 500 !important;
+
+    &.btn-primary {
+        background-color: var(--primary-color);
+
+        &:hover {
+            background-color: rgba(47, 91, 247);
+            transform: scale(1.02);
+        }
+    }
+
+    &.btn-secondary {
+        background-color: var(--secondary-color);
+
+        &:hover {
+            background-color: rgba(55, 35, 207); 
+            transform: scale(1.02);
+        }
+    }
+
+    &.btn-tercial {
+        background-color: var(--tercial-color); 
+        color: var(--white-color);
+
+        &:hover {
+            background-color: rgba(16, 159, 204);
+            transform: scale(1.02);
+        }
+    }
+
+    &.btn-accent {
+        background-color: var(--accent-color);
+        color: var(--white-color);
+
+        &:hover {
+            background-color: rgba(84, 7, 60);
+            transform: scale(1.02);
+        }
+    }
+
+    &.btn-dark {
+        background-color: var(--dark-color);
+        color: var(--white-color);
+
+        &:hover {
+            background-color: rgba(42, 35, 99);
+            transform: scale(1.02);
+        }
+    }
+
+    &.btn-black {
+        background-color: var(--black-color); 
+        color: var(--white-color);
+
+        &:hover {
+            background-color: rgba(31, 31, 31); 
+            transform: scale(1.02);
+        }
+    }
+
+    &.btn-white {
+        background-color: var(--white-color);
+
+        &:hover {
+            background-color: rgba(222, 217, 217);
+            transform: scale(1.02);
+        }
+    }
+
+    &.btn-error {
+        background-color: var(--error-color);
+        color: var(--white-color);
+
+        &:hover {
+            background-color: rgba(217, 30, 48);
+            transform: scale(1.02);
+        }
+    }
+
+    &.btn {
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    &.btn-sm {
+        font-size: 14px;
+        min-width: 50px;
+    }
+
+    &.btn-md {
+        font-size: 18px;
+        min-width: 150px;
+    }
+
+    &.btn-lg {
+        font-size: 20px;
+        min-width: 250px;
+    }
+}
