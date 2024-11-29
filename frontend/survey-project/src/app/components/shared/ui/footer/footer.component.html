@@ -1,4 +1,4 @@
-<footer *ngIf="hideFooter">
+<footer *ngIf="hideFooter | async">
   <div class="container">
     <div class="row">
       <div class="col-md-3">
@@ -6,7 +6,7 @@
           class="footer-logo"
           [routerLink]="[RouteNames.HomeRoute]"
           routerLinkActive="active">
-          <img src="assets/images/logo-footer.png" />
+          <img src="assets/images/logo-footer.png"/>
           <span>Survey<b>Master</b></span>
         </a>
       </div>
@@ -17,16 +17,18 @@
             <li class="footer-menu-item">
               <a 
                 [routerLink]="[RouteNames.HomeRoute]" 
-                routerLinkActive="active">
-              My Surveys
+                routerLinkActive="active"
+              >
+                My Surveys
               </a>
             </li>
             <li class="footer-menu-item">
               <a
                 [routerLink]="[RouteNames.CreateSurveyRoute]"
-                routerLinkActive="active">
+                routerLinkActive="active"
+              >
                 Create New Survey
-                </a>
+              </a>
             </li>
           </ul>
         </div>
@@ -38,16 +40,18 @@
             <li class="footer-menu-item">
               <a
                 [routerLink]="[RouteNames.ProfileRoute]"
-                routerLinkActive="active">
+                routerLinkActive="active"
+              >
                 General Informations
-                </a>
+              </a>
             </li>
             <li class="footer-menu-item">
               <a
                 [routerLink]="[RouteNames.ProfileRoute]"
-                routerLinkActive="active">
+                routerLinkActive="active"
+              >
                 Change password
-                </a>
+              </a>
             </li>
           </ul>
         </div>
@@ -59,24 +63,27 @@
             <li class="footer-menu-item" *ngIf="isLoggedIn()">
               <a
                 [routerLink]="[RouteNames.CreateSurveyRoute]"
-                routerLinkActive="active">
-                <img src="assets/images/send-email-icon.png" />
+                routerLinkActive="active"
+              >
+                <img src="assets/images/send-email-icon.png"/>
                 Send Email
               </a>
             </li>
             <li class="footer-menu-item">
               <a 
                 href="https://facebook.com" 
-                target="_blank">
-                <img src="assets/images/facebook-icon.png" />
+                target="_blank"
+              >
+                <img src="assets/images/facebook-icon.png"/>
                 Facebook
               </a>
             </li>
             <li class="footer-menu-item">
               <a 
                 href="https://instagram.com" 
-                target="_blank">
-                <img src="assets/images/instagram-icon.png" />
+                target="_blank"
+              >
+                <img src="assets/images/instagram-icon.png"/>
                 Instagram
               </a>
             </li>

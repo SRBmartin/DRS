@@ -21,7 +21,7 @@ export class BasicButtonComponent {
     }
   }
 
-  getClass(): string {
+  get getClass(): string {
     let baseClass = 'btn';
     if (this.size === 'sm') baseClass += ' btn-sm';
     if (this.size === 'md') baseClass += ' btn-md';

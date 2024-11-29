@@ -1,13 +1,18 @@
-<nav class="navbar navbar-light" *ngIf="hideNavbar">
+<nav class="navbar navbar-light" *ngIf="hideNavbar | async">
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-            <a class="navbar-logo" [routerLink]="[RouteNames.HomeRoute]" routerLinkActive="active">
+            <a 
+            class="navbar-logo" 
+            [routerLink]="[RouteNames.HomeRoute]" 
+            routerLinkActive="active"
+            >
               <img 
                 src="../../../../../assets/images/logo-navbar.png" 
                 alt="Logo Image"  
                 [routerLink]="[RouteNames.HomeRoute]" 
-                routerLinkActive="active"/>
+                routerLinkActive="active"
+              />
               <span>Survey<b>Master</b></span>
             </a>
         </div>
@@ -16,12 +21,18 @@
             <li class="navbar-menu-item">
               <a 
                 [routerLink]="[RouteNames.HomeRoute]" 
-                routerLinkActive="active">Dashboard</a>
+                routerLinkActive="active"
+              >
+                Dashboard
+              </a>
             </li>
             <li class="navbar-menu-item">
               <a 
                 [routerLink]="[RouteNames.ProfileRoute]" 
-                routerLinkActive="active">My Profile</a>
+                routerLinkActive="active"
+              >
+                My Profile
+              </a>
             </li>
             <li class="navbar-menu-item">
               <app-button 
@@ -29,7 +40,8 @@
                 class="btn-logout" 
                 [backgroundImage]="'assets/images/logout.png'" 
                 [routerLink]="[RouteNames.LoginRoute]"
-                routerLinkActive="active"/>
+                routerLinkActive="active"
+              />
             </li>
           </ul>
         </div>
