@@ -1,5 +1,5 @@
 from ...domains.user.models import User, Session
-from ..contracts.schemas.user.schemas import SessionSchema
+from ..contracts.schemas.user.schemas import SessionSchema, UserSchema
 from ...core.extensions import db
 from ...domains.user.repositories import UserRepository, SessionRepository
 import uuid
@@ -76,3 +76,18 @@ class UserService:
             return True
         else:
             return False
+        
+    def get_user_info(self, user_id: str):
+        try:
+            user_uuid = uuid.UUID(user_id)
+        except ValueError:
+            raise ValueError({"message": "Invalid user ID format.", "status": 400})
+        
+        user = UserRepository.get_by_id(user_uuid)
+        if not user:
+            raise ({"message": "User not found.", "status": 404})
+        
+        user_schema = UserSchema()
+        serialized_user = user_schema.dump(user)
+        
+        return {"user": serialized_user, "status": 200}

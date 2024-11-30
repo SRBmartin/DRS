@@ -4,6 +4,7 @@ from marshmallow import ValidationError
 from ...application.features.user.commands.CreateUserCommand import CreateUserCommand
 from ...application.features.user.commands.LoginUserCommand import LoginUserCommand
 from ...application.features.user.commands.VerifySSIDCommand import VerifySSIDCommand
+from ...application.features.user.queries.GetGeneralInfoQuery import GetGeneralInfoQuery
 
 user_bp = Blueprint('user', __name__, url_prefix='/users')
 user_schema = UserSchema()
@@ -88,3 +89,17 @@ def verify_ssid():
     except Exception:
         return jsonify({}), 500
     
+@user_bp.route('/profile-page/general-information', methods=['GET'])
+def get_general_info():
+    user_id = request.args.get('user_id')
+    
+    if not user_id:
+        return jsonify({"message": "User ID is required."}), 400
+    
+    try:
+        query = GetGeneralInfoQuery(user_id=user_id)
+        mediator = current_app.config.get('mediator')
+        result = mediator.send(query)
+        return jsonify(result), result["status"]
+    except Exception as e:
+        return jsonify({"message":"An unexpected error occurred."}), 500
