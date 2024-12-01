@@ -61,6 +61,27 @@
               ],
               "outputHashing": "all"
             },
+            "staging": {
+              "fileReplacements": [
+              {
+                "replace": "src/app/shared/environment/environment.ts",
+                "with": "src/app/shared/environment/environment.staging.ts"
+              }
+            ],
+            "optimization": true,
+            "outputHashing": "all",
+            "sourceMap": false,
+            "namedChunks": false,
+            "aot": true,
+            "extractLicenses": true,
+            "budgets": [
+              {
+                "type": "initial",
+                "maximumWarning": "2mb",
+                "maximumError": "5mb"
+              }
+            ]
+            },
             "development": {
               "optimization": false,
               "extractLicenses": false,
@@ -74,6 +95,9 @@
           "configurations": {
             "production": {
               "buildTarget": "survey-project:build:production"
+            },
+            "staging": {
+              "buildTarget": "survey-project:build:staging"
             },
             "development": {
               "buildTarget": "survey-project:build:development"
