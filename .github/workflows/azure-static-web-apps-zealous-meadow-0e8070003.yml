@@ -40,7 +40,7 @@ jobs:
           action: "upload"
           app_location: "./frontend"
           api_location: ""
-          output_location: "./"
+          output_location: "./dist/survey-project"
           app_build_command: "npm run build:staging"
           github_id_token: ${{ steps.idtoken.outputs.result }}
 
