@@ -16,6 +16,7 @@ import { LoaderService } from '../../../shared/services/loader.service';
 })
 export class LoginPageComponent implements OnInit {
   loginForm!: FormGroup;
+  homeRoute: string = RouteNames.HomeRoute;
 
   constructor(
     private readonly fb: FormBuilder,
