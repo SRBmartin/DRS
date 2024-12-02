@@ -1,50 +1,50 @@
-<nav class="navbar navbar-light" *ngIf="hideNavbar | async">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6">
-            <a 
-            class="navbar-logo" 
-            [routerLink]="[RouteNames.HomeRoute]" 
+<nav class="navbar navbar-light" *ngIf="!(hideEntireNavbar | async)">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <a 
+          class="navbar-logo" 
+          [routerLink]="[RouteNames.HomeRoute]" 
+          routerLinkActive="active"
+        >
+          <img
+            src="../../../../../assets/images/logo-navbar.png"
+            alt="Logo Image"
+            [routerLink]="[RouteNames.HomeRoute]"
             routerLinkActive="active"
+          />
+          <span>Survey<b>Master</b></span>
+        </a>
+      </div>
+      <div class="col-md-6 right-menu" *ngIf="!(hideUserSections | async)">
+        <ul class="navbar-menu">
+          <li class="navbar-menu-item">
+            <a 
+              [routerLink]="[RouteNames.HomeRoute]" 
+              routerLinkActive="active"
             >
-              <img 
-                src="../../../../../assets/images/logo-navbar.png" 
-                alt="Logo Image"  
-                [routerLink]="[RouteNames.HomeRoute]" 
-                routerLinkActive="active"
-              />
-              <span>Survey<b>Master</b></span>
+              Dashboard
             </a>
-        </div>
-        <div class="col-md-6 right-menu" *ngIf="isLoggedIn()">
-          <ul class="navbar-menu">
-            <li class="navbar-menu-item">
-              <a 
-                [routerLink]="[RouteNames.HomeRoute]" 
-                routerLinkActive="active"
-              >
-                Dashboard
-              </a>
-            </li>
-            <li class="navbar-menu-item">
-              <a 
-                [routerLink]="[RouteNames.ProfileRoute]" 
-                routerLinkActive="active"
-              >
-                My Profile
-              </a>
-            </li>
-            <li class="navbar-menu-item">
-              <app-button 
-                type="button" 
-                class="btn-logout" 
-                [backgroundImage]="'assets/images/logout.png'" 
-                [routerLink]="[RouteNames.LoginRoute]"
-                routerLinkActive="active"
-              />
-            </li>
-          </ul>
-        </div>
+          </li>
+          <li class="navbar-menu-item">
+            <a 
+              [routerLink]="[RouteNames.ProfileRoute]" 
+              routerLinkActive="active"
+            >
+              My Profile
+            </a>
+          </li>
+          <li class="navbar-menu-item">
+            <app-button
+              type="button"
+              class="btn-logout"
+              [backgroundImage]="'assets/images/logout.png'"
+              [routerLink]="[RouteNames.LoginRoute]"
+              routerLinkActive="active"
+            />
+          </li>
+        </ul>
       </div>
     </div>
-  </nav>
+  </div>
+</nav>

@@ -1,4 +1,4 @@
-<footer *ngIf="hideFooter | async">
+<footer *ngIf="!(hideEntireFooter | async)">
   <div class="container">
     <div class="row">
       <div class="col-md-3">
@@ -11,7 +11,7 @@
         </a>
       </div>
       <div class="col-md-3">
-        <div class="footer-section" *ngIf="isLoggedIn()">
+        <div class="footer-section" *ngIf="!(hideUserSections | async)">
           <h4>Dashboard Actions</h4>
           <ul class="footer-menu">
             <li class="footer-menu-item">
@@ -34,7 +34,7 @@
         </div>
       </div>
       <div class="col-md-3">
-        <div class="footer-section" *ngIf="isLoggedIn()">
+        <div class="footer-section" *ngIf="!(hideUserSections | async)">
           <h4>Account Settings</h4>
           <ul class="footer-menu">
             <li class="footer-menu-item">
@@ -60,7 +60,7 @@
         <div class="footer-section">
           <h4>Contact Informations</h4>
           <ul class="footer-menu">
-            <li class="footer-menu-item" *ngIf="isLoggedIn()">
+            <li class="footer-menu-item">
               <a
                 [routerLink]="[RouteNames.CreateSurveyRoute]"
                 routerLinkActive="active"
