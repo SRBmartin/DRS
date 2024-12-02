@@ -60,8 +60,10 @@ jobs:
 
       - name: List Deployment Package Contents
         run: |
-          ls -la backend/api
-          ls -la ./backend/api
+          echo "Listing contents of the repo root"
+          ls -la
+          echo "Listing contents of backend/api"
+          ls -la ./backend/api || echo "backend/api directory not found"
 
       - name: Login to Azure
         uses: azure/login@v2
