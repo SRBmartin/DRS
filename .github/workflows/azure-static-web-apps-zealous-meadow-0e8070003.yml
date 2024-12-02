@@ -36,16 +36,24 @@ jobs:
       - name: Generate staticwebapp.config.json
         run: |
           echo '{
-            "routes": [
-              {
-                "route": "/",
-                "rewrite": "/index.html"
-              },
-              {
-                "route": "/*",
-                "rewrite": "/index.html"
-              }
-            ]
+            "navigationFallback": {
+              "rewrite": "/index.html",
+              "exclude": [
+                "*.js",
+                "*.css",
+                "*.png",
+                "*.jpg",
+                "*.jpeg",
+                "*.gif",
+                "*.svg",
+                "*.ico",
+                "*.woff",
+                "*.woff2",
+                "*.ttf",
+                "*.eot",
+                "assets/*"
+              ]
+            }
           }' > ./frontend/survey-project/staticwebapp.config.json
            
       - name: Build And Deploy
