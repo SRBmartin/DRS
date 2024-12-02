@@ -42,7 +42,7 @@ jobs:
                 "rewrite": "/index.html"
               },
               {
-                "route": "/**",
+                "route": "/*",
                 "rewrite": "/index.html"
               }
             ]
