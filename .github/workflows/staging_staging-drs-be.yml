@@ -25,6 +25,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Create Procfile
+        run: |
+          echo 'web: gunicorn --bind=0.0.0.0 --timeout 600 run:app' > backend/api/Procfile
+
       - name: Zip artifact for deployment
         run: |
           cd backend/api
@@ -54,6 +58,11 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip release.zip
 
+      - name: List Deployment Package Contents
+        run: |
+          ls -la backend/api
+          ls -la ./backend/api
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -67,4 +76,4 @@ jobs:
         with:
           app-name: 'staging-drs-be'
           slot-name: 'Production'
-          package: './backend/api'
+          package: '.'
