@@ -27,7 +27,7 @@ jobs:
 
       - name: Create Procfile
         run: |
-          echo 'web: gunicorn --bind=0.0.0.0 --timeout 600 run:app' > backend/api/Procfile
+          echo 'web: gunicorn --bind=0.0.0.0 --timeout 600 run:app --log-file -' > backend/api/Procfile
 
       - name: Zip artifact for deployment
         run: |
@@ -56,7 +56,7 @@ jobs:
           name: python-app
 
       - name: Unzip artifact for deployment
-        run: unzip release.zip
+        run: unzip release.zip -d ./deploy
 
       - name: List Deployment Package Contents
         run: |
@@ -64,6 +64,8 @@ jobs:
           ls -la
           echo "Listing contents of backend/api"
           ls -la ./backend/api || echo "backend/api directory not found"
+          echo "Listing contents of deploy directory:"
+          ls -la ./deploy
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -78,4 +80,4 @@ jobs:
         with:
           app-name: 'staging-drs-be'
           slot-name: 'Production'
-          package: '.'
+          package: './deploy'
