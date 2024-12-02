@@ -32,6 +32,22 @@ jobs:
                const coredemo = require('@actions/core')
                return await coredemo.getIDToken()
            result-encoding: string
+           
+      - name: Generate staticwebapp.config.json
+        run: |
+          echo '{
+            "routes": [
+              {
+                "route": "/",
+                "rewrite": "/index.html"
+              },
+              {
+                "route": "/**",
+                "rewrite": "/index.html"
+              }
+            ]
+          }' > ./frontend/survey-project/staticwebapp.config.json
+           
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
