@@ -16,6 +16,10 @@
     &:not(:placeholder-shown) {
       border-color: var(--primary-color);
     }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
   }
   
   label.form-label {
@@ -36,6 +40,18 @@
   
   .text-accent {
     color: var(--accent-color) !important;
+  }
+
+  .text-dark {
+    color: var(--dark-color) !important;
+  }
+
+  .text-black {
+    color: var(--black-color) !important;
+  }
+
+  .text-white {
+    color: var(--white-color) !important;
   }
 
   .error-border {
