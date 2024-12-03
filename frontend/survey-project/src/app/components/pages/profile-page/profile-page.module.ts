@@ -7,7 +7,6 @@ import { ChangePasswordComponent } from './ui/change-password/change-password.co
 import { DeleteMyAccountComponent } from './ui/delete-my-account/delete-my-account.component';
 import { GeneralInformationsComponent } from './ui/general-informations/general-informations.component';
 
-
 @NgModule({
   declarations: [
     ProfilePageComponent,
