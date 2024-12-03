@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { SharedModule } from './components/shared/shared.module';
+import { AppComponent } from './app.component';
 import { CookieService } from 'ngx-cookie-service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
@@ -18,6 +18,7 @@ import { ToastrModule } from 'ngx-toastr';
     CommonModule,
     BrowserModule,
     AppRoutingModule,
+    SharedModule,
     HttpClientModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
@@ -25,7 +26,6 @@ import { ToastrModule } from 'ngx-toastr';
       closeButton: true,
       progressBar: true
     }),
-    SharedModule
   ],
   providers: [
     CookieService,
