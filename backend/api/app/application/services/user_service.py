@@ -77,17 +77,24 @@ class UserService:
         else:
             return False
         
-    def get_user_info(self, user_id: str):
+    def get_user_info(self, ssid: str, ip_address: str):
         try:
-            user_uuid = uuid.UUID(user_id)
+            ses_id = uuid.UUID(ssid)
         except ValueError:
-            raise ValueError({"message": "Invalid user ID format.", "status": 400})
+            raise ValueError({"message": "Invalid session ID format.", "status": 400})
         
-        user = UserRepository.get_by_id(user_uuid)
+        session = SessionRepository.get_active_by_ssid(ses_id, ip_address)
+        if not session:
+            return {"message": "Session is not active or IP address mismatch.", "status": 401}
+        user = UserRepository.get_by_id(session.user_id)
         if not user:
-            raise ({"message": "User not found.", "status": 404})
+            raise ({"message": "User0 not found.", "status": 404})
         
         user_schema = UserSchema()
         serialized_user = user_schema.dump(user)
         
         return {"user": serialized_user, "status": 200}
+    
+
+
+

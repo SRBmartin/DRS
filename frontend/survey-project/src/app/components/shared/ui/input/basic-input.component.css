@@ -1,0 +1,43 @@
+/* src/app/components/app-input/app-input.component.scss */
+:host {
+  display: block;
+}
+
+input.form-control {
+  background-color: #fff;
+  color: #212529;
+}
+input.form-control:focus {
+  border-color: var(--tercial-color);
+  box-shadow: 0 0 0 0.2rem rgba(61, 194, 236, 0.25);
+}
+input.form-control:not(:-moz-placeholder-shown) {
+  border-color: var(--primary-color);
+}
+input.form-control:not(:placeholder-shown) {
+  border-color: var(--primary-color);
+}
+
+label.form-label {
+  font-weight: 500;
+}
+
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
+.text-secondary {
+  color: var(--secondary-color) !important;
+}
+
+.text-tercial {
+  color: var(--tercial-color) !important;
+}
+
+.text-accent {
+  color: var(--accent-color) !important;
+}
+
+.error-border {
+  border-color: var(--error-color) !important;
+}/*# sourceMappingURL=basic-input.component.css.map */

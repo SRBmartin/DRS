@@ -5,8 +5,6 @@ import { GeneralInformationsComponent } from './ui/general-informations/general-
 import { ChangePasswordComponent } from './ui/change-password/change-password.component';
 import { DeleteMyAccountComponent } from './ui/delete-my-account/delete-my-account.component';
 
-//const routes: Routes = [];
-
 const routes: Routes = [
   {
     path: '',

@@ -89,17 +89,49 @@ def verify_ssid():
     except Exception:
         return jsonify({}), 500
     
-@user_bp.route('/profile-page/general-information', methods=['GET'])
+@user_bp.route('/profile-page/general-information', methods=['POST'])
 def get_general_info():
-    user_id = request.args.get('user_id')
     
-    if not user_id:
-        return jsonify({"message": "User ID is required."}), 400
+    auth_header = request.headers.get('Authorization')
     
+    if not auth_header or not auth_header.startswith("Bearer "):
+        return jsonify({"message": "Authorization header is missing or invalid", "status": 401}), 401
+    
+    ssid = auth_header.split(" ")[1]
+    ip_address = request.remote_addr
+
+    query = GetGeneralInfoQuery(ssid=ssid, ip_address=ip_address)
+    mediator = current_app.config.get('mediator')
+
     try:
-        query = GetGeneralInfoQuery(user_id=user_id)
-        mediator = current_app.config.get('mediator')
         result = mediator.send(query)
-        return jsonify(result), result["status"]
+        if "user" in result:
+            return jsonify({
+                "message": "User information retrieved successfully",
+                "data": result["user"],
+                "status": 200
+            }), 200
+        else:
+            return jsonify({
+                "message": "Userrr not found",
+                "status": 404
+            }), 404
     except Exception as e:
-        return jsonify({"message":"An unexpected error occurred."}), 500
+        return jsonify({"message": "An unexpected error occurred.", "status": 500}), 500
+        
+
+        
+    #             |
+    #OLD CODE    \|/
+    # user_id = request.args.get('user_id')
+    
+    # if not user_id:
+    #     return jsonify({"message": "User ID is required."}), 400
+    
+    # try:
+    #     query = GetGeneralInfoQuery(user_id=user_id)
+    #     mediator = current_app.config.get('mediator')
+    #     result = mediator.send(query)
+    #     return jsonify(result), result["status"]
+    # except Exception as e:
+    #     return jsonify({"message":"An unexpected error occurred."}), 500

@@ -31,6 +31,7 @@ class SessionRepository:
 
     @staticmethod
     def get_active_by_user_id(id: uuid.UUID, ip_address: str):
+        print("Hello from get_active_by_user_id")
         try:
             pass
             #user_uuid = uuid.UUID(id)
@@ -47,6 +48,7 @@ class SessionRepository:
                 Session.ending_time >= current_time
             )
         ).first()
+        print(f"User ID: {str(active_session.ip_address)}")
         
         return active_session
     
@@ -67,3 +69,23 @@ class SessionRepository:
                 Session.ending_time >= current_time
             )
         ).first()
+    @staticmethod
+    def get_active_by_ssid(ssid: uuid.UUID, ip_address: str):
+        try:
+            pass
+            #user_uuid = uuid.UUID(id)
+        except ValueError:
+            raise ValueError({"message":"Invalid ID", "status": 400})
+        current_time = datetime.utcnow()
+
+        active_session = Session.query.filter(
+            and_(
+                Session.id == ssid,
+                Session.logged_out == False,
+                Session.ip_address == ip_address,
+                Session.started_time <= current_time,
+                Session.ending_time >= current_time
+            )
+        ).first()
+        
+        return active_session
