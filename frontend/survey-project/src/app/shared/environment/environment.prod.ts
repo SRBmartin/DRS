@@ -1,3 +1,3 @@
 export const environment = {
-    api: "https://prod-drs-be.azurewebsites.net"
+    api: "https://drs-production-be.azurewebsites.net"
 }
