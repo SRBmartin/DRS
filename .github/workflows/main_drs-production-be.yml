@@ -1,4 +1,4 @@
-name: Build and deploy Python app to Azure Web App - prod-drs-be
+name: Build and deploy Python app to Azure Web App - drs-production-be
 
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
 
       - name: Create Procfile
         run: |
-          echo 'web: gunicorn --bind=0.0.0.0 --timeout 600 run:app --log-file -' > backend/api/Procfile
+          echo 'web: gunicorn --bind=0.0.0.0:8000 --timeout 600 run:app --log-file -' > backend/api/Procfile
 
       - name: Zip artifact for deployment
         run: |
@@ -63,21 +63,21 @@ jobs:
           echo "Listing contents of the repo root"
           ls -la
           echo "Listing contents of backend/api"
-          ls -la ./backend/api || echo "backend/api directory not found"
+          ls -la /backend/api || echo "backend/api directory not found"
           echo "Listing contents of deploy directory:"
           ls -la ./deploy
 
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_BA829087D14F4E1AA4B96F4E722D79B5 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_E689DA92D7734419B5CEB1F22B545C38 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_CFDA894E9EE64FE88F66D18F470F5A3A }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_34E51B063A46460A8A2012BC00158262 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_0AD836E5F3D94BEC9C33CCA6937EE2B0 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_989C29B5F25040BBBB9BC75166DA4FE8 }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'prod-drs-be'
+          app-name: 'drs-production-be'
           slot-name: 'Production'
           package: './deploy'
