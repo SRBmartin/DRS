@@ -27,7 +27,7 @@ jobs:
 
       - name: Create Procfile
         run: |
-          echo 'web: gunicorn --bind=0.0.0.0:$PORT --timeout 600 run:app --log-file -' > backend/api/Procfile
+          echo 'web: gunicorn --bind=0.0.0.0:8000 --timeout 600 run:app --log-file -' > backend/api/Procfile
 
       - name: Zip artifact for deployment
         run: |
