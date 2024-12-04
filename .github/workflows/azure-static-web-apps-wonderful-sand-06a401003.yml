@@ -62,7 +62,7 @@ jobs:
           action: "upload"
           app_location: "./frontend/survey-project"
           output_location: "dist/survey-project/browser"
-          app_build_command: "npm run build:staging"
+          app_build_command: "npm run build:prod"
           github_id_token: ${{ steps.idtoken.outputs.result }}
 
   close_pull_request_job:
