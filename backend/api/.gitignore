@@ -8,14 +8,13 @@ __pycache__/
 *.sqlite3
 
 # Environment variables
-.env
+#.env
 
 # Virtual environment
 venv/
 ENV/
 env/
 .venv/
-.env/
 
 # Distribution / packaging
 build/
@@ -89,7 +88,13 @@ ipython_config.py
 celerybeat-schedule
 
 # dotenv
-.env
+#.env
 
 # virtualenv
 venv/
+
+# docker myenv
+docker/myenv
+
+# scripts
+backend/api/Scripts

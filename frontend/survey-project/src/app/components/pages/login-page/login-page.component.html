@@ -1,89 +1,89 @@
 <div class="container">
     <div class="left-side">
       <div class="content">
-        <h1 class="title">Survey Master</h1>
+        <a
+          [routerLink]="homeRoute"
+          class="title"
+        >
+          Survey<span>Master</span>
+        </a>
         <p class="subtitle">Software for the best survey experience</p>
       </div>
     </div>
-  
     <div class="right-side">
-      <form [formGroup]="loginForm">
-        <div class="row mb-4">
-
-          <div class="col-12 text-center">
-            <h2 class="login-title">Login</h2>
+    <form [formGroup]="loginForm">
+      <div class="row mb-4">
+        <div class="col-12 text-center">
+          <h2 class="login-title">Login</h2>
+        </div>
+      </div>
+      <div class="row mb-4">
+        <div class="col-12">
+          <app-input
+            label="Email"
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            [required]="true"
+            formControlName="email"
+            [hasError]="(loginForm.get('email')?.invalid && loginForm.get('email')?.touched) ?? false"
+          />
+          <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-danger">
+            <small *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</small>
+            <small *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email address.</small>
           </div>
         </div>
-  
-        <div class="row mb-4">
-          <div class="col-12">
-            <app-input
-              label="Email"
-              type="email"
-              name="email"
-              placeholder="Enter your email"
-              [required]="true"
-              formControlName="email"
-              [hasError]="(loginForm.get('email')?.invalid && loginForm.get('email')?.touched) ?? false"
-            ></app-input>
-            <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-danger">
-              <small *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</small>
-              <small *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email address.</small>
-            </div>
+      </div>
+      <div class="row mb-4">
+        <div class="col-12">
+          <app-input
+            label="Password"
+            type="password"
+            name="password"
+            placeholder="Enter your password"
+            [required]="true"
+            formControlName="password"
+            [hasError]="(loginForm.get('password')?.invalid && loginForm.get('password')?.touched) ?? false"
+          />
+          <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger">
+            <small *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</small>
+            <small *ngIf="loginForm.get('password')?.errors?.['minlength']">
+              Password must be at least 6 characters long.
+            </small>
           </div>
         </div>
-  
-        <div class="row mb-4">
-          <div class="col-12">
-            <app-input
-              label="Password"
-              type="password"
-              name="password"
-              placeholder="Enter your password"
-              [required]="true"
-              formControlName="password"
-              [hasError]="(loginForm.get('password')?.invalid && loginForm.get('password')?.touched) ?? false"
-            ></app-input>
-            <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger">
-              <small *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</small>
-              <small *ngIf="loginForm.get('password')?.errors?.['minlength']">
-                Password must be at least 6 characters long.
-              </small>
-            </div>
-          </div>
+      </div>
+      <div class="text-center">
+        <app-button 
+          label="Log In" 
+          type="button" 
+          size="lg" 
+          class="btn-primary" 
+          [disabled]="!loginForm.valid" 
+          (clickEvent)="onLogin()"
+        />
+      </div>
+      <div class="row mt-4">
+        <div class="col-12">
+          <hr class="styled-hr" />
         </div>
-  
-        <div class="text-center">
-          <button
-            class="btn btn-primary btn-lg"
-            type="button"
-            [disabled]="!loginForm.valid"
-            (click)="onLogin()"
-          >
-            Log In
-          </button>
+      </div>
+      <div class="row mb-4">
+        <div class="col-12 text-center">
+          <h2 class="no-account">You don't have an account?</h2>
         </div>
-  
-        <div class="row mt-4">
-          <div class="col-12">
-            <hr class="styled-hr" />
-          </div>
+      </div>
+      <div class="row">
+        <div class="col-12 text-center">
+          <app-button 
+            label="Sign Up" 
+            type="button" 
+            class="btn-accent" 
+            (clickEvent)="onSignUpClick()"
+          />
         </div>
-  
-        <div class="row mb-4">
-          <div class="col-12 text-center">
-            <h2 class="no-account">You don't have an account?</h2>
-          </div>
-        </div>
-  
-        <div class="row">
-          <div class="col-12 text-center">
-            <button class="btn btn-secondary btn-lg" type="button" (click)="onSignUpClick()">
-              Sign Up
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
+</div>
   

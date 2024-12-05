@@ -16,8 +16,13 @@ const routes: Routes = [
     canActivate: [noAuthGuard]
   },
   {
-    path: RouteNames.ProfilePageRoute,
+    path: RouteNames.ProfileRoute,
     loadChildren: () => import('./components/pages/profile-page/profile-page.module').then(m => m.ProfilePageModule),
+    canActivate: [authGuard] 
+  },
+  {
+    path: RouteNames.CreateSurveyRoute,
+    loadChildren: () => import('./components/pages/create-survey-page/create-survey-page.module').then(m => m.CreateSurveyPageModule),
     canActivate: [authGuard]
   }
 ];
