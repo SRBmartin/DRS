@@ -1,7 +1,8 @@
 export enum RouteNames {
-    HomeRoute  = '/',
+    LandingRoute  = '',
     LoginRoute = 'login',
     RegisterRoute = 'register',
+    DashboardRoute = 'dashboard',
     ProfileRoute = 'profile',
     CreateSurveyRoute = 'create-survey'
 };
