@@ -88,12 +88,37 @@ class UserService:
             return {"message": "Session is not active or IP address mismatch.", "status": 401}
         user = UserRepository.get_by_id(session.user_id)
         if not user:
-            raise ({"message": "User0 not found.", "status": 404})
+            raise ({"message": "User not found.", "status": 404})
         
         user_schema = UserSchema()
         serialized_user = user_schema.dump(user)
         
         return {"user": serialized_user, "status": 200}
+    
+    def change_password(self, ssid, ip_address, old_password, new_password):
+        try:
+            ses_id = uuid.UUID(ssid)
+        except ValueError:
+            raise ValueError({"message": "Invalid session ID format.", "status": 400})
+        
+        session = SessionRepository.get_active_by_ssid(ses_id, ip_address)
+        if not session:
+            raise ({"message": "Session is not active or expired.", "status": 401})
+        user: User
+        user = UserRepository.get_by_id(session.user_id)
+
+        if not user:
+            raise ({"message": "User not found.", "status": 404})
+        
+        if not user.check_password(old_password):
+            
+            raise ValueError({"message": "Old password is incorrect.", "status": 403})
+
+        user.hash_password(new_password)
+        UserRepository.update_password(user.id, user.password)
+        
+        return {"message": "Password updated successfully.", "status": 200}
+    
     
 
 

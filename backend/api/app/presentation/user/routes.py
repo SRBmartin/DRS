@@ -5,6 +5,7 @@ from ...application.features.user.commands.CreateUserCommand import CreateUserCo
 from ...application.features.user.commands.LoginUserCommand import LoginUserCommand
 from ...application.features.user.commands.VerifySSIDCommand import VerifySSIDCommand
 from ...application.features.user.queries.GetGeneralInfoQuery import GetGeneralInfoQuery
+from ...application.features.user.commands.ChangePasswordCommand import ChangePasswordCommand
 
 user_bp = Blueprint('user', __name__, url_prefix='/users')
 user_schema = UserSchema()
@@ -59,7 +60,6 @@ def login_user():
         password=json_data.get('password'),
         ip_address=request.remote_addr
     )
-
     mediator = current_app.config.get('mediator')
 
     result = mediator.send(command)
@@ -118,20 +118,46 @@ def get_general_info():
             }), 404
     except Exception as e:
         return jsonify({"message": "An unexpected error occurred.", "status": 500}), 500
-        
+    
+@user_bp.route('/profile-page/change-password', methods=['POST'])
+def change_password():
+    json_data = request.get_json()
 
-        
-    #             |
-    #OLD CODE    \|/
-    # user_id = request.args.get('user_id')
-    
-    # if not user_id:
-    #     return jsonify({"message": "User ID is required."}), 400
-    
-    # try:
-    #     query = GetGeneralInfoQuery(user_id=user_id)
-    #     mediator = current_app.config.get('mediator')
-    #     result = mediator.send(query)
-    #     return jsonify(result), result["status"]
-    # except Exception as e:
-    #     return jsonify({"message":"An unexpected error occurred."}), 500
+    if not json_data:
+        return jsonify({"message": "No data provided.", "status": 400}), 400
+
+    required_fields = ["old_password", "new_password"]
+    missing_fields = [field for field in required_fields if field not in json_data]
+    if missing_fields:
+        return jsonify({
+            "message": f"Missing required fields: {', '.join(missing_fields)}",
+            "status": 400
+        }), 400
+
+    auth_header = request.headers.get('Authorization')
+    if not auth_header or not auth_header.startswith("Bearer "):
+        return jsonify({
+            "message": "Authorization header is missing or invalid.",
+            "status": 401
+        }), 401
+
+    ssid = auth_header.split(" ")[1]
+
+    command = ChangePasswordCommand(
+        ssid=ssid,
+        ip_address=request.remote_addr,
+        old_password=json_data.get('old_password'),
+        new_password=json_data.get('new_password')
+    )
+
+    mediator = current_app.config.get('mediator')
+    try:
+        result = mediator.send(command)
+        return jsonify(result), result["status"]
+    except Exception as e:
+        current_app.logger.error(f"Error changing password: {str(e)}")
+        return jsonify({
+            "message": "An unexpected error occurred.",
+            "status": 500
+        }), 500
+            

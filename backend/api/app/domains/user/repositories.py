@@ -23,6 +23,14 @@ class UserRepository:
     def get_all():
         return User.query.all()
     
+    @staticmethod
+    def update_password(user_id: uuid.UUID, hashed_password: str):
+        user = User.query.get(user_id)
+        if not user:
+            raise ValueError({"message": "User not found.", "status": 404})
+        user.password = hashed_password
+        db.session.commit()
+    
 class SessionRepository:
     @staticmethod
     def add(session):
@@ -31,14 +39,13 @@ class SessionRepository:
 
     @staticmethod
     def get_active_by_user_id(id: uuid.UUID, ip_address: str):
-        print("Hello from get_active_by_user_id")
         try:
             pass
             #user_uuid = uuid.UUID(id)
         except ValueError:
             raise ValueError({"message":"Invalid ID", "status": 400})
         current_time = datetime.utcnow()
-
+        
         active_session = Session.query.filter(
             and_(
                 Session.user_id == id,
@@ -48,8 +55,6 @@ class SessionRepository:
                 Session.ending_time >= current_time
             )
         ).first()
-        print(f"User ID: {str(active_session.ip_address)}")
-        
         return active_session
     
     @staticmethod
