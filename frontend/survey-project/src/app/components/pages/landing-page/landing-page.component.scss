@@ -83,11 +83,15 @@
           button {
             transition: 0.5s ease;
             width: 35px;
-            background-color: var(--tercial-color);
+            background-color: var(--accent-color);
             opacity: 1;
           }
         }
       }
     }
+  }
+  .btn-holder {
+    display: flex;
+    gap: 20px;
   }
 }

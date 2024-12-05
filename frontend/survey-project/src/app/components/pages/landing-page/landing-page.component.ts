@@ -28,7 +28,11 @@ export class LandingPageComponent implements OnInit {
     });
   }
 
-  onSignInClick(): void {
+  onLogInClick(): void {
     this.router.navigate([RouteNames.LoginRoute]);
+  }
+
+  onSignUpClick(): void {
+    this.router.navigate([RouteNames.RegisterRoute]);
   }
 }

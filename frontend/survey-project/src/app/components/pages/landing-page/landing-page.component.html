@@ -22,13 +22,22 @@
             <p>Log in and quickly gain valuable insights</p>
           </div>
         </div>
-        <app-button 
+        <span class="btn-holder">
+          <app-button 
           label="Log In" 
           type="button" 
           size="lg" 
           class="btn-tercial"
-          (clickEvent)="onSignInClick()" 
+          (clickEvent)="onLogInClick()" 
         />
+        <app-button 
+          label="Sign Up" 
+          type="button" 
+          size="lg" 
+          class="btn-accent"
+          (clickEvent)="onSignUpClick()" 
+        />
+        </span>
       </div>
     </div>
   </div>
