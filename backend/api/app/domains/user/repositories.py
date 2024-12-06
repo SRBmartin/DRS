@@ -23,6 +23,15 @@ class UserRepository:
     def get_all():
         return User.query.all()
     
+    @staticmethod
+    def updateUser(user):
+        try:
+            db.session.add(user)  # Dodaj korisnika u sesiju
+            db.session.commit()  # Ove promene će biti sačuvane u bazi
+        except Exception as e:
+            db.session.rollback()  # U slučaju greške, poništi promene
+            raise e
+    
 class SessionRepository:
     @staticmethod
     def add(session):
@@ -67,3 +76,11 @@ class SessionRepository:
                 Session.ending_time >= current_time
             )
         ).first()
+        
+    @staticmethod
+    def update(session):
+        try:
+            db.session.commit()  
+        except Exception as e:
+            db.session.rollback()  
+            raise e

@@ -45,4 +45,24 @@ export class UserService {
                    );
     }
 
+    logoutUser(ssid: string): Observable<any> {
+        const url = `${this.baseUrl}/logout`; 
+        return this.httpClient.post(url, { ssid })  
+                   .pipe(
+                        catchError((e: HttpErrorResponse) => {
+                            return throwError(e.error);
+                        })
+                   );
+    }
+
+    deleteUserAccount(password: string, ssid: string): Observable<any> {
+        const url = `${this.baseUrl}/delete-account`;  
+        return this.httpClient.post(url, { password, ssid })   
+            .pipe(
+                catchError((e: HttpErrorResponse) => {
+                    return throwError(e.error);
+                })
+            );
+    }
+
 }

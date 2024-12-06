@@ -4,6 +4,7 @@ import { RouteNames } from '../../../../shared/consts/routes';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -18,7 +19,8 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -45,5 +47,9 @@ export class NavbarComponent implements OnInit {
 
     const shouldHideUserSections = !this.isLoggedIn();
     this.hideUserSections.next(shouldHideUserSections);
+  }
+
+  onLogout(): void{
+    this.authService.logoutUser();
   }
 }

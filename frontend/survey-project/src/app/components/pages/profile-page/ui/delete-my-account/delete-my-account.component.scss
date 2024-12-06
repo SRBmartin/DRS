@@ -1,75 +1,56 @@
- body {
-    margin: 0;
-    font-family: Arial, sans-serif;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.title {
+  text-align: left; 
+  margin-bottom: 60px; 
+  margin-left: 148px;
+}
+
+.title h1 {
+  font-size: 40px; 
+  color: var(--white-color); 
+  letter-spacing: 2px; 
+}
+
+
+.delete-account-container {
+  position: absolute;
+  top: 42%;
+  left: 63%; 
+  transform: translate(-50%, -50%);
+  background-color: var(--white-color);
+  color: var(--black-color);
+  width: 800px; 
+  height: 550px;
+  padding: 60px; 
+  border-radius: 10px;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+
+  h1 {
+    font-size: 28px; 
+    margin-bottom: 20px;
   }
 
-  .naslov {
-    text-align: left; /* Centers the heading */
-    margin-bottom: 60px; /* Adds space below the heading */
-    margin-left: 130px;
-  }
-  
-  .naslov h1 {
-    font-size: 40px; /* Sets the font size */
-    color: #fff; /* Sets the color (use your primary color) */
-    letter-spacing: 2px; /* Optional: adds spacing between letters */
-  }
-  .delete-account-container {
-    position: absolute;
-    top: 51%;
-    left: 62%; /* Pomeramo kontejner više u desno */
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    color: #000;
-    width: 800px; /* Povećana širina */
-    height: 550px;
-    padding: 60px; /* Povećan padding */
-    border-radius: 0;
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+  p {
+    font-size: 18px; 
+    margin-bottom: 10px;
+    color: #6c757d;
     text-align: center;
-  
-    h1 {
-      font-size: 28px; /* Veći naslov */
-      margin-bottom: 20px;
-    }
-  
-    p {
-      font-size: 18px; /* Veći tekst */
-      margin-bottom: 10px;
-      color: #6c757d;
-      text-align: left;
-    }
-  
-    form {
-      display: flex;
-      flex-direction: column;
-  
-      input {
-        width: 100%; /* Širina inputa */
-        padding: 12px; /* Veći padding */
-        margin-bottom: 30px; /* Veći razmak ispod inputa */
-        border: 1px solid #ccc;
-        border-radius: 0;
-        font-size: 16px; /* Veći tekst u inputu */
-      }
-  
-      button {
-        background-color:#4B70F5;
-        color:var(--white-color);
-        padding: 15px 40px; /* Veće dugme */
-        border: none;
-        border-radius: 0;
-        font-size: 18px; /* Veći font u dugmetu */
-        cursor: pointer;
-        width: 500px;
-        margin: 0 auto; /* Centriramo dugme horizontalno */
-        margin-top: 30px; /* Dodajemo razmak iznad dugmeta da ga pomerimo nadole */
-
-  
-        &:hover {
-          background-color: #4C3BCF;
-        }
-      }
-    }
+    
   }
-  
+
+  form {
+    display: flex;
+    flex-direction: column;
+    
+    app-button {
+      margin-top: 60px;
+    }
+    
+      
+  }
+}
