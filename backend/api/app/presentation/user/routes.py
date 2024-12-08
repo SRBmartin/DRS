@@ -88,9 +88,3 @@ def verify_ssid():
         return jsonify({}), http_status
     except Exception:
         return jsonify({}), 500
-    
-@user_bp.route('/test', methods=['GET'])
-@require_auth
-def test():
-    token = g.get('auth_token') #this is ssid, used as authorization token and returned from middleware
-    return jsonify({"message": "Authorization was successful!", "token": token})
