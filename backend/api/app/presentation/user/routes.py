@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, current_app
+from flask import Blueprint, request, jsonify, current_app, g
 from ...application.contracts.schemas.user.schemas import UserSchema, LoginSchema
 from marshmallow import ValidationError
 from ...application.features.user.commands.CreateUserCommand import CreateUserCommand
@@ -7,6 +7,7 @@ from ...application.features.user.commands.VerifySSIDCommand import VerifySSIDCo
 from ...application.features.user.queries.GetGeneralInfoQuery import GetGeneralInfoQuery
 from ...application.features.user.commands.ChangePasswordCommand import ChangePasswordCommand
 from ...application.features.user.commands.UpdateGeneralInfoCommand import UpdateGeneralInformationCommand
+from ...core.services.middleware import require_auth
 
 user_bp = Blueprint('user', __name__, url_prefix='/users')
 user_schema = UserSchema()
