@@ -45,4 +45,29 @@ export class UserService {
                    );
     }
 
+    // changePassword(request: { oldPassword: string, newPassword: string }): Observable<any> {
+    //     const url = `${this.baseUrl}/profile-page/change-password`;
+    //     return this.httpClient.post(url, request)
+    //       .pipe(
+    //         catchError((e: HttpErrorResponse) => throwError(e.error))
+    //       );
+    //   }
+    changePassword(request: { oldPassword: string, newPassword: string }, ssid: string): Observable<any> {
+        const url = `${this.baseUrl}/profile-page/change-password`;
+        const payload = {
+            old_password: request.oldPassword, // Map to match backend's expected field names
+            new_password: request.newPassword,
+        };
+    
+        return this.httpClient.post(url, payload, {
+            headers: {
+                Authorization: `Bearer ${ssid}`, // Add the required Authorization header
+                'Content-Type': 'application/json' // Ensure Content-Type is JSON
+            }
+        }).pipe(
+            catchError((e: HttpErrorResponse) => throwError(e.error)) // Handle errors
+        );
+    }
+    
+
 }

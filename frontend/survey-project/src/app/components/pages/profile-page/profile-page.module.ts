@@ -6,7 +6,8 @@ import { ProfilePageComponent } from './profile-page.component';
 import { ChangePasswordComponent } from './ui/change-password/change-password.component';
 import { DeleteMyAccountComponent } from './ui/delete-my-account/delete-my-account.component';
 import { GeneralInformationsComponent } from './ui/general-informations/general-informations.component';
-
+import { SharedModule } from '../../shared/shared.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,9 @@ import { GeneralInformationsComponent } from './ui/general-informations/general-
   ],
   imports: [
     CommonModule,
-    ProfilePageRoutingModule
+    ProfilePageRoutingModule,
+    SharedModule,
+    ReactiveFormsModule
   ]
 })
 export class ProfilePageModule { }
