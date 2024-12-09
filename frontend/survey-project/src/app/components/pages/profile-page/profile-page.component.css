@@ -1,5 +1,7 @@
 .my-profile-container .sidebar {
   border-right: 1px solid #dee2e6;
+  background-color: var(--white-color);
+  color: var(--black--color);
 }
 .my-profile-container .sidebar h2 {
   text-align: center;
@@ -16,10 +18,10 @@
 }
 .my-profile-container .sidebar ul li a {
   text-align: center;
-  color: #6c757d;
+  color: #101213;
 }
 .my-profile-container .sidebar ul li a.active {
-  background-color: #007bff;
+  background-color: #38516b;
   color: #fff;
   font-weight: bold;
 }
@@ -27,6 +29,6 @@
   background-color: #9abde0;
 }
 .my-profile-container .content {
-  background-color: #999b9c;
+  background-color: var(--dark);
   min-height: 100%;
-}/*# sourceMappingURL=profile-page.component.css.map */
+}

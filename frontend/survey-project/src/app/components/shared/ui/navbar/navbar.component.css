@@ -1,1 +1,63 @@
-/*# sourceMappingURL=navbar.component.css.map */
+.container {
+  display: block;
+}
+
+.navbar {
+  min-height: 100px;
+  margin-bottom: 0;
+  background: linear-gradient(to bottom, #4B70F5, #4C3BCF);
+  outline-width: 0;
+  padding: 10px 0;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+  position: relative;
+  z-index: 50;
+}
+.navbar-logo {
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: no-wrap;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: flex-start;
+}
+.navbar-logo img {
+  width: 70px;
+  height: 70px;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.navbar-menu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.navbar-menu-item {
+  margin-left: 45px;
+  align-self: right;
+}
+.navbar-menu-item a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+a {
+  font-size: 36px;
+  font-weight: 400;
+  color: #fff;
+  text-decoration: none;
+  font-family: "Quicksand", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.right-menu {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}/*# sourceMappingURL=navbar.component.css.map */

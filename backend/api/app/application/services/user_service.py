@@ -119,7 +119,54 @@ class UserService:
         
         return {"message": "Password updated successfully.", "status": 200}
     
-    
+    def change_general_info(self, ssid, ip_address, name, lastname, email, phone_number, address, city, country):
+        try:
+            ses_id = uuid.UUID(ssid)
+        except ValueError:
+            raise ValueError({"message": "Invalid session ID format.", "status": 400})
+        
+        session = SessionRepository.get_active_by_ssid(ses_id, ip_address)
+        if not session:
+            raise ValueError({"message": "Session is not active or expired", "status": 401})
+        
+        user: User
+        user = UserRepository.get_by_id(session.user_id)
+        if not user:
+            raise ValueError({"message": "User not found.", "status": 404})
+        
+        existing_user_by_email = UserRepository.get_by_email(email)
+        if existing_user_by_email and existing_user_by_email.id != user.id:
+            raise ValueError({"message": "This email address is already in use.", "status": 400})
+        
+        existing_user_by_phone = UserRepository.get_by_phone_number(phone_number)
+        if existing_user_by_phone and existing_user_by_phone.id != user.id:
+            raise ValueError({"message": "This phone number is already in use.", "status": 400})
 
+        
+        changes = {
+            "name": name,
+            "lastname": lastname,
+            "email": email,
+            "phone_number": phone_number,
+            "address": address,
+            "city": city,
+            "country": country
+        }        
+        
+        has_changes = any(getattr(user, key) != value for key, value in changes.items())
+        print(f"Has changes: {has_changes}")
+        if not has_changes:
+            return {"message": "No changes detected in user information.", "status": 400}
+
+        for key, value in changes.items():
+            setattr(user, key, value)
+        
+        print(f"User: {user.address}")
+
+        UserRepository.update_user(user)
+        
+        return {"message": "User information updated successfully.", "status": 200}
+    
+    
 
 

@@ -6,6 +6,7 @@ from ...application.features.user.commands.LoginUserCommand import LoginUserComm
 from ...application.features.user.commands.VerifySSIDCommand import VerifySSIDCommand
 from ...application.features.user.queries.GetGeneralInfoQuery import GetGeneralInfoQuery
 from ...application.features.user.commands.ChangePasswordCommand import ChangePasswordCommand
+from ...application.features.user.commands.UpdateGeneralInfoCommand import UpdateGeneralInformationCommand
 
 user_bp = Blueprint('user', __name__, url_prefix='/users')
 user_schema = UserSchema()
@@ -161,3 +162,50 @@ def change_password():
             "status": 500
         }), 500
             
+@user_bp.route('/profile-page/save-general-information', methods=['POST'])
+def save_general_info():
+    json_data = request.get_json()
+
+    if not json_data:
+        return jsonify({"message": "No data provided.", "status": 400}), 400
+
+    required_fields = ["name", "lastname", "email", "phone_number", "address", "city", "country"]
+    missing_fields = [field for field in required_fields if field not in json_data]
+    if missing_fields:
+        return jsonify({
+            "message": f"Missing required fields: {', '.join(missing_fields)}",
+            "status": 400
+        }), 400
+
+    auth_header = request.headers.get('Authorization')
+    if not auth_header or not auth_header.startswith("Bearer "):
+        return jsonify({
+            "message": "Authorization header is missing or invalid.",
+            "status": 401
+        }), 401
+
+    ssid = auth_header.split(" ")[1]
+
+    command = UpdateGeneralInformationCommand(
+        ssid=ssid,
+        ip_address=request.remote_addr,
+        name=json_data.get('name'),
+        lastname=json_data.get('lastname'),
+        email=json_data.get('email'),
+        phone_number=json_data.get('phone_number'),
+        address=json_data.get('address'),
+        city=json_data.get('city'),
+        country=json_data.get('country')
+    )
+
+    mediator = current_app.config.get('mediator')
+    try:
+        result = mediator.send(command)
+        return jsonify(result), result["status"]
+    except Exception as e:
+        current_app.logger.error(f"Error updating user information: {str(e)}")
+        return jsonify({
+            "message": "An unexpected error occurred.",
+            "status": 500
+        }), 500
+

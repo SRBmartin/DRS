@@ -30,6 +30,16 @@ class UserRepository:
             raise ValueError({"message": "User not found.", "status": 404})
         user.password = hashed_password
         db.session.commit()
+        
+    @staticmethod
+    def update_user(user: User):
+        db.session.commit()
+        
+    @staticmethod
+    def get_by_phone_number(phone_number: str):
+        return User.query.filter_by(phone_number=phone_number).first()
+
+        
     
 class SessionRepository:
     @staticmethod

@@ -5,6 +5,7 @@ from ..features.user.commands.LoginUserCommand import LoginUserCommand, LoginUse
 from ..features.user.commands.VerifySSIDCommand import VerifySSIDCommand, VerifySSIDCommandHandler
 from ..features.user.queries.GetGeneralInfoQuery import GetGeneralInfoQuery, GetGeneralInfoQueryHandler
 from ..features.user.commands.ChangePasswordCommand import ChangePasswordCommand, ChangePasswordCommandHandler
+from ..features.user.commands.UpdateGeneralInfoCommand import UpdateGeneralInformationCommand, UpdateGeneralInformationCommandHandler
 
 def initialize_mediator():
     mediator = Mediator()
@@ -24,5 +25,8 @@ def initialize_mediator():
     
     change_password_handler = ChangePasswordCommandHandler(user_service)
     mediator.register(ChangePasswordCommand, change_password_handler)
+    
+    update_general_info_handler = UpdateGeneralInformationCommandHandler(user_service)
+    mediator.register(UpdateGeneralInformationCommand, update_general_info_handler)
     
     return mediator
