@@ -4,7 +4,10 @@
 
 <div class="delete-account-container">
   <p>Please enter your password to confirm this action. This action is final.</p>
-  <form [formGroup]="deleteForm" (ngSubmit)="onDeleteAccount()">
+  <form 
+    [formGroup]="deleteForm" 
+    (ngSubmit)="onDeleteAccount()"
+  >
     <app-input
       label="Password"
       type="password"

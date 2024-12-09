@@ -7,6 +7,7 @@ import { BasicInputComponent } from './ui/input/basic-input.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoaderComponent } from './loader/loader.component';
 import { BasicButtonComponent } from './ui/button/basic-button.component';
+import { GenericConfirmDialogComponent } from './generic-confirm-dialog/generic-confirm-dialog.component';
 
 
 
@@ -16,7 +17,8 @@ import { BasicButtonComponent } from './ui/button/basic-button.component';
     FooterComponent,
     BasicInputComponent,
     LoaderComponent,
-    BasicButtonComponent
+    BasicButtonComponent,
+    GenericConfirmDialogComponent
     
   ],
   imports: [

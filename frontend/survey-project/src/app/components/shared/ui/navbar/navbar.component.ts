@@ -5,6 +5,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AuthService } from '../../../../shared/services/auth.service';
+import { ModalOpenerService } from '../../../../shared/services/modal-opener.service';
+import { GenericConfirmDialogComponent } from '../../generic-confirm-dialog/generic-confirm-dialog.component';
 
 @Component({
   selector: 'app-navbar',
@@ -20,7 +22,9 @@ export class NavbarComponent implements OnInit {
   constructor(
     private router: Router,
     private cookieService: CookieService,
-    private authService: AuthService
+    private authService: AuthService,
+    private modalService: ModalOpenerService // Инјекција сервиса за модал
+
   ) {}
 
   ngOnInit(): void {
@@ -49,7 +53,22 @@ export class NavbarComponent implements OnInit {
     this.hideUserSections.next(shouldHideUserSections);
   }
 
-  onLogout(): void{
-    this.authService.logoutUser();
+  onLogout(): void {
+    this.modalService
+      .openModal(GenericConfirmDialogComponent, {
+        title: 'LOGOUT',
+        message: 'Are you sure you want to log out?'
+      })
+      .then((result) => {
+        console.log('Modal closed with result:', result);
+        if (result) {
+          this.authService.logoutUser();
+        }
+      })
+      .catch((error) => {
+        console.error('Error in modal:', error);
+      });
   }
+
+  
 }

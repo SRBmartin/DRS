@@ -140,7 +140,6 @@ def delete_account():
             password=password
         )
 
-
         mediator = current_app.config.get('mediator')
         result = mediator.send(command)
         return jsonify(result), result["status"]
