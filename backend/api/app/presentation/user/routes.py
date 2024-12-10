@@ -94,13 +94,15 @@ def verify_ssid():
         return jsonify({}), 500
     
 @user_bp.route('/logout', methods=['POST'])
+@require_auth
 def logout_user():
     json_data = request.get_json()
 
-    if not json_data or 'ssid' not in json_data:
-        return jsonify({"message": "SSID is required"}), 400
+    #if not json_data or 'ssid' not in json_data:
+        #return jsonify({"message": "SSID is required"}), 400
 
-    ssid = json_data['ssid']
+    #ssid = json_data['ssid']
+    ssid = g.get("auth_token")
     ip_address = request.remote_addr
 
     command = LogoutUserCommand(
@@ -117,15 +119,18 @@ def logout_user():
         return jsonify({"message": "There was an error during logout.", "error": str(e)}), 500
     
 @user_bp.route('/delete-account', methods=['POST'])
+@require_auth
 def delete_account():
     json_data = request.get_json()
     if not json_data:
         return jsonify({"message": "No data provided."}), 400
     
     password = json_data.get('password')
-    ssid = json_data.get('ssid')  
-    if not password or not ssid:
-        return jsonify({"message": "Password and SSID are required."}), 400
+    #ssid = json_data.get('ssid')  
+    ssid = g.get("auth_token")
+    
+    if not password:
+        return jsonify({"message": "Password is required."}), 400
 
     try:
         ses_id = uuid.UUID(ssid)
