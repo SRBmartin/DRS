@@ -91,15 +91,10 @@ def verify_ssid():
     except Exception:
         return jsonify({}), 500
     
-@user_bp.route('/profile-page/general-information', methods=['POST'])
+@user_bp.route('/general-information', methods=['GET'])
+@require_auth
 def get_general_info():
-    
-    auth_header = request.headers.get('Authorization')
-    
-    if not auth_header or not auth_header.startswith("Bearer "):
-        return jsonify({"message": "Authorization header is missing or invalid", "status": 401}), 401
-    
-    ssid = auth_header.split(" ")[1]
+    ssid = g.get('auth_token')
     ip_address = request.remote_addr
 
     query = GetGeneralInfoQuery(ssid=ssid, ip_address=ip_address)
@@ -121,7 +116,8 @@ def get_general_info():
     except Exception as e:
         return jsonify({"message": "An unexpected error occurred.", "status": 500}), 500
     
-@user_bp.route('/profile-page/change-password', methods=['POST'])
+@user_bp.route('/change-password', methods=['PATCH'])
+@require_auth
 def change_password():
     json_data = request.get_json()
 
@@ -135,15 +131,8 @@ def change_password():
             "message": f"Missing required fields: {', '.join(missing_fields)}",
             "status": 400
         }), 400
-
-    auth_header = request.headers.get('Authorization')
-    if not auth_header or not auth_header.startswith("Bearer "):
-        return jsonify({
-            "message": "Authorization header is missing or invalid.",
-            "status": 401
-        }), 401
-
-    ssid = auth_header.split(" ")[1]
+    
+    ssid = g.get('auth_token')
 
     command = ChangePasswordCommand(
         ssid=ssid,
@@ -163,7 +152,8 @@ def change_password():
             "status": 500
         }), 500
             
-@user_bp.route('/profile-page/save-general-information', methods=['POST'])
+@user_bp.route('/save-general-information', methods=['PUT'])
+@require_auth
 def save_general_info():
     json_data = request.get_json()
 
@@ -177,15 +167,8 @@ def save_general_info():
             "message": f"Missing required fields: {', '.join(missing_fields)}",
             "status": 400
         }), 400
-
-    auth_header = request.headers.get('Authorization')
-    if not auth_header or not auth_header.startswith("Bearer "):
-        return jsonify({
-            "message": "Authorization header is missing or invalid.",
-            "status": 401
-        }), 401
-
-    ssid = auth_header.split(" ")[1]
+    
+    ssid = g.get('auth_token')
 
     command = UpdateGeneralInformationCommand(
         ssid=ssid,
