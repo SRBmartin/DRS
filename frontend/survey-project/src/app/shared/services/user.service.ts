@@ -69,7 +69,7 @@ export class UserService {
         }).pipe(
             catchError((e: HttpErrorResponse) => throwError(e.error))
         );
-      }
+    }
       
     updateGeneralInfo(updatedData: any, ssid: string): Observable<any> {
         const url = `${this.baseUrl}/save-general-information`;
