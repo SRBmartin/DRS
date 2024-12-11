@@ -1,6 +1,7 @@
 import { User } from '../../../model/user/user';
 
 export interface GeneralInfoResponse {
-    message?: string; 
-    user?: User;      
+    data?: User;
+    message?: string;
+    status?: string;      
 }

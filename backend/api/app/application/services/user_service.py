@@ -109,10 +109,12 @@ class UserService:
 
         if not user:
             raise ({"message": "User not found.", "status": 404})
-        
-        if not user.check_password(old_password):
-            
+
+        if not user.check_password(old_password):    
             raise ValueError({"message": "Old password is incorrect.", "status": 403})
+        
+        if user.check_password(new_password):
+            raise ValueError({"message": "New password cannot be the same as the old password.", "status": 400})
 
         user.hash_password(new_password)
         UserRepository.update_password(user.id, user.password)

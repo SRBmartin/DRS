@@ -131,7 +131,7 @@ def change_password():
             "message": f"Missing required fields: {', '.join(missing_fields)}",
             "status": 400
         }), 400
-    
+
     ssid = g.get('auth_token')
 
     command = ChangePasswordCommand(

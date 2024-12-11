@@ -3,6 +3,9 @@ import { UserService } from '../../../../../shared/services/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastService } from '../../../../../shared/services/toast.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { GeneralInfoResponse } from '../../../../../shared/dto/responses/user/general-info-response';
+import { ChangeGeneralInformationRequest } from '../../../../../shared/dto/requests/user/change-general-info-request';
+import { ChangeGeneralInformationResponse } from '../../../../../shared/dto/responses/user/change-general-info-response';
 
 @Component({
   selector: 'app-general-informations',
@@ -41,19 +44,23 @@ export class GeneralInformationsComponent implements OnInit {
       this.toastService.showError('You are not logged in.', 'Error');
       return;
     }
-
+  
     this.userService.getGeneralInfo(ssid).subscribe({
-      next: (response) => {
-        this.userInfo = response.data;
-        this.initializeForm();
-        this.cdr.detectChanges();
+      next: (response: GeneralInfoResponse) => {
+        if (response.data) {
+          this.userInfo = response.data;
+          this.initializeForm();
+          this.cdr.detectChanges();
+        } else {
+          this.toastService.showError(response.message || 'Failed to fetch user information.', 'Error');
+        }
       },
       error: (err) => {
-        this.toastService.showError(err.message || 'Failed to fetch user information.', 'Error');
+        this.toastService.showError(err.message || 'An unexpected error occurred.', 'Error');
       }
     });
   }
-
+  
   private initializeForm(): void {
     if (this.userInfo) {
       this.generalInfoForm = this.fb.group({
@@ -68,6 +75,18 @@ export class GeneralInformationsComponent implements OnInit {
     }
   }
 
+  private createChangeGeneralInfoRequest(): ChangeGeneralInformationRequest {
+    return {
+      name: this.generalInfoForm.value.name,
+      lastname: this.generalInfoForm.value.lastname,
+      email: this.generalInfoForm.value.email,
+      phone_number: this.generalInfoForm.value.phone_number,
+      address: this.generalInfoForm.value.address,
+      city: this.generalInfoForm.value.city,
+      country: this.generalInfoForm.value.country
+    };
+  }
+
   onSave(): void {
     const ssid = this.cookieService.get('ssid');
     if (!ssid) {
@@ -80,16 +99,20 @@ export class GeneralInformationsComponent implements OnInit {
       return;
     }
 
-    const updatedData = this.generalInfoForm.value;
+    const updatedData = this.createChangeGeneralInfoRequest();
+
     this.userService.updateGeneralInfo(updatedData, ssid).subscribe({
-      next: (response) => {
-        this.toastService.showSuccess('Your information has been updated successfully.', 'Success');
-        this.fetchUserInfo();
+      next: (response: ChangeGeneralInformationResponse) => {
+        if (response.status) {
+          this.toastService.showSuccess('Your information has been updated successfully.', 'Success');
+          this.fetchUserInfo();
+        } else {
+          this.toastService.showError(response.message || 'Failed to update user information.', 'Error');
+        }
       },
       error: (err) => {
-        this.toastService.showError(err.message || 'Failed to update user information.', 'Error');
+        this.toastService.showError(err.message || 'An unexpected error occurred.', 'Error');
       }
     });
-}
-
+  }
 }

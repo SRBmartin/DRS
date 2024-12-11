@@ -7,6 +7,11 @@ import { RegisterResponse } from "../dto/responses/user/register-response";
 import { environment } from "../environment/environment";
 import { LoginRequest } from "../dto/requests/user/login-request";
 import { LoginResponse } from "../dto/responses/user/login-response";
+import { ChangePasswordRequest } from "../dto/requests/user/change-password-request";
+import { ChangePasswordResponse } from "../dto/responses/user/change-password-response";
+import { GeneralInfoResponse } from "../dto/responses/user/general-info-response";
+import { ChangeGeneralInformationRequest } from "../dto/requests/user/change-general-info-request";
+import { ChangeGeneralInformationResponse } from "../dto/responses/user/change-general-info-response";
 
 @Injectable({
     providedIn: 'root'
@@ -45,39 +50,40 @@ export class UserService {
                    );
     }
 
-    changePassword(request: { oldPassword: string, newPassword: string }, ssid: string): Observable<any> {
+    changePassword(request: ChangePasswordRequest): Observable<ChangePasswordResponse> {
         const url = `${this.baseUrl}/change-password`;
-        const payload = {
-            old_password: request.oldPassword,
-            new_password: request.newPassword,
-        };
-    
-        return this.httpClient.patch(url, payload, {
+
+        return this.httpClient.patch<ChangePasswordResponse>(url, request, {
             headers: {
-                Authorization: `Bearer ${ssid}`, 
-                'Content-Type': 'application/json' 
-            }
+                Authorization: `Bearer ${request.ssid}`,
+                'Content-Type': 'application/json',
+            },
         }).pipe(
             catchError((e: HttpErrorResponse) => throwError(e.error))
         );
     }
     
-    getGeneralInfo(ssid: string): Observable<any> {
+    getGeneralInfo(ssid: string): Observable<GeneralInfoResponse> {
         const url = `${this.baseUrl}/general-information`;
         return this.httpClient.get(url, {
-            headers: { Authorization: `Bearer ${ssid}` }
+            headers: { 
+                Authorization: `Bearer ${ssid}` 
+            }
         }).pipe(
             catchError((e: HttpErrorResponse) => throwError(e.error))
         );
     }
       
-    updateGeneralInfo(updatedData: any, ssid: string): Observable<any> {
+    updateGeneralInfo(
+        updatedData: ChangeGeneralInformationRequest,
+        ssid: string
+    ): Observable<ChangeGeneralInformationResponse> {
         const url = `${this.baseUrl}/save-general-information`;
-        return this.httpClient.put(url, updatedData, {
+        return this.httpClient.put<ChangeGeneralInformationResponse>(url, updatedData, {
             headers: {
                 Authorization: `Bearer ${ssid}`,
-                'Content-Type': 'application/json'
-            }
+                'Content-Type': 'application/json',
+            },
         }).pipe(
             catchError((e: HttpErrorResponse) => throwError(e.error))
         );
