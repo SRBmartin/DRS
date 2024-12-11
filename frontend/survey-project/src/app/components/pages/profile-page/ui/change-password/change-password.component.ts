@@ -56,7 +56,6 @@ export class ChangePasswordComponent implements OnInit{
     return {
       old_password: this.changePasswordForm.value.oldPassword,
       new_password: this.changePasswordForm.value.newPassword,
-      ssid: this.cookieService.get('ssid')
     };
   }
 

@@ -53,38 +53,23 @@ export class UserService {
     changePassword(request: ChangePasswordRequest): Observable<ChangePasswordResponse> {
         const url = `${this.baseUrl}/change-password`;
 
-        return this.httpClient.patch<ChangePasswordResponse>(url, request, {
-            headers: {
-                Authorization: `Bearer ${request.ssid}`,
-                'Content-Type': 'application/json',
-            },
-        }).pipe(
+        return this.httpClient.patch<ChangePasswordResponse>(url, request).pipe(
             catchError((e: HttpErrorResponse) => throwError(e.error))
         );
     }
     
-    getGeneralInfo(ssid: string): Observable<GeneralInfoResponse> {
+    getGeneralInfo(): Observable<GeneralInfoResponse> {
         const url = `${this.baseUrl}/general-information`;
-        return this.httpClient.get(url, {
-            headers: { 
-                Authorization: `Bearer ${ssid}` 
-            }
-        }).pipe(
+        return this.httpClient.get(url).pipe(
             catchError((e: HttpErrorResponse) => throwError(e.error))
         );
     }
       
     updateGeneralInfo(
-        updatedData: ChangeGeneralInformationRequest,
-        ssid: string
+        updatedData: ChangeGeneralInformationRequest
     ): Observable<ChangeGeneralInformationResponse> {
         const url = `${this.baseUrl}/save-general-information`;
-        return this.httpClient.put<ChangeGeneralInformationResponse>(url, updatedData, {
-            headers: {
-                Authorization: `Bearer ${ssid}`,
-                'Content-Type': 'application/json',
-            },
-        }).pipe(
+        return this.httpClient.put<ChangeGeneralInformationResponse>(url, updatedData).pipe(
             catchError((e: HttpErrorResponse) => throwError(e.error))
         );
     }

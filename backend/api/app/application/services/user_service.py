@@ -11,6 +11,10 @@ class UserService:
         if existing_user:
             return {"message": "Email already exists", "status": 409}
         
+        existing_user_by_phone = User.query.filter_by(phone_number=command.phone_number).first()
+        if existing_user_by_phone:
+            raise ValueError({"message": "This phone number is already in use.", "status": 400})
+        
         try:
             user = User(
                 name=command.name,

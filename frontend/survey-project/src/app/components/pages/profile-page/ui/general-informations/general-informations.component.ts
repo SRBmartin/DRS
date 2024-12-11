@@ -39,13 +39,7 @@ export class GeneralInformationsComponent implements OnInit {
   }
 
   private fetchUserInfo(): void {
-    const ssid = this.cookieService.get('ssid');
-    if (!ssid) {
-      this.toastService.showError('You are not logged in.', 'Error');
-      return;
-    }
-  
-    this.userService.getGeneralInfo(ssid).subscribe({
+    this.userService.getGeneralInfo().subscribe({
       next: (response: GeneralInfoResponse) => {
         if (response.data) {
           this.userInfo = response.data;
@@ -88,12 +82,6 @@ export class GeneralInformationsComponent implements OnInit {
   }
 
   onSave(): void {
-    const ssid = this.cookieService.get('ssid');
-    if (!ssid) {
-      this.toastService.showError('You are not logged in.', 'Error');
-      return;
-    }
-
     if (this.generalInfoForm.invalid) {
       this.toastService.showError('Please fill in all fields correctly.', 'Error');
       return;
@@ -101,7 +89,7 @@ export class GeneralInformationsComponent implements OnInit {
 
     const updatedData = this.createChangeGeneralInfoRequest();
 
-    this.userService.updateGeneralInfo(updatedData, ssid).subscribe({
+    this.userService.updateGeneralInfo(updatedData).subscribe({
       next: (response: ChangeGeneralInformationResponse) => {
         if (response.status) {
           this.toastService.showSuccess('Your information has been updated successfully.', 'Success');
