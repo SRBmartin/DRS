@@ -10,7 +10,7 @@ export const noAuthGuard: CanActivateFn = (route, state) => {
   const ssid = cookieService.get('ssid');
 
   if(ssid){
-    router.navigate([RouteNames.HomeRoute]);
+    router.navigate([RouteNames.DashboardRoute]);
     return false;
   }else{
     return true;

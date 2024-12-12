@@ -1,0 +1,44 @@
+<div class="container">
+    <div class="row">
+      <div class="col-6 img-holder">
+        <img src="assets/images/landing-page-img.png" alt="SurveyMaster" />
+      </div>
+      <div class="col-6 slider-holder">
+        <div class="text-slider">
+          <div class="item">
+            <h2>Create surveys in just a few clicks</h2>
+            <p>Log in and quickly create customized surveys</p>
+          </div>
+          <div class="item">
+            <h2>Send surveys directly via email</h2>
+            <p>Log in and send surveys via email in a few steps</p>
+          </div>
+          <div class="item">
+            <h2>Track results in real-time</h2>
+            <p>Log in and instantly track responses</p>
+          </div>
+          <div class="item">
+            <h2>Simple, fast, and efficient</h2>
+            <p>Log in and quickly gain valuable insights</p>
+          </div>
+        </div>
+        <span class="btn-holder">
+          <app-button 
+          label="Log In" 
+          type="button" 
+          size="lg" 
+          class="btn-tercial"
+          (clickEvent)="onLogInClick()" 
+        />
+        <app-button 
+          label="Sign Up" 
+          type="button" 
+          size="lg" 
+          class="btn-accent"
+          (clickEvent)="onSignUpClick()" 
+        />
+        </span>
+      </div>
+    </div>
+  </div>
+  

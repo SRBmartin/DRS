@@ -16,7 +16,7 @@ import { LoaderService } from '../../../shared/services/loader.service';
 })
 export class LoginPageComponent implements OnInit {
   loginForm!: FormGroup;
-  homeRoute: string = RouteNames.HomeRoute;
+  dashboardRoute: string = RouteNames.DashboardRoute;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -54,7 +54,7 @@ export class LoginPageComponent implements OnInit {
         next: (response: LoginResponse) => {
           if (response.session) {
             this.authService.loginUser(response.session);
-            this.router.navigate([RouteNames.HomeRoute]);
+            this.router.navigate([RouteNames.DashboardRoute]);
             setTimeout(() => {
               this.toastService.showSuccess("You've successfully logged in.", 'Login success');
             }, 500);
