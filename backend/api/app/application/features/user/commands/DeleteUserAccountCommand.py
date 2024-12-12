@@ -21,7 +21,6 @@ class DeleteUserCommandHandler(IHandler):
             )
             return result
         except Exception as ex:
-            print(f"Error during delete operation: {str(ex)}")
             if ex.args and isinstance(ex.args[0], dict):
                 error_info = ex.args[0]
                 message = error_info.get("message", "An unexpected error occurred.")

@@ -8,10 +8,33 @@ class UserService:
 
     def register_user(self, command):
         existing_user = User.query.filter_by(email=command.email).first()
-        if existing_user:
-            return {"message": "Email already exists", "status": 409}
-        
+
+        if existing_user and not existing_user.is_deleted:
+            return {"message": "A user with this email already exists.", "status": 409}
+
         try:
+            if existing_user and existing_user.is_deleted:
+                existing_user.name = command.name
+                existing_user.lastname = command.lastname
+                existing_user.address = command.address
+                existing_user.city = command.city
+                existing_user.country = command.country
+                existing_user.phone_number = command.phone_number
+                existing_user.hash_password(command.password)
+                existing_user.is_deleted = False  
+                
+                session = Session(
+                    user=existing_user,
+                    ip_address=command.ip_address
+                )
+
+                SessionRepository.add(session)
+
+                session_schema = SessionSchema()
+                serialized_session_schema = session_schema.dump(session)
+
+                return {"session": serialized_session_schema, "status": 201}
+
             user = User(
                 name=command.name,
                 lastname=command.lastname,
@@ -32,12 +55,13 @@ class UserService:
             SessionRepository.add(session)
 
             session_schema = SessionSchema()
-
             serialized_session_schema = session_schema.dump(session)
 
             return {"session": serialized_session_schema, "status": 201}
-        except Exception:
-            return {"message":"There was an error while registering account.", "status":500}
+
+        except Exception as ex:
+            print(f"Error during registration: {str(ex)}")
+            return {"message": "An error occurred while registering the account.", "status": 500}
 
     def login_user(self, email: str, password: str, ip_address: str):
         if not email or not password or not ip_address:
@@ -107,22 +131,15 @@ class UserService:
             
     def delete_user(self, user_id: uuid.UUID, password: str):
         try:
-            print(f"Received password: {password}")
-            print(f"Received user_id (SSID): {user_id}")
-
             user = User.query.get(user_id)
             if not user:
                 return {"message": "User not found", "status": 404}
 
             if not user.check_password(password):
-                print("Incorrect password provided.")
                 return {"message": "Incorrect password", "status": 401}
-
-            print(f"Before updating user, is_deleted: {user.is_deleted}")
 
             user.is_deleted = True  
             UserRepository.updateUser(user)
-            print(f"after updating user, is_deleted: {user.is_deleted}")
 
             return {"message": "User account deleted successfully", "status": 200}
 

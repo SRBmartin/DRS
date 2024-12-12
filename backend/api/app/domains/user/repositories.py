@@ -26,10 +26,10 @@ class UserRepository:
     @staticmethod
     def updateUser(user):
         try:
-            db.session.add(user)  # Dodaj korisnika u sesiju
-            db.session.commit()  # Ove promene će biti sačuvane u bazi
+            db.session.add(user)  
+            db.session.commit()  
         except Exception as e:
-            db.session.rollback()  # U slučaju greške, poništi promene
+            db.session.rollback()  
             raise e
     
 class SessionRepository:

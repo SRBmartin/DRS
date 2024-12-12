@@ -60,7 +60,6 @@ export class NavbarComponent implements OnInit {
         message: 'Are you sure you want to log out?'
       })
       .then((result) => {
-        console.log('Modal closed with result:', result);
         if (result) {
           this.authService.logoutUser();
         }

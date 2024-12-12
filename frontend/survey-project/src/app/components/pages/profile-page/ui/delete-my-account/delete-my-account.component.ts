@@ -43,13 +43,9 @@ export class DeleteMyAccountComponent implements OnInit {
           message: 'Are you sure you want to delete your account?'
         })
         .then((result) => {
-          console.log('Modal closed with result:', result);
           if (result) {
             const password = this.deleteForm.get('password')?.value;
             const ssid = this.cookieService.get('ssid');
-
-            console.log('Password:', password);
-            console.log('SSID:', ssid);
 
             this.loaderService.startLoading();
 

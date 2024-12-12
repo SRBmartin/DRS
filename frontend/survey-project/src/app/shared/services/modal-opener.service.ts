@@ -20,7 +20,6 @@ export class ModalOpenerService {
         const factory = this.resolver.resolveComponentFactory(component);
         this.modalRef = factory.create(this.injector);
 
-        // Пренос прослеђених података у компоненту
         if (data) {
           Object.assign(this.modalRef.instance, data);
         }

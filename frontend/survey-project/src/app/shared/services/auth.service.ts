@@ -36,7 +36,6 @@ export class AuthService {
     
         this.userService.logoutUser(request).subscribe({
             next: (response: LogoutResponse) => {
-                console.log('Logout successful:', response.message);
                 this.cookieService.delete('ssid'); 
                 this.router.navigate(['/login']); 
             },
@@ -58,7 +57,6 @@ export class AuthService {
     
         this.userService.logoutUser(request).subscribe({
             next: (response: LogoutResponse) => {
-                console.log('Logout successful:', response.message);
                 this.cookieService.delete('ssid'); 
                 this.router.navigate(['/register']); 
             },
