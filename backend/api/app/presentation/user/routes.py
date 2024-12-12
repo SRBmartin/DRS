@@ -98,10 +98,6 @@ def verify_ssid():
 def logout_user():
     json_data = request.get_json()
 
-    #if not json_data or 'ssid' not in json_data:
-        #return jsonify({"message": "SSID is required"}), 400
-
-    #ssid = json_data['ssid']
     ssid = g.get("auth_token")
     ip_address = request.remote_addr
 
@@ -126,7 +122,6 @@ def delete_account():
         return jsonify({"message": "No data provided."}), 400
     
     password = json_data.get('password')
-    #ssid = json_data.get('ssid')  
     ssid = g.get("auth_token")
     
     if not password:
