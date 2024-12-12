@@ -4,6 +4,10 @@ import { Session } from "../model/user/session";
 import { Router } from "@angular/router";
 import { UserService } from "./user.service";
 import { Observable } from "rxjs";
+import { DeleteRequest } from "../dto/requests/user/delete-request";
+import { DeleteResponse } from "../dto/responses/user/delete-response";
+import { LogoutRequest } from "../dto/requests/user/logout-request";
+import { LogoutResponse } from "../dto/responses/user/logout-response";
 
 @Injectable({
     providedIn: 'root'
@@ -22,48 +26,50 @@ export class AuthService {
     }
 
     logoutUser(): void {
-        const ssid = this.cookieService.get('ssid');  
+        const ssid = this.cookieService.get('ssid');
         if (!ssid) {
-            this.router.navigate(['/login']);  
+            this.router.navigate(['/login']);
             return;
-        }
-
-        this.userService.logoutUser(ssid).subscribe({
-            next: (response) => {
-                console.log('Logout successful', response);  
-                this.cookieService.delete('ssid');  
-                this.router.navigate(['/login']);  
-            },
-            error: (err) => {
-                console.error('Error during logout:', err);  
-            }
-        });
-    }
-    goToRegister(): void {
-        const ssid = this.cookieService.get('ssid');  
-        if (!ssid) {
-            this.router.navigate(['/register']);  
-            return;
-        }
-
-        this.userService.logoutUser(ssid).subscribe({
-            next: (response) => {
-                console.log('Logout successful', response);  
-                this.cookieService.delete('ssid');  
-                this.router.navigate(['/register']);  
-            },
-            error: (err) => {
-                console.error('Error during logout:', err);  
-            }
-        });
-    }
-
-    deleteUserAccount(password: string): Observable<any> {
-        const ssid = this.cookieService.get('ssid');  
-        if (!ssid) {
-          return new Observable();  
         }
     
-        return this.userService.deleteUserAccount(password, ssid);
-      }
+        const request: LogoutRequest = { ssid }; 
+    
+        this.userService.logoutUser(request).subscribe({
+            next: (response: LogoutResponse) => {
+                console.log('Logout successful:', response.message);
+                this.cookieService.delete('ssid'); 
+                this.router.navigate(['/login']); 
+            },
+            error: (err) => {
+                console.error('Error during logout:', err);
+            }
+        });
+    }
+    
+
+    goToRegister(): void {
+        const ssid = this.cookieService.get('ssid');
+        if (!ssid) {
+            this.router.navigate(['/login']);
+            return;
+        }
+    
+        const request: LogoutRequest = { ssid }; 
+    
+        this.userService.logoutUser(request).subscribe({
+            next: (response: LogoutResponse) => {
+                console.log('Logout successful:', response.message);
+                this.cookieService.delete('ssid'); 
+                this.router.navigate(['/register']); 
+            },
+            error: (err) => {
+                console.error('Error during logout:', err);
+            }
+        });
+    }
+
+    deleteUserAccount(password: string): Observable<DeleteResponse> {
+        const request: DeleteRequest = { password }; 
+        return this.userService.deleteUserAccount(request); 
+    }
 }

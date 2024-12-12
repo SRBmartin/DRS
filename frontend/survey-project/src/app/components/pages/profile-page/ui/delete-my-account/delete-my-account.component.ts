@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../../../shared/services/auth.service';
 import { ToastService } from '../../../../../shared/services/toast.service';
-import { Router } from '@angular/router';
 import { LoaderService } from '../../../../../shared/services/loader.service';
 import { CookieService } from 'ngx-cookie-service';
+import { DeleteResponse } from '../../../../../shared/dto/responses/user/delete-response';
+import { ModalOpenerService } from '../../../../../shared/services/modal-opener.service';
+import { GenericConfirmDialogComponent } from '../../../../shared/generic-confirm-dialog/generic-confirm-dialog.component';
 
 @Component({
   selector: 'app-delete-my-account',
@@ -19,7 +21,8 @@ export class DeleteMyAccountComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly toastService: ToastService,
     private readonly loaderService: LoaderService,
-    private readonly cookieService: CookieService
+    private readonly cookieService: CookieService,
+    private readonly modalService: ModalOpenerService 
   ) {}
 
   ngOnInit(): void {
@@ -34,25 +37,44 @@ export class DeleteMyAccountComponent implements OnInit {
 
   onDeleteAccount(): void {
     if (this.deleteForm.valid) {
-      const password = this.deleteForm.get('password')?.value;
-      const ssid = this.cookieService.get('ssid');  
+      this.modalService
+        .openModal(GenericConfirmDialogComponent, {
+          title: 'DELETE ACCOUNT',
+          message: 'Are you sure you want to delete your account?'
+        })
+        .then((result) => {
+          console.log('Modal closed with result:', result);
+          if (result) {
+            const password = this.deleteForm.get('password')?.value;
+            const ssid = this.cookieService.get('ssid');
 
-    console.log('Password:', password);
-    console.log('SSID:', ssid);
-      this.loaderService.startLoading();
+            console.log('Password:', password);
+            console.log('SSID:', ssid);
 
-      this.authService.deleteUserAccount(password).subscribe({
-        next: (response) => {
-          this.toastService.showSuccess("Your account has been deleted successfully.", 'Account Deleted');
-          this.authService.goToRegister()
-          this.loaderService.stopLoading();
+            this.loaderService.startLoading();
 
-        },
-        error: (e) => {
-          this.toastService.showError(e.message ?? '', 'Delete Account Error');
-          this.loaderService.stopLoading();
-        }
-      });
+            this.authService.deleteUserAccount(password).subscribe({
+              next: (response: DeleteResponse) => {
+                this.toastService.showSuccess(
+                  'Your account has been deleted successfully.',
+                  'Account Deleted'
+                );
+                this.authService.goToRegister();
+                this.loaderService.stopLoading();
+              },
+              error: (e) => {
+                this.toastService.showError(
+                  e.message ?? '',
+                  'Delete Account Error'
+                );
+                this.loaderService.stopLoading();
+              }
+            });
+          }
+        })
+        .catch((error) => {
+          console.error('Error in modal:', error);
+        });
     } else {
       this.deleteForm.markAllAsTouched();
     }

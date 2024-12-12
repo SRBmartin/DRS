@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit {
     private router: Router,
     private cookieService: CookieService,
     private authService: AuthService,
-    private modalService: ModalOpenerService // Инјекција сервиса за модал
+    private modalService: ModalOpenerService 
 
   ) {}
 

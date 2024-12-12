@@ -7,6 +7,10 @@ import { RegisterResponse } from "../dto/responses/user/register-response";
 import { environment } from "../environment/environment";
 import { LoginRequest } from "../dto/requests/user/login-request";
 import { LoginResponse } from "../dto/responses/user/login-response";
+import { DeleteRequest } from "../dto/requests/user/delete-request";
+import { DeleteResponse } from "../dto/responses/user/delete-response";
+import { LogoutRequest } from "../dto/requests/user/logout-request";
+import { LogoutResponse } from "../dto/responses/user/logout-response";
 
 @Injectable({
     providedIn: 'root'
@@ -45,9 +49,9 @@ export class UserService {
                    );
     }
 
-    logoutUser(ssid: string): Observable<any> {
+    logoutUser(request: LogoutRequest): Observable<any> {
         const url = `${this.baseUrl}/logout`; 
-        return this.httpClient.post(url, { ssid })  
+        return this.httpClient.post<LogoutResponse>(url, request)
                    .pipe(
                         catchError((e: HttpErrorResponse) => {
                             return throwError(e.error);
@@ -55,9 +59,9 @@ export class UserService {
                    );
     }
 
-    deleteUserAccount(password: string, ssid: string): Observable<any> {
+    deleteUserAccount(request: DeleteRequest): Observable<DeleteResponse> {
         const url = `${this.baseUrl}/delete-account`;  
-        return this.httpClient.post(url, { password, ssid })   
+        return this.httpClient.post<DeleteResponse>(url, request)   
             .pipe(
                 catchError((e: HttpErrorResponse) => {
                     return throwError(e.error);
