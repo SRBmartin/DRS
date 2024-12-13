@@ -8,6 +8,7 @@ import { DeleteMyAccountComponent } from './ui/delete-my-account/delete-my-accou
 import { GeneralInformationsComponent } from './ui/general-informations/general-informations.component';
 import { SharedModule } from '../../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     ProfilePageComponent,

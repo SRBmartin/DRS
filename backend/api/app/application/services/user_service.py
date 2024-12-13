@@ -1,5 +1,5 @@
 from ...domains.user.models import User, Session
-from ..contracts.schemas.user.schemas import SessionSchema
+from ..contracts.schemas.user.schemas import SessionSchema, UserSchema
 from ...core.extensions import db
 from ...domains.user.repositories import UserRepository, SessionRepository
 import uuid
@@ -12,6 +12,10 @@ class UserService:
         if existing_user and not existing_user.is_deleted:
             return {"message": "A user with this email already exists.", "status": 409}
 
+        existing_user_by_phone = User.query.filter_by(phone_number=command.phone_number).first()
+        if existing_user_by_phone:
+            raise ValueError({"message": "This phone number is already in use.", "status": 400})
+        
         try:
             if existing_user and existing_user.is_deleted:
                 existing_user.name = command.name
@@ -146,3 +150,99 @@ class UserService:
         except Exception as ex:
             print(f"Error during delete operation: {str(ex)}")
             return {"message": "An unexpected error occurred", "status": 500}
+        
+    def get_user_info(self, ssid: str, ip_address: str):
+        try:
+            ses_id = uuid.UUID(ssid)
+        except ValueError:
+            raise ValueError({"message": "Invalid session ID format.", "status": 400})
+        
+        session = SessionRepository.get_active_by_ssid(ses_id, ip_address)
+        if not session:
+            return {"message": "Session is not active or IP address mismatch.", "status": 401}
+        user = UserRepository.get_by_id(session.user_id)
+        if not user:
+            raise ({"message": "User not found.", "status": 404})
+        
+        user_schema = UserSchema()
+        serialized_user = user_schema.dump(user)
+        
+        return {"user": serialized_user, "status": 200}
+    
+    def change_password(self, ssid, ip_address, old_password, new_password):
+        try:
+            ses_id = uuid.UUID(ssid)
+        except ValueError:
+            raise ValueError({"message": "Invalid session ID format.", "status": 400})
+        
+        session = SessionRepository.get_active_by_ssid(ses_id, ip_address)
+        if not session:
+            raise ({"message": "Session is not active or expired.", "status": 401})
+        user: User
+        user = UserRepository.get_by_id(session.user_id)
+
+        if not user:
+            raise ({"message": "User not found.", "status": 404})
+
+        if not user.check_password(old_password):    
+            raise ValueError({"message": "Old password is incorrect.", "status": 403})
+        
+        if user.check_password(new_password):
+            raise ValueError({"message": "New password cannot be the same as the old password.", "status": 400})
+
+        user.hash_password(new_password)
+        UserRepository.update_password(user.id, user.password)
+        
+        return {"message": "Password updated successfully.", "status": 200}
+    
+    def change_general_info(self, ssid, ip_address, name, lastname, email, phone_number, address, city, country):
+        try:
+            ses_id = uuid.UUID(ssid)
+        except ValueError:
+            raise ValueError({"message": "Invalid session ID format.", "status": 400})
+        
+        session = SessionRepository.get_active_by_ssid(ses_id, ip_address)
+        if not session:
+            raise ValueError({"message": "Session is not active or expired", "status": 401})
+        
+        user: User
+        user = UserRepository.get_by_id(session.user_id)
+        if not user:
+            raise ValueError({"message": "User not found.", "status": 404})
+        
+        existing_user_by_email = UserRepository.get_by_email(email)
+        if existing_user_by_email and existing_user_by_email.id != user.id:
+            raise ValueError({"message": "This email address is already in use.", "status": 400})
+        
+        existing_user_by_phone = UserRepository.get_by_phone_number(phone_number)
+        if existing_user_by_phone and existing_user_by_phone.id != user.id:
+            raise ValueError({"message": "This phone number is already in use.", "status": 400})
+
+        
+        changes = {
+            "name": name,
+            "lastname": lastname,
+            "email": email,
+            "phone_number": phone_number,
+            "address": address,
+            "city": city,
+            "country": country
+        }        
+        
+        has_changes = any(getattr(user, key) != value for key, value in changes.items())
+        print(f"Has changes: {has_changes}")
+        if not has_changes:
+            return {"message": "No changes detected in user information.", "status": 400}
+
+        for key, value in changes.items():
+            setattr(user, key, value)
+        
+        print(f"User: {user.address}")
+
+        UserRepository.update_user(user)
+        
+        return {"message": "User information updated successfully.", "status": 200}
+    
+    
+
+

@@ -1,6 +1,8 @@
 .my-profile-container {
     .sidebar {
       border-right: 1px solid #dee2e6;
+      background-color: var(--white-color);
+      color: var(--black--color);
   
       h2 {
         text-align: center;
@@ -19,10 +21,10 @@
   
           a {
             text-align: center;
-            color: #6c757d;
+            color: #101213;
   
             &.active {
-              background-color: #007bff; 
+              background-color: #38516b; 
               color: #fff;
               font-weight: bold;
             }
@@ -36,7 +38,7 @@
     }
   
     .content {
-      background-color: #0f0942;
+      background-color: var(--dark);
       min-height: 100%;
     }
   }
