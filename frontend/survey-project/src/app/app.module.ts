@@ -10,7 +10,6 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
 import { CommonModule } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
-import { ModalOpenerService } from './shared/services/modal-opener.service';
 
 @NgModule({
   declarations: [
@@ -33,8 +32,7 @@ import { ModalOpenerService } from './shared/services/modal-opener.service';
   ],
   providers: [
     CookieService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    ModalOpenerService
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

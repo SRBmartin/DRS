@@ -5,8 +5,7 @@ import { ToastService } from '../../../../../shared/services/toast.service';
 import { LoaderService } from '../../../../../shared/services/loader.service';
 import { CookieService } from 'ngx-cookie-service';
 import { DeleteResponse } from '../../../../../shared/dto/responses/user/delete-response';
-import { ModalOpenerService } from '../../../../../shared/services/modal-opener.service';
-import { GenericConfirmDialogComponent } from '../../../../shared/generic-confirm-dialog/generic-confirm-dialog.component';
+
 
 @Component({
   selector: 'app-delete-my-account',
@@ -21,8 +20,7 @@ export class DeleteMyAccountComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly toastService: ToastService,
     private readonly loaderService: LoaderService,
-    private readonly cookieService: CookieService,
-    private readonly modalService: ModalOpenerService 
+    private readonly cookieService: CookieService
   ) {}
 
   ngOnInit(): void {
@@ -37,40 +35,22 @@ export class DeleteMyAccountComponent implements OnInit {
 
   onDeleteAccount(): void {
     if (this.deleteForm.valid) {
-      this.modalService
-        .openModal(GenericConfirmDialogComponent, {
-          title: 'DELETE ACCOUNT',
-          message: 'Are you sure you want to delete your account?'
-        })
-        .then((result) => {
-          if (result) {
-            const password = this.deleteForm.get('password')?.value;
-            const ssid = this.cookieService.get('ssid');
+      const password = this.deleteForm.get('password')?.value;
+      const ssid = this.cookieService.get('ssid');  
 
-            this.loaderService.startLoading();
+      this.loaderService.startLoading();
 
-            this.authService.deleteUserAccount(password).subscribe({
-              next: (response: DeleteResponse) => {
-                this.toastService.showSuccess(
-                  'Your account has been deleted successfully.',
-                  'Account Deleted'
-                );
-                this.authService.goToRegister();
-                this.loaderService.stopLoading();
-              },
-              error: (e) => {
-                this.toastService.showError(
-                  e.message ?? '',
-                  'Delete Account Error'
-                );
-                this.loaderService.stopLoading();
-              }
-            });
-          }
-        })
-        .catch((error) => {
-          console.error('Error in modal:', error);
-        });
+      this.authService.deleteUserAccount(password).subscribe({
+        next: (response : DeleteResponse) => {
+          this.toastService.showSuccess("Your account has been deleted successfully.", 'Account Deleted');
+          this.authService.goToRegister()
+          this.loaderService.stopLoading();
+        }, 
+        error: (e) => {
+          this.toastService.showError(e.message ?? '', 'Delete Account Error');
+          this.loaderService.stopLoading();
+        }
+      });
     } else {
       this.deleteForm.markAllAsTouched();
     }
