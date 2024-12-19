@@ -19,7 +19,8 @@ class User(db.Model):
     phone_number = db.Column(db.String(32), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(256), nullable=False)
-
+    is_deleted = db.Column(db.Boolean, default =False, nullable=False)
+    
     def __repr__(self):
         return f'<User {self.name} {self.lastname}>'
     

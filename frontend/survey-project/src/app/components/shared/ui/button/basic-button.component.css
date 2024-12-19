@@ -1,0 +1,98 @@
+button {
+  border: none;
+  cursor: pointer;
+  font-weight: 500 !important;
+}
+button.btn {
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+button.btn-primary {
+  background-color: var(--primary-color);
+}
+button.btn-primary:hover {
+  background-color: rgb(47, 91, 247);
+  transform: scale(1.02);
+}
+button.btn-secondary {
+  background-color: var(--secondary-color);
+}
+button.btn-secondary:hover {
+  background-color: rgb(55, 35, 207);
+  transform: scale(1.02);
+}
+button.btn-tercial {
+  background-color: var(--tercial-color);
+  color: var(--white-color);
+}
+button.btn-tercial:hover {
+  background-color: rgb(16, 159, 204);
+  transform: scale(1.02);
+}
+button.btn-accent {
+  background-color: var(--accent-color);
+  color: var(--white-color);
+}
+button.btn-accent:hover {
+  background-color: rgb(84, 7, 60);
+  transform: scale(1.02);
+}
+button.btn-dark {
+  background-color: var(--dark-color);
+  color: var(--white-color);
+}
+button.btn-dark:hover {
+  background-color: rgb(42, 35, 99);
+  transform: scale(1.02);
+}
+button.btn-black {
+  background-color: var(--black-color);
+  color: var(--white-color);
+}
+button.btn-black:hover {
+  background-color: rgb(31, 31, 31);
+  transform: scale(1.02);
+}
+button.btn-white {
+  background-color: var(--white-color);
+}
+button.btn-white:hover {
+  background-color: rgb(222, 217, 217);
+  transform: scale(1.02);
+}
+button.btn-error {
+  background-color: var(--error-color);
+  color: var(--white-color);
+}
+button.btn-error:hover {
+  background-color: rgb(217, 30, 48);
+  transform: scale(1.02);
+}
+button.btn-sm {
+  font-size: 14px;
+  min-width: 50px;
+}
+button.btn-md {
+  font-size: 18px;
+  min-width: 150px;
+}
+button.btn-lg {
+  font-size: 20px;
+  min-width: 250px;
+}
+button.btn-logo {
+  width: 100%;
+  aspect-ratio: 1/1;
+  background-size: contain !important;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+button.btn-logout {
+  min-width: 1px;
+  width: 100%;
+  aspect-ratio: 1/1;
+  background-size: contain !important;
+  background-repeat: no-repeat;
+  background-position: center center;
+}/*# sourceMappingURL=basic-button.component.css.map */

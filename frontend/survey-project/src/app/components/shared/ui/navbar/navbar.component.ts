@@ -4,6 +4,8 @@ import { RouteNames } from '../../../../shared/consts/routes';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { AuthService } from '../../../../shared/services/auth.service';
+import { CommonDialogsService } from '../../../../shared/services/commondialog.service';
 
 @Component({
   selector: 'app-navbar',
@@ -18,7 +20,9 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private authService: AuthService,
+    private commonDialogs: CommonDialogsService 
   ) {}
 
   ngOnInit(): void {
@@ -46,4 +50,24 @@ export class NavbarComponent implements OnInit {
     const shouldHideUserSections = !this.isLoggedIn();
     this.hideUserSections.next(shouldHideUserSections);
   }
+
+  onLogout(): void {
+    this.commonDialogs
+      .openConfirmationDialog(
+        'Logout',
+        'Are you sure you want to logout?'
+      )
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.executeLogout(); 
+        }
+      });
+  }
+
+  private executeLogout(): void {
+    this.authService.logoutUser();
+  }
+
+  
 }
