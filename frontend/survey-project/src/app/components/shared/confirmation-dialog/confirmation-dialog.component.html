@@ -1,0 +1,21 @@
+<div class="modal-content">
+    <h2>{{ data.title }}</h2> 
+    <p>{{ data.question }}</p> 
+    <div class="modal-actions">
+      <app-button
+        [label]="'Yes'"
+        [type]="'button'"
+        [class]="'btn-primary'"
+        [size]="'md'"
+        (clickEvent)="onConfirm()"
+      ></app-button>
+      <app-button
+        [label]="'No'"
+        [type]="'button'"
+        [class]="'btn-warn'"
+        [size]="'md'"
+        (clickEvent)="onCancel()"
+      ></app-button>
+    </div>
+</div>
+  
