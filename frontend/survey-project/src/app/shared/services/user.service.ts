@@ -53,7 +53,7 @@ export class UserService {
                    );
     }
 
-    logoutUser(): Observable<any> {
+    logoutUser(): Observable<LogoutResponse> {
         const url = `${this.baseUrl}/logout`; 
         return this.httpClient.post<LogoutResponse>(url, {})
                    .pipe(
