@@ -60,7 +60,7 @@ export class NavbarComponent implements OnInit {
       .afterClosed()
       .subscribe((confirmed: boolean) => {
         if (confirmed) {
-          this.executeLogout(); // Izvrši logout ako je potvrđeno
+          this.executeLogout(); 
         }
       });
   }

@@ -9,7 +9,6 @@ import { LoginRequest } from "../dto/requests/user/login-request";
 import { LoginResponse } from "../dto/responses/user/login-response";
 import { DeleteRequest } from "../dto/requests/user/delete-request";
 import { DeleteResponse } from "../dto/responses/user/delete-response";
-import { LogoutRequest } from "../dto/requests/user/logout-request";
 import { LogoutResponse } from "../dto/responses/user/logout-response";
 import { ChangePasswordRequest } from "../dto/requests/user/change-password-request";
 import { ChangePasswordResponse } from "../dto/responses/user/change-password-response";
@@ -54,15 +53,16 @@ export class UserService {
                    );
     }
 
-    logoutUser(request: LogoutRequest): Observable<any> {
+    logoutUser(): Observable<any> {
         const url = `${this.baseUrl}/logout`; 
-        return this.httpClient.post<LogoutResponse>(url, request)
+        return this.httpClient.post<LogoutResponse>(url, {})
                    .pipe(
                         catchError((e: HttpErrorResponse) => {
-                            return throwError(e.error);
+                            return throwError(() => e.error);
                         })
                    );
     }
+    
 
     deleteUserAccount(request: DeleteRequest): Observable<DeleteResponse> {
         const url = `${this.baseUrl}/delete-account`;  

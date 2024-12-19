@@ -6,8 +6,7 @@ import { UserService } from "./user.service";
 import { Observable } from "rxjs";
 import { DeleteRequest } from "../dto/requests/user/delete-request";
 import { DeleteResponse } from "../dto/responses/user/delete-response";
-import { LogoutRequest } from "../dto/requests/user/logout-request";
-import { LogoutResponse } from "../dto/responses/user/logout-response";
+
 
 @Injectable({
     providedIn: 'root'
@@ -26,18 +25,12 @@ export class AuthService {
     }
 
     logoutUser(): void {
-        const ssid = this.cookieService.get('ssid');
-        if (!ssid) {
-            this.router.navigate(['/login']);
-            return;
-        }
     
-        const request: LogoutRequest = { ssid }; 
-    
-        this.userService.logoutUser(request).subscribe({
-            next: (response: LogoutResponse) => {
+        this.userService.logoutUser().subscribe({
+            next: () => {
                 this.cookieService.delete('ssid'); 
                 this.router.navigate(['/login']); 
+
             },
             error: (err) => {
                 console.error('Error during logout:', err);
@@ -45,20 +38,15 @@ export class AuthService {
         });
     }
     
+    
 
     goToRegister(): void {
-        const ssid = this.cookieService.get('ssid');
-        if (!ssid) {
-            this.router.navigate(['/login']);
-            return;
-        }
     
-        const request: LogoutRequest = { ssid }; 
-    
-        this.userService.logoutUser(request).subscribe({
-            next: (response: LogoutResponse) => {
+        this.userService.logoutUser().subscribe({
+            next: () => {
                 this.cookieService.delete('ssid'); 
                 this.router.navigate(['/register']); 
+
             },
             error: (err) => {
                 console.error('Error during logout:', err);

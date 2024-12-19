@@ -206,11 +206,7 @@ def delete_account():
         return jsonify({"message": str(e)}), 400
     except Exception as ex:
         return jsonify({"message": "An unexpected error occurred", "error": str(ex)}), 500
-        current_app.logger.error(f"Error changing password: {str(e)}")
-        return jsonify({
-            "message": "An unexpected error occurred.",
-            "status": 500
-        }), 500
+        
             
 @user_bp.route('/save-general-information', methods=['PUT'])
 @require_auth
