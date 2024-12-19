@@ -6,6 +6,7 @@ import { UserService } from "./user.service";
 import { Observable } from "rxjs";
 import { DeleteRequest } from "../dto/requests/user/delete-request";
 import { DeleteResponse } from "../dto/responses/user/delete-response";
+import { RouteNames } from "../consts/routes";
 
 
 @Injectable({
@@ -29,7 +30,7 @@ export class AuthService {
         this.userService.logoutUser().subscribe({
             next: () => {
                 this.cookieService.delete('ssid'); 
-                this.router.navigate(['/login']); 
+                this.router.navigate([RouteNames.LoginRoute]); 
 
             },
             error: (err) => {
@@ -45,7 +46,7 @@ export class AuthService {
         this.userService.logoutUser().subscribe({
             next: () => {
                 this.cookieService.delete('ssid'); 
-                this.router.navigate(['/register']); 
+                this.router.navigate([RouteNames.RegisterRoute]); 
 
             },
             error: (err) => {
