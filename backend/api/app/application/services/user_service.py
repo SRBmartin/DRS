@@ -8,14 +8,37 @@ class UserService:
 
     def register_user(self, command):
         existing_user = User.query.filter_by(email=command.email).first()
-        if existing_user:
-            return {"message": "Email already exists", "status": 409}
-        
+
+        if existing_user and not existing_user.is_deleted:
+            return {"message": "A user with this email already exists.", "status": 409}
+
         existing_user_by_phone = User.query.filter_by(phone_number=command.phone_number).first()
         if existing_user_by_phone:
             raise ValueError({"message": "This phone number is already in use.", "status": 400})
         
         try:
+            if existing_user and existing_user.is_deleted:
+                existing_user.name = command.name
+                existing_user.lastname = command.lastname
+                existing_user.address = command.address
+                existing_user.city = command.city
+                existing_user.country = command.country
+                existing_user.phone_number = command.phone_number
+                existing_user.hash_password(command.password)
+                existing_user.is_deleted = False  
+                
+                session = Session(
+                    user=existing_user,
+                    ip_address=command.ip_address
+                )
+
+                SessionRepository.add(session)
+
+                session_schema = SessionSchema()
+                serialized_session_schema = session_schema.dump(session)
+
+                return {"session": serialized_session_schema, "status": 201}
+
             user = User(
                 name=command.name,
                 lastname=command.lastname,
@@ -36,12 +59,13 @@ class UserService:
             SessionRepository.add(session)
 
             session_schema = SessionSchema()
-
             serialized_session_schema = session_schema.dump(session)
 
             return {"session": serialized_session_schema, "status": 201}
-        except Exception:
-            return {"message":"There was an error while registering account.", "status":500}
+
+        except Exception as ex:
+            print(f"Error during registration: {str(ex)}")
+            return {"message": "An error occurred while registering the account.", "status": 500}
 
     def login_user(self, email: str, password: str, ip_address: str):
         if not email or not password or not ip_address:
@@ -53,6 +77,9 @@ class UserService:
         
         if not user.check_password(password):
             raise ValueError({"message": "Password is incorrect.", "status": 401})
+        
+        if user.is_deleted == True:
+            raise ValueError({"message":"User does not exist.", "status":404})
         
         active_session = SessionRepository.get_active_by_user_id(user.id, ip_address)
         if not active_session:
@@ -80,6 +107,49 @@ class UserService:
             return True
         else:
             return False
+        
+    def logout_user(self, ssid: str, ip_address: str):
+            try:
+                if not ssid:
+                    return {"message": "SSID is required", "status": 400}
+
+                try:
+                    ses_id = uuid.UUID(ssid)
+                except ValueError:
+                    return {"message": "Invalid SSID format", "status": 400}
+
+                session = SessionRepository.get_active_by_id(ses_id, ip_address)
+                if not session:
+                    return {"message": "Session not found", "status": 404}
+
+                session.logged_out = True
+                SessionRepository.update(session)
+
+                return {"message": "User logged out successfully", "status": 200}
+
+            except ValueError as ve:
+                return {"message": str(ve), "status": 400}
+
+            except Exception as ex:
+                return {"message": "An unexpected error occurred", "details": str(ex), "status": 500}
+            
+    def delete_user(self, user_id: uuid.UUID, password: str):
+        try:
+            user = User.query.get(user_id)
+            if not user:
+                return {"message": "User not found", "status": 404}
+
+            if not user.check_password(password):
+                return {"message": "Incorrect password", "status": 401}
+
+            user.is_deleted = True  
+            UserRepository.updateUser(user)
+
+            return {"message": "User account deleted successfully", "status": 200}
+
+        except Exception as ex:
+            print(f"Error during delete operation: {str(ex)}")
+            return {"message": "An unexpected error occurred", "status": 500}
         
     def get_user_info(self, ssid: str, ip_address: str):
         try:

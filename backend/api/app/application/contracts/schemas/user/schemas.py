@@ -12,7 +12,8 @@ class UserSchema(Schema):
     phone_number = fields.Str(required=True, validate=validate.Length(max=32))
     email = fields.Email(required=True, validate=validate.Length(max=120))
     password = fields.Str(required=True, load_only=True, validate=validate.Length(max=128))
-
+    is_deleted = fields.Boolean(dump_only=True, defaulte=False)
+    
 class SessionSchema(Schema):
     id = fields.UUID(dump_only=True)
     user_id = fields.UUID(required=True)

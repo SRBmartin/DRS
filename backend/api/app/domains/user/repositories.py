@@ -24,6 +24,14 @@ class UserRepository:
         return User.query.all()
     
     @staticmethod
+    def updateUser(user):
+        try:
+            db.session.add(user)  
+            db.session.commit()  
+        except Exception as e:
+            db.session.rollback()  
+            raise e
+        
     def update_password(user_id: uuid.UUID, hashed_password: str):
         user = User.query.get(user_id)
         if not user:
@@ -84,6 +92,15 @@ class SessionRepository:
                 Session.ending_time >= current_time
             )
         ).first()
+        
+    @staticmethod
+    def update(session):
+        try:
+            db.session.commit()  
+        except Exception as e:
+            db.session.rollback()  
+            raise e
+        
     @staticmethod
     def get_active_by_ssid(ssid: uuid.UUID, ip_address: str):
         try:
