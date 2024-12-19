@@ -41,7 +41,7 @@ export class FooterComponent implements OnInit {
   updateFooterVisibility(): void {
     const currentUrl = this.router.url;
 
-    const shouldHideFooter = currentUrl === `/${RouteNames.LoginRoute}`;
+    const shouldHideFooter = currentUrl === `/${RouteNames.LoginRoute}` || currentUrl === `/`;
     this.hideEntireFooter.next(shouldHideFooter);
 
     const shouldHideUserSections = !this.isLoggedIn();
