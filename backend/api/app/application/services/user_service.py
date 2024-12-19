@@ -218,7 +218,17 @@ class UserService:
         if existing_user_by_phone and existing_user_by_phone.id != user.id:
             raise ValueError({"message": "This phone number is already in use.", "status": 400})
 
-        
+        general_info = [name, lastname, email, phone_number, address, city, country]
+        field_names = ["Name", "Lastname", "Email", "Phone Number", "Address", "City", "Country"]
+
+        if not all(general_info):
+            ret_string = "Following fields cannot be empty: "
+            missing_fields = [
+                field_name for field_name, value in zip(field_names, general_info) if not value
+            ]
+            ret_string += ", ".join(missing_fields) + "."
+            raise ValueError({"message": ret_string, "status": 400})
+
         changes = {
             "name": name,
             "lastname": lastname,

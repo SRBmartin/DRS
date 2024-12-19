@@ -1,11 +1,11 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UserService } from '../../../../../shared/services/user.service';
-import { CookieService } from 'ngx-cookie-service';
 import { ToastService } from '../../../../../shared/services/toast.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { GeneralInfoResponse } from '../../../../../shared/dto/responses/user/general-info-response';
 import { ChangeGeneralInformationRequest } from '../../../../../shared/dto/requests/user/change-general-info-request';
 import { ChangeGeneralInformationResponse } from '../../../../../shared/dto/responses/user/change-general-info-response';
+import { CommonDialogsService } from '../../../../../shared/services/commondialog.service';
 
 @Component({
   selector: 'app-general-informations',
@@ -18,10 +18,10 @@ export class GeneralInformationsComponent implements OnInit {
 
   constructor(
     private readonly userService: UserService,
-    private readonly cookieService: CookieService,
     private readonly toastService: ToastService,
     private readonly fb: FormBuilder,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    private readonly commonDialogs: CommonDialogsService
   ) {
     this.generalInfoForm = this.fb.group({
       name: [''],
@@ -82,25 +82,34 @@ export class GeneralInformationsComponent implements OnInit {
   }
 
   onSave(): void {
-    if (this.generalInfoForm.invalid) {
-      this.toastService.showError('Please fill in all fields correctly.', 'Error');
-      return;
-    }
+    this.commonDialogs
+      .openConfirmationDialog('Save changes',
+        'Are you sure you want to save changes?'
+      )
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          if (this.generalInfoForm.invalid) {
+            this.toastService.showError('Please fill in all fields correctly.', 'Error');
+            return;
+          }
 
-    const updatedData = this.createChangeGeneralInfoRequest();
+          const updatedData = this.createChangeGeneralInfoRequest();
 
-    this.userService.updateGeneralInfo(updatedData).subscribe({
-      next: (response: ChangeGeneralInformationResponse) => {
-        if (response.status) {
-          this.toastService.showSuccess('Your information has been updated successfully.', 'Success');
-          this.fetchUserInfo();
-        } else {
-          this.toastService.showError(response.message || 'Failed to update user information.', 'Error');
+          this.userService.updateGeneralInfo(updatedData).subscribe({
+            next: (response: ChangeGeneralInformationResponse) => {
+              if (response.status) {
+                this.toastService.showSuccess('Your information has been updated successfully.', 'Success');
+                this.fetchUserInfo();
+              } else {
+                this.toastService.showError(response.message || 'Failed to update user information.', 'Error');
+              }
+            },
+            error: (err) => {
+              this.toastService.showError(err.message || 'An unexpected error occurred.', 'Error');
+            }
+          });
         }
-      },
-      error: (err) => {
-        this.toastService.showError(err.message || 'An unexpected error occurred.', 'Error');
-      }
-    });
+      })
   }
 }
