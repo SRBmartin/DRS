@@ -13,7 +13,7 @@ class UserService:
             return {"message": "A user with this email already exists.", "status": 409}
 
         existing_user_by_phone = User.query.filter_by(phone_number=command.phone_number).first()
-        if existing_user_by_phone:
+        if existing_user_by_phone and not existing_user_by_phone.is_deleted:
             raise ValueError({"message": "This phone number is already in use.", "status": 400})
         
         try:
@@ -159,7 +159,7 @@ class UserService:
         
         session = SessionRepository.get_active_by_ssid(ses_id, ip_address)
         if not session:
-            return {"message": "Session is not active or IP address mismatch.", "status": 401}
+            return {"message": "You are not logged in.", "status": 401}
         user = UserRepository.get_by_id(session.user_id)
         if not user:
             raise ({"message": "User not found.", "status": 404})
@@ -173,11 +173,11 @@ class UserService:
         try:
             ses_id = uuid.UUID(ssid)
         except ValueError:
-            raise ValueError({"message": "Invalid session ID format.", "status": 400})
+            raise ValueError({"message": "You are not logged in.", "status": 400})
         
         session = SessionRepository.get_active_by_ssid(ses_id, ip_address)
         if not session:
-            raise ({"message": "Session is not active or expired.", "status": 401})
+            raise ({"message": "You are not logged in.", "status": 401})
         user: User
         user = UserRepository.get_by_id(session.user_id)
 
@@ -188,7 +188,7 @@ class UserService:
             raise ValueError({"message": "Old password is incorrect.", "status": 403})
         
         if user.check_password(new_password):
-            raise ValueError({"message": "New password cannot be the same as the old password.", "status": 400})
+            raise ValueError({"message": "New password cannot be the same as the old password.", "status": 409})
 
         user.hash_password(new_password)
         UserRepository.update_password(user.id, user.password)
@@ -199,11 +199,11 @@ class UserService:
         try:
             ses_id = uuid.UUID(ssid)
         except ValueError:
-            raise ValueError({"message": "Invalid session ID format.", "status": 400})
+            raise ValueError({"message": "You are not logged in.", "status": 400})
         
         session = SessionRepository.get_active_by_ssid(ses_id, ip_address)
         if not session:
-            raise ValueError({"message": "Session is not active or expired", "status": 401})
+            raise ValueError({"message": "You are not logged in.", "status": 401})
         
         user: User
         user = UserRepository.get_by_id(session.user_id)

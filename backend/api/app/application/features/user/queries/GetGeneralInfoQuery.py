@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from ....services.user_service import UserService
 from ....contracts.IHandler import IHandler
-#import uuid
 
 @dataclass
 class GetGeneralInfoQuery:

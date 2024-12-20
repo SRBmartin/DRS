@@ -13,7 +13,7 @@ class UserRepository:
 
     @staticmethod
     def get_by_email(email: str) -> User:
-        return User.query.filter_by(email=email).first()
+        return User.query.filter_by(email=email, is_deleted=False).first()
 
     @staticmethod
     def get_by_id(user_id):
@@ -45,7 +45,7 @@ class UserRepository:
         
     @staticmethod
     def get_by_phone_number(phone_number: str):
-        return User.query.filter_by(phone_number=phone_number).first()
+        return User.query.filter_by(phone_number=phone_number, is_deleted=False).first()
 
         
     
@@ -57,11 +57,6 @@ class SessionRepository:
 
     @staticmethod
     def get_active_by_user_id(id: uuid.UUID, ip_address: str):
-        try:
-            pass
-            #user_uuid = uuid.UUID(id)
-        except ValueError:
-            raise ValueError({"message":"Invalid ID", "status": 400})
         current_time = datetime.utcnow()
         
         active_session = Session.query.filter(

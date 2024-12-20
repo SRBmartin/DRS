@@ -161,8 +161,7 @@ def change_password():
     command = ChangePasswordCommand(
         ssid=ssid,
         ip_address=request.remote_addr,
-        old_password=json_data.get('old_password'),
-        new_password=json_data.get('new_password')
+        data=json_data
     )
 
     mediator = current_app.config.get('mediator')
@@ -215,27 +214,13 @@ def save_general_info():
 
     if not json_data:
         return jsonify({"message": "No data provided.", "status": 400}), 400
-
-    required_fields = ["name", "lastname", "email", "phone_number", "address", "city", "country"]
-    missing_fields = [field for field in required_fields if field not in json_data]
-    if missing_fields:
-        return jsonify({
-            "message": f"Missing required fields: {', '.join(missing_fields)}",
-            "status": 400
-        }), 400
     
     ssid = g.get('auth_token')
 
     command = UpdateGeneralInformationCommand(
         ssid=ssid,
         ip_address=request.remote_addr,
-        name=json_data.get('name'),
-        lastname=json_data.get('lastname'),
-        email=json_data.get('email'),
-        phone_number=json_data.get('phone_number'),
-        address=json_data.get('address'),
-        city=json_data.get('city'),
-        country=json_data.get('country')
+        data=json_data  
     )
 
     mediator = current_app.config.get('mediator')
