@@ -39,20 +39,22 @@ export class GeneralInformationsComponent implements OnInit {
   }
 
   private fetchUserInfo(): void {
-    this.userService.getGeneralInfo().subscribe({
-      next: (response: GeneralInfoResponse) => {
-        if (response.data) {
-          this.userInfo = response.data;
-          this.initializeForm();
-          this.cdr.detectChanges();
-        } else {
-          this.toastService.showError(response.message || 'Failed to fetch user information.', 'Error');
-        }
-      },
-      error: (err) => {
-        this.toastService.showError(err.message || 'An unexpected error occurred.', 'Error');
-      }
-    });
+    this.userService
+        .getGeneralInfo()
+        .subscribe({
+          next: (response: GeneralInfoResponse) => {
+            if (response.data) {
+              this.userInfo = response.data;
+              this.initializeForm();
+              this.cdr.detectChanges();
+            } else {
+              this.toastService.showError(response.message || 'Failed to fetch user information.', 'Error');
+            }
+          },
+          error: (err) => {
+            this.toastService.showError(err.message || 'An unexpected error occurred.', 'Error');
+          }
+        });
   }
   
   private initializeForm(): void {
@@ -96,19 +98,21 @@ export class GeneralInformationsComponent implements OnInit {
 
           const updatedData = this.createChangeGeneralInfoRequest();
 
-          this.userService.updateGeneralInfo(updatedData).subscribe({
-            next: (response: ChangeGeneralInformationResponse) => {
-              if (response.status) {
-                this.toastService.showSuccess('Your information has been updated successfully.', 'Success');
-                this.fetchUserInfo();
-              } else {
-                this.toastService.showError(response.message || 'Failed to update user information.', 'Error');
-              }
-            },
-            error: (err) => {
-              this.toastService.showError(err.message || 'An unexpected error occurred.', 'Error');
-            }
-          });
+          this.userService
+              .updateGeneralInfo(updatedData)
+              .subscribe({
+                next: (response: ChangeGeneralInformationResponse) => {
+                  if (response.status) {
+                    this.toastService.showSuccess(response.message || 'Your information has been updated successfully.', 'Success');
+                    this.fetchUserInfo();
+                  } else {
+                    this.toastService.showError(response.message || 'Failed to update user information.', 'Error');
+                  }
+                },
+                error: (err) => {
+                  this.toastService.showError(err.message || 'An unexpected error occurred.', 'Error');
+                }
+              });
         }
       })
   }

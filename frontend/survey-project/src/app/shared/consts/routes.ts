@@ -3,5 +3,8 @@ export enum RouteNames {
     LoginRoute = 'login',
     RegisterRoute = 'register',
     ProfileRoute = 'profile',
-    CreateSurveyRoute = 'create-survey'
+    CreateSurveyRoute = 'create-survey',
+    GeneralInformationRoute = 'general-information',
+    ChangePasswordRoute = 'change-password',
+    DeleteMyAccountRoute = 'delete-my-account'
 };

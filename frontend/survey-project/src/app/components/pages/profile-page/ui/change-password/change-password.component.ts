@@ -62,15 +62,17 @@ export class ChangePasswordComponent implements OnInit{
   onChangePassword(): void {
     if (this.changePasswordForm.valid) {
       const request = this.createChangePasswordRequest();
-      this.userService.changePassword(request).subscribe({
-        next: (response: ChangePasswordResponse) => {
-          this.toastService.showSuccess(response.message || 'Password changed successfully!', 'Success');
-          this.changePasswordForm.reset();
-        },
-        error: (err: any) => {
-          this.toastService.showError(err.message || 'Failed to change password.', 'Error');
-        },
-      });
+      this.userService
+          .changePassword(request)
+          .subscribe({
+            next: (response: ChangePasswordResponse) => {
+              this.toastService.showSuccess(response.message || 'Password changed successfully!', 'Success');
+              this.changePasswordForm.reset();
+            },
+            error: (err: any) => {
+              this.toastService.showError(err.message || 'Failed to change password.', 'Error');
+            },
+          });
     } else {
       this.changePasswordForm.markAllAsTouched();
     }

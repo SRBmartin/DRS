@@ -4,16 +4,17 @@ import { ProfilePageComponent } from './profile-page.component';
 import { GeneralInformationsComponent } from './ui/general-informations/general-informations.component';
 import { ChangePasswordComponent } from './ui/change-password/change-password.component';
 import { DeleteMyAccountComponent } from './ui/delete-my-account/delete-my-account.component';
+import { RouteNames } from '../../../shared/consts/routes';
 
 const routes: Routes = [
   {
     path: '',
     component: ProfilePageComponent,
     children: [
-      {path: 'general-information', component: GeneralInformationsComponent},
-      {path: 'change-password', component: ChangePasswordComponent},
-      {path: 'delete-my-account', component: DeleteMyAccountComponent},
-      {path: '', redirectTo: 'general-information', pathMatch: 'full'}
+      {path: RouteNames.GeneralInformationRoute, component: GeneralInformationsComponent},
+      {path: RouteNames.ChangePasswordRoute, component: ChangePasswordComponent},
+      {path: RouteNames.DeleteMyAccountRoute, component: DeleteMyAccountComponent},
+      {path: '', redirectTo: RouteNames.GeneralInformationRoute, pathMatch: 'full'}
     ]
   }
 ];
