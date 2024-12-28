@@ -12,6 +12,7 @@ import { filter } from 'rxjs/operators';
   styleUrl: './footer.component.scss',
 })
 export class FooterComponent implements OnInit {
+  currentYear: number = new Date().getFullYear();
   RouteNames = RouteNames;
 
   hideEntireFooter: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
