@@ -64,7 +64,6 @@ class UserService:
             return {"session": serialized_session_schema, "status": 201}
 
         except Exception as ex:
-            print(f"Error during registration: {str(ex)}")
             return {"message": "An error occurred while registering the account.", "status": 500}
 
     def login_user(self, email: str, password: str, ip_address: str):
@@ -79,7 +78,7 @@ class UserService:
             raise ValueError({"message": "Password is incorrect.", "status": 401})
         
         if user.is_deleted == True:
-            raise ValueError({"message":"User does not exist.", "status":404})
+            raise ValueError({"message":"User is not found.", "status":404})
         
         active_session = SessionRepository.get_active_by_user_id(user.id, ip_address)
         if not active_session:
@@ -110,26 +109,14 @@ class UserService:
         
     def logout_user(self, ssid: str, ip_address: str):
             try:
-                if not ssid:
-                    return {"message": "SSID is required", "status": 400}
-
-                try:
-                    ses_id = uuid.UUID(ssid)
-                except ValueError:
-                    return {"message": "Invalid SSID format", "status": 400}
-
+                
+                ses_id = uuid.UUID(ssid)
                 session = SessionRepository.get_active_by_id(ses_id, ip_address)
-                if not session:
-                    return {"message": "Session not found", "status": 404}
-
+                
                 session.logged_out = True
                 SessionRepository.update(session)
 
                 return {"message": "User logged out successfully", "status": 200}
-
-            except ValueError as ve:
-                return {"message": str(ve), "status": 400}
-
             except Exception as ex:
                 return {"message": "An unexpected error occurred", "details": str(ex), "status": 500}
             
@@ -148,7 +135,6 @@ class UserService:
             return {"message": "User account deleted successfully", "status": 200}
 
         except Exception as ex:
-            print(f"Error during delete operation: {str(ex)}")
             return {"message": "An unexpected error occurred", "status": 500}
         
     def get_user_info(self, ssid: str, ip_address: str):

@@ -30,7 +30,7 @@ class UserRepository:
             db.session.commit()  
         except Exception as e:
             db.session.rollback()  
-            raise e
+            raise RuntimeError("An unexpected error occurred. Please contact support.") from e
         
     def update_password(user_id: uuid.UUID, hashed_password: str):
         user = User.query.get(user_id)

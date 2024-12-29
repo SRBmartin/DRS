@@ -60,11 +60,8 @@ export class DeleteMyAccountComponent implements OnInit {
 
     this.authService.deleteUserAccount(password).subscribe({
       next: (response: DeleteResponse) => {
-        this.toastService.showSuccess(
-          'Your account has been deleted successfully.',
-          'Account Deleted'
-        );
-        this.authService.goToRegister(); 
+        this.toastService.showSuccess(response.message || 'Your account has been deleted successfully.', 'Account Deleted');
+        this.authService.onDeleteUserAccount(); 
         this.loaderService.stopLoading();
       },
       error: (e) => {

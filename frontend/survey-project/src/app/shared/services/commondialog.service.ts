@@ -17,9 +17,9 @@ export class CommonDialogsService {
   ): MatDialogRef<ConfirmationDialogComponent> {
     return this.modalOpener.openResponsive(
       ConfirmationDialogComponent,
-      { width: '500px', height: '300px' }, 
-      { width: '300px', height: '200px' }, 
-      { width: '90vw', height: '200px' }, 
+      { width: '50dvw', height: '40dvh' }, 
+      { width: '50dvw', height: '40dvh' }, 
+      { width: '50dvw', height: '40dvh' }, 
       {
         title, 
         question, 

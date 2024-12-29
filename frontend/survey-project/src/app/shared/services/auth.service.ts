@@ -41,12 +41,12 @@ export class AuthService {
     
     
 
-    goToRegister(): void {
+    onDeleteUserAccount(): void {
     
         this.userService.logoutUser().subscribe({
             next: () => {
                 this.cookieService.delete('ssid'); 
-                this.router.navigate([RouteNames.RegisterRoute]); 
+                this.router.navigate([RouteNames.HomeRoute]); 
 
             },
             error: (err) => {

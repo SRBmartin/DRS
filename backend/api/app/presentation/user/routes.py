@@ -134,7 +134,7 @@ def get_general_info():
             }), 200
         else:
             return jsonify({
-                "message": "Userrr not found",
+                "message": "User not found",
                 "status": 404
             }), 404
     except Exception as e:
