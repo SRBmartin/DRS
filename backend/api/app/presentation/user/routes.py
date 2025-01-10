@@ -226,7 +226,6 @@ def save_general_info():
     mediator = current_app.config.get('mediator')
     try:
         result = mediator.send(command)
-        print(f"{result}")
         return jsonify(result), result["status"]
     except Exception as e:
         current_app.logger.error(f"Error updating user information: {str(e)}")

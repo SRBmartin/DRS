@@ -101,7 +101,6 @@ export class GeneralInformationsComponent implements OnInit {
               .updateGeneralInfo(updatedData)
               .subscribe({
                 next: (response: ChangeGeneralInformationResponse) => {
-                  console.log(`${response.message} ${response.status}`)
                   if (response.status == "204") {
                     this.toastService.showWarning(response.message || 'No changes detected.', 'Warning');
                   } else if (response.status == "200") {
