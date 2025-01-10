@@ -57,9 +57,21 @@ form {
         padding: 0.5rem;
       }
     }
+
+    .error {
+      color: red;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+  
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }    
   }
 
-  .app-button {
+  app-button {
     display: flex;
     margin-top: 30px;
     justify-content: center;

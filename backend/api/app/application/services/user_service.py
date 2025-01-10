@@ -141,7 +141,7 @@ class UserService:
         try:
             ses_id = uuid.UUID(ssid)
         except ValueError:
-            raise ValueError({"message": "Invalid session ID format.", "status": 400})
+            raise ValueError({"message": "You are not logged in.", "status": 401})
         
         session = SessionRepository.get_active_by_ssid(ses_id, ip_address)
         if not session:
@@ -195,7 +195,7 @@ class UserService:
         user = UserRepository.get_by_id(session.user_id)
         if not user:
             raise ValueError({"message": "User not found.", "status": 404})
-        
+
         existing_user_by_email = UserRepository.get_by_email(email)
         if existing_user_by_email and existing_user_by_email.id != user.id:
             raise ValueError({"message": "This email address is already in use.", "status": 400})
@@ -226,14 +226,11 @@ class UserService:
         }        
         
         has_changes = any(getattr(user, key) != value for key, value in changes.items())
-        print(f"Has changes: {has_changes}")
         if not has_changes:
-            return {"message": "No changes detected in user information.", "status": 400}
+            return {"message": "No changes detected in user information.", "status": 204}
 
         for key, value in changes.items():
             setattr(user, key, value)
-        
-        print(f"User: {user.address}")
 
         UserRepository.update_user(user)
         

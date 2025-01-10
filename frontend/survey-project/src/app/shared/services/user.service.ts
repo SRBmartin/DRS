@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { CheckSSIDRequest } from "../dto/requests/user/check-ssid-request";
-import { catchError, Observable, throwError } from "rxjs";
+import { catchError, map, Observable, of, throwError } from "rxjs";
 import { RegisterRequest } from "../dto/requests/user/register-request";
 import { RegisterResponse } from "../dto/responses/user/register-response";
 import { environment } from "../environment/environment";
@@ -93,8 +93,19 @@ export class UserService {
         updatedData: ChangeGeneralInformationRequest
     ): Observable<ChangeGeneralInformationResponse> {
         const url = `${this.baseUrl}/save-general-information`;
-        return this.httpClient.put<ChangeGeneralInformationResponse>(url, updatedData).pipe(
-            catchError((e: HttpErrorResponse) => throwError(e.error))
+        return this.httpClient.put<ChangeGeneralInformationResponse>(url, updatedData, { observe: 'response' }).pipe(
+            map((response) => {
+                return {
+                    status: response.status.toString(),
+                    message: response.body?.message || '',
+                };
+            }),
+            catchError((error: HttpErrorResponse) => {
+                return of({
+                    status: error.status.toString(),
+                    message: error.error?.message || 'An unexpected error occurred.',
+                });
+            })
         );
     }
 }

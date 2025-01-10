@@ -25,12 +25,8 @@ class UserRepository:
     
     @staticmethod
     def updateUser(user):
-        try:
             db.session.add(user)  
             db.session.commit()  
-        except Exception as e:
-            db.session.rollback()  
-            raise RuntimeError("An unexpected error occurred. Please contact support.") from e
         
     def update_password(user_id: uuid.UUID, hashed_password: str):
         user = User.query.get(user_id)

@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UserService } from '../../../../../shared/services/user.service';
 import { ToastService } from '../../../../../shared/services/toast.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GeneralInfoResponse } from '../../../../../shared/dto/responses/user/general-info-response';
 import { ChangeGeneralInformationRequest } from '../../../../../shared/dto/requests/user/change-general-info-request';
 import { ChangeGeneralInformationResponse } from '../../../../../shared/dto/responses/user/change-general-info-response';
@@ -60,13 +60,13 @@ export class GeneralInformationsComponent implements OnInit {
   private initializeForm(): void {
     if (this.userInfo) {
       this.generalInfoForm = this.fb.group({
-        name: [this.userInfo.name || ''],
-        lastname: [this.userInfo.lastname || ''],
-        address: [this.userInfo.address || ''],
-        city: [this.userInfo.city || ''],
-        country: [this.userInfo.country || ''],
-        phone_number: [this.userInfo.phone_number || ''],
-        email: [this.userInfo.email || '']
+        name: [this.userInfo.name || '', Validators.required],
+        lastname: [this.userInfo.lastname || '', Validators.required],
+        address: [this.userInfo.address || '', Validators.required],
+        city: [this.userInfo.city || '', Validators.required],
+        country: [this.userInfo.country || '', Validators.required],
+        phone_number: [this.userInfo.phone_number || '', Validators.required],
+        email: [this.userInfo.email || '', Validators.required]
       });
     }
   }
@@ -84,25 +84,27 @@ export class GeneralInformationsComponent implements OnInit {
   }
 
   onSave(): void {
-    this.commonDialogs
-      .openConfirmationDialog('Save changes',
-        'Are you sure you want to save changes?'
-      )
-      .afterClosed()
-      .subscribe((confirmed: boolean) => {
-        if (confirmed) {
-          if (this.generalInfoForm.invalid) {
-            this.toastService.showError('Please fill in all fields correctly.', 'Error');
-            return;
-          }
+    if (!this.generalInfoForm.invalid) {
+      this.commonDialogs
+        .openConfirmationDialog('Save changes',
+          'Are you sure you want to save changes?'
+        )
+        .afterClosed()
+        .subscribe((confirmed: boolean) => {
+          if (!this.generalInfoForm.invalid) { }
+          if (confirmed) {
 
-          const updatedData = this.createChangeGeneralInfoRequest();
 
-          this.userService
+            const updatedData = this.createChangeGeneralInfoRequest();
+
+            this.userService
               .updateGeneralInfo(updatedData)
               .subscribe({
                 next: (response: ChangeGeneralInformationResponse) => {
-                  if (response.status) {
+                  console.log(`${response.message} ${response.status}`)
+                  if (response.status == "204") {
+                    this.toastService.showWarning(response.message || 'No changes detected.', 'Warning');
+                  } else if (response.status == "200") {
                     this.toastService.showSuccess(response.message || 'Your information has been updated successfully.', 'Success');
                     this.fetchUserInfo();
                   } else {
@@ -113,7 +115,8 @@ export class GeneralInformationsComponent implements OnInit {
                   this.toastService.showError(err.message || 'An unexpected error occurred.', 'Error');
                 }
               });
-        }
-      })
+          }
+        })
+    } 
   }
 }

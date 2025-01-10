@@ -138,7 +138,7 @@ def get_general_info():
                 "status": 404
             }), 404
     except Exception as e:
-        return jsonify({"message": "An unexpected error occurred.", "status": 500}), 500
+        return jsonify({"message": "An unexpected error occurred."}), 500
     
 @user_bp.route('/change-password', methods=['PATCH'])
 @require_auth
@@ -169,7 +169,7 @@ def change_password():
         result = mediator.send(command)
         return jsonify(result), result["status"]
     except Exception as e:
-        return jsonify({"message": "There was an error during logout.", "error": str(e)}), 500
+        return jsonify({"message": "There was an error during logout."}), 500
     
 @user_bp.route('/delete-account', methods=['POST'])
 @require_auth
@@ -226,11 +226,11 @@ def save_general_info():
     mediator = current_app.config.get('mediator')
     try:
         result = mediator.send(command)
+        print(f"{result}")
         return jsonify(result), result["status"]
     except Exception as e:
         current_app.logger.error(f"Error updating user information: {str(e)}")
         return jsonify({
-            "message": "An unexpected error occurred.",
-            "status": 500
+            "message": "An unexpected error occurred."
         }), 500
 
