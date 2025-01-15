@@ -58,7 +58,8 @@ export class UserService {
         return this.httpClient.post<LogoutResponse>(url, {})
                    .pipe(
                         catchError((e: HttpErrorResponse) => {
-                            return throwError(() => e.error);
+                            return throwError(e.error);
+
                         })
                    );
     }

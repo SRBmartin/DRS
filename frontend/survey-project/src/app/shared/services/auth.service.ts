@@ -27,14 +27,16 @@ export class AuthService {
 
     logoutUser(): void {
     
-        this.userService.logoutUser().subscribe({
+        this.userService
+        .logoutUser()
+        .subscribe({
             next: () => {
                 this.cookieService.delete('ssid'); 
                 this.router.navigate([RouteNames.LoginRoute]); 
 
             },
             error: (err) => {
-                console.error('Error during logout:', err);
+                
             }
         });
     }
@@ -43,14 +45,16 @@ export class AuthService {
 
     onDeleteUserAccount(): void {
     
-        this.userService.logoutUser().subscribe({
+        this.userService
+        .logoutUser()
+        .subscribe({
             next: () => {
                 this.cookieService.delete('ssid'); 
                 this.router.navigate([RouteNames.HomeRoute]); 
 
             },
             error: (err) => {
-                console.error('Error during logout:', err);
+                
             }
         });
     }
