@@ -30,6 +30,17 @@ services:
     networks:
       - database
 
+  mailservice:
+    build:
+      context: ../mail-service/project
+      dockerfile: Dockerfile
+    container_name: mailservice_container
+    restart: always
+    ports:
+      - "5569:8080"
+    networks:
+      - database
+
 volumes:
   postgres_data:
   pgadmin_data:
