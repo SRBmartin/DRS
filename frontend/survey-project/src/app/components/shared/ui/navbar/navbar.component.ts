@@ -44,7 +44,7 @@ export class NavbarComponent implements OnInit {
     const currentUrl = this.router.url;
 
     const shouldHideNavbar =
-      currentUrl === `/${RouteNames.LoginRoute}`;
+      currentUrl === `/${RouteNames.LoginRoute}` || currentUrl === `/`;
     this.hideEntireNavbar.next(shouldHideNavbar);
 
     const shouldHideUserSections = !this.isLoggedIn();
