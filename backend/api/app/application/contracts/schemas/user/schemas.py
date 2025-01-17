@@ -12,7 +12,8 @@ class UserSchema(Schema):
     phone_number = fields.Str(required=True, validate=validate.Length(max=32))
     email = fields.Email(required=True, validate=validate.Length(max=120))
     password = fields.Str(required=True, load_only=True, validate=validate.Length(max=128))
-
+    is_deleted = fields.Boolean(dump_only=True, defaulte=False)
+    
 class SessionSchema(Schema):
     id = fields.UUID(dump_only=True)
     user_id = fields.UUID(required=True)
@@ -28,3 +29,16 @@ class SessionSchema(Schema):
 class LoginSchema(Schema):
     email = fields.Str(required=True)
     password = fields.Str(required=True)
+    
+class UpdateGeneralInformationSchema(Schema):
+    name = fields.Str(required=True, validate=validate.Length(max=100))
+    lastname = fields.Str(required=True, validate=validate.Length(max=100))
+    email = fields.Email(required=True, validate=validate.Length(max=120))
+    phone_number = fields.Str(required=True, validate=validate.Length(max=32))
+    address = fields.Str(required=True, validate=validate.Length(max=200))
+    city = fields.Str(required=True, validate=validate.Length(max=100))
+    country = fields.Str(required=True, validate=validate.Length(max=100))
+    
+class ChangePasswordSchema(Schema):
+    old_password = fields.Str(required=True, validate=validate.Length(max=128))
+    new_password = fields.Str(required=True, validate=validate.Length(max=128))   
