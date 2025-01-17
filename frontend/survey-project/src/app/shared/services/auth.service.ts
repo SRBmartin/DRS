@@ -46,7 +46,7 @@ export class AuthService {
         .subscribe({
             next: () => {
                 this.cookieService.delete('ssid'); 
-                this.router.navigate([RouteNames.HomeRoute]); 
+                this.router.navigate([RouteNames.LandingRoute]); 
 
             },
             error: (err) => {
