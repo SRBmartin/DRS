@@ -7,6 +7,7 @@ import { Observable } from "rxjs";
 import { DeleteRequest } from "../dto/requests/user/delete-request";
 import { DeleteResponse } from "../dto/responses/user/delete-response";
 import { RouteNames } from "../consts/routes";
+import { ToastService } from "./toast.service";
 
 
 @Injectable({
@@ -17,7 +18,8 @@ export class AuthService {
     constructor(
         private readonly cookieService: CookieService,
         private readonly router: Router,
-        private readonly userService: UserService
+        private readonly userService: UserService,
+        private readonly toastService: ToastService
 
     ) {}
 
@@ -28,15 +30,9 @@ export class AuthService {
     logoutUser(): void {
         this.userService
         .logoutUser()
-        .subscribe({
-            next: () => {
-                this.cookieService.delete('ssid');
-                this.router.navigate([RouteNames.LoginRoute]);
-
-            },
-            error: (err) => {
-                alert('An error during logout. Plese try again.')
-            }
+        .subscribe(() => {
+            this.cookieService.delete('ssid');
+            this.router.navigate([RouteNames.LandingRoute]);
         });
     }
 
@@ -47,10 +43,9 @@ export class AuthService {
             next: () => {
                 this.cookieService.delete('ssid'); 
                 this.router.navigate([RouteNames.LandingRoute]); 
-
             },
             error: (err) => {
-                alert('An error during delete account. Plese try again.')
+                this.toastService.showError(err.error.message);
             }
         });
     }

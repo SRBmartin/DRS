@@ -20,10 +20,10 @@ export class NavbarComponent implements OnInit {
   hideUserSections: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   constructor(
-    private router: Router,
-    private cookieService: CookieService,
-    private authService: AuthService,
-    private commonDialogs: CommonDialogsService 
+    private readonly router: Router,
+    private readonly cookieService: CookieService,
+    private readonly authService: AuthService,
+    private readonly commonDialogs: CommonDialogsService 
   ) {}
 
   ngOnInit(): void {
@@ -65,8 +65,6 @@ export class NavbarComponent implements OnInit {
         if (confirmed) {
           this.executeLogout();  
           this.router.navigate([currentRoute]);  
-        } else {
-          this.router.navigate([currentRoute]);
         }
       });
   }
