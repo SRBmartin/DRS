@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "4OhE9xsJCDrbE+xp4hm3bl12VhZPfhQzN0nA+0RRHmQ=",
+  "Source": "MailService",
+  "BasePath": "_content/MailService",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

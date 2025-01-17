@@ -6,6 +6,7 @@ import { GeneralInfoResponse } from '../../../../../shared/dto/responses/user/ge
 import { ChangeGeneralInformationRequest } from '../../../../../shared/dto/requests/user/change-general-info-request';
 import { ChangeGeneralInformationResponse } from '../../../../../shared/dto/responses/user/change-general-info-response';
 import { CommonDialogsService } from '../../../../../shared/services/commondialog.service';
+import { LoaderService } from '../../../../../shared/services/loader.service';
 
 @Component({
   selector: 'app-general-informations',
@@ -21,7 +22,8 @@ export class GeneralInformationsComponent implements OnInit {
     private readonly toastService: ToastService,
     private readonly fb: FormBuilder,
     private readonly cdr: ChangeDetectorRef,
-    private readonly commonDialogs: CommonDialogsService
+    private readonly commonDialogs: CommonDialogsService,
+    private readonly loaderService: LoaderService
   ) {
     this.generalInfoForm = this.fb.group({
       name: [''],
@@ -93,10 +95,8 @@ export class GeneralInformationsComponent implements OnInit {
         .subscribe((confirmed: boolean) => {
           if (!this.generalInfoForm.invalid) { }
           if (confirmed) {
-
-
             const updatedData = this.createChangeGeneralInfoRequest();
-
+            this.loaderService.startLoading();
             this.userService
               .updateGeneralInfo(updatedData)
               .subscribe({
@@ -109,9 +109,11 @@ export class GeneralInformationsComponent implements OnInit {
                   } else {
                     this.toastService.showError(response.message || 'Failed to update user information.', 'Error');
                   }
+                  this.loaderService.stopLoading();
                 },
                 error: (err) => {
                   this.toastService.showError(err.message || 'An unexpected error occurred.', 'Error');
+                  this.loaderService.stopLoading();
                 }
               });
           }

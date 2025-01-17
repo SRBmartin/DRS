@@ -5,6 +5,7 @@ import { ToastService } from '../../../../../shared/services/toast.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ChangePasswordResponse } from '../../../../../shared/dto/responses/user/change-password-response';
 import { ChangePasswordRequest } from '../../../../../shared/dto/requests/user/change-password-request';
+import { LoaderService } from '../../../../../shared/services/loader.service';
 
 @Component({
   selector: 'app-change-password',
@@ -18,7 +19,8 @@ export class ChangePasswordComponent implements OnInit{
     private readonly fb: FormBuilder,
     private readonly userService: UserService,
     private readonly toastService: ToastService,
-    private readonly cookieService: CookieService
+    private readonly cookieService: CookieService,
+    private readonly loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {
@@ -62,15 +64,18 @@ export class ChangePasswordComponent implements OnInit{
   onChangePassword(): void {
     if (this.changePasswordForm.valid) {
       const request = this.createChangePasswordRequest();
+      this.loaderService.startLoading();
       this.userService
           .changePassword(request)
           .subscribe({
             next: (response: ChangePasswordResponse) => {
               this.toastService.showSuccess(response.message || 'Password changed successfully!', 'Success');
               this.changePasswordForm.reset();
+              this.loaderService.stopLoading();
             },
             error: (err: any) => {
               this.toastService.showError(err.message || 'Failed to change password.', 'Error');
+              this.loaderService.stopLoading();
             },
           });
     } else {
