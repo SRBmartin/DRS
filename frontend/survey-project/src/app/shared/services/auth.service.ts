@@ -26,25 +26,21 @@ export class AuthService {
     }
 
     logoutUser(): void {
-    
         this.userService
         .logoutUser()
         .subscribe({
             next: () => {
-                this.cookieService.delete('ssid'); 
-                this.router.navigate([RouteNames.LoginRoute]); 
+                this.cookieService.delete('ssid');
+                this.router.navigate([RouteNames.LoginRoute]);
 
             },
             error: (err) => {
-                
+                alert('An error during logout. Plese try again.')
             }
         });
     }
-    
-    
 
     onDeleteUserAccount(): void {
-    
         this.userService
         .logoutUser()
         .subscribe({
@@ -54,7 +50,7 @@ export class AuthService {
 
             },
             error: (err) => {
-                
+                alert('An error during delete account. Plese try again.')
             }
         });
     }

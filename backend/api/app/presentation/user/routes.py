@@ -169,7 +169,7 @@ def change_password():
         result = mediator.send(command)
         return jsonify(result), result["status"]
     except Exception as e:
-        return jsonify({"message": "There was an error during logout."}), 500
+        return jsonify({"message": "Changing password failed."}), 500
     
 @user_bp.route('/delete-account', methods=['POST'])
 @require_auth

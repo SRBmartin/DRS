@@ -40,5 +40,5 @@ class UpdateGeneralInformationSchema(Schema):
     country = fields.Str(required=True, validate=validate.Length(max=100))
     
 class ChangePasswordSchema(Schema):
-    old_password = fields.Str(required=True, validate=validate.Length(min=6, max=128))
-    new_password = fields.Str(required=True, validate=validate.Length(min=6, max=128))   
+    old_password = fields.Str(required=True, validate=validate.Length(max=128))
+    new_password = fields.Str(required=True, validate=validate.Length(max=128))   
