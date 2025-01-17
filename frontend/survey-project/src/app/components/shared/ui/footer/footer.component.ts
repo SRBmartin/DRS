@@ -12,6 +12,7 @@ import { filter } from 'rxjs/operators';
   styleUrl: './footer.component.scss',
 })
 export class FooterComponent implements OnInit {
+  currentYear: number = new Date().getFullYear();
   RouteNames = RouteNames;
 
   hideEntireFooter: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
@@ -41,7 +42,7 @@ export class FooterComponent implements OnInit {
   updateFooterVisibility(): void {
     const currentUrl = this.router.url;
 
-    const shouldHideFooter = currentUrl === `/${RouteNames.LoginRoute}`;
+    const shouldHideFooter = currentUrl === `/${RouteNames.LoginRoute}` || currentUrl === `/`;
     this.hideEntireFooter.next(shouldHideFooter);
 
     const shouldHideUserSections = !this.isLoggedIn();
