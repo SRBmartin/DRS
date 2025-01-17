@@ -14,6 +14,7 @@ import { CommonDialogsService } from '../../../../shared/services/commondialog.s
 })
 export class NavbarComponent implements OnInit {
   RouteNames = RouteNames;
+  currentUrl: string = '';
 
   hideEntireNavbar: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   hideUserSections: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
@@ -42,7 +43,7 @@ export class NavbarComponent implements OnInit {
 
   updateNavbarVisibility(): void {
     const currentUrl = this.router.url;
-
+    this.currentUrl = currentUrl;
     const shouldHideNavbar =
       currentUrl === `/${RouteNames.LoginRoute}`;
     this.hideEntireNavbar.next(shouldHideNavbar);
@@ -52,6 +53,8 @@ export class NavbarComponent implements OnInit {
   }
 
   onLogout(): void {
+    const currentRoute = this.router.url; 
+
     this.commonDialogs
       .openConfirmationDialog(
         'Logout',
@@ -60,14 +63,16 @@ export class NavbarComponent implements OnInit {
       .afterClosed()
       .subscribe((confirmed: boolean) => {
         if (confirmed) {
-          this.executeLogout(); 
+          this.executeLogout();  
+          this.router.navigate([currentRoute]);  
+        } else {
+          this.router.navigate([currentRoute]);
         }
       });
   }
 
   private executeLogout(): void {
-    this.authService.logoutUser();
+    this.authService.logoutUser();  
+    
   }
-
-  
 }

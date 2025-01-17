@@ -185,10 +185,10 @@ def delete_account():
         return jsonify({"message": "Password is required."}), 400
 
     try:
-        ses_id = uuid.UUID(ssid)
+        ses_id = g.get("auth_token")
         session = SessionRepository.get_active_by_id(ses_id, request.remote_addr)
         if not session:
-            return jsonify({"message": "Session not found"}), 404
+            return jsonify({"message": "Not authenticated"}), 401
 
         user_id = session.user_id  
 

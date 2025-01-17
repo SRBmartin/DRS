@@ -66,11 +66,20 @@ button {
       }
     }
 
+    &-warn {  
+      background-color: #d3d3d3; ;  
+      color: var( --black-color);   
+
+      &:hover {
+        background-color: rgba(141, 137, 137, 0.8);  
+        transform: scale(1.02);
+      }
+    }
     &-white {
       background-color: var(--white-color);
 
       &:hover {
-        background-color: rgba(222, 217, 217);
+        background-color: rgb(162, 160, 160);
         transform: scale(1.02);
       }
     }

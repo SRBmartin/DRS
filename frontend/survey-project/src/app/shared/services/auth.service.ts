@@ -26,31 +26,31 @@ export class AuthService {
     }
 
     logoutUser(): void {
-    
-        this.userService.logoutUser().subscribe({
+        this.userService
+        .logoutUser()
+        .subscribe({
             next: () => {
-                this.cookieService.delete('ssid'); 
-                this.router.navigate([RouteNames.LoginRoute]); 
+                this.cookieService.delete('ssid');
+                this.router.navigate([RouteNames.LoginRoute]);
 
             },
             error: (err) => {
-                console.error('Error during logout:', err);
+                alert('An error during logout. Plese try again.')
             }
         });
     }
-    
-    
 
     onDeleteUserAccount(): void {
-    
-        this.userService.logoutUser().subscribe({
+        this.userService
+        .logoutUser()
+        .subscribe({
             next: () => {
                 this.cookieService.delete('ssid'); 
                 this.router.navigate([RouteNames.HomeRoute]); 
 
             },
             error: (err) => {
-                console.error('Error during logout:', err);
+                alert('An error during delete account. Plese try again.')
             }
         });
     }
