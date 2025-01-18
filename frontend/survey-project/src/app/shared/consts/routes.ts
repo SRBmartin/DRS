@@ -1,7 +1,11 @@
 export enum RouteNames {
-    HomeRoute  = '/',
+    LandingRoute  = '',
     LoginRoute = 'login',
     RegisterRoute = 'register',
+    DashboardRoute = 'dashboard',
     ProfileRoute = 'profile',
-    CreateSurveyRoute = 'create-survey'
+    CreateSurveyRoute = 'create-survey',
+    GeneralInformationRoute = 'general-information',
+    ChangePasswordRoute = 'change-password',
+    DeleteMyAccountRoute = 'delete-my-account'
 };

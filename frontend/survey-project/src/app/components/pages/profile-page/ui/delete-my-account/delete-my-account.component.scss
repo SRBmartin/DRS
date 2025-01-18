@@ -1,0 +1,48 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #1a1b5e; 
+}
+
+.title {
+  max-width: 800px; 
+  margin: 0 auto 30px auto; 
+  padding: 0px; 
+  text-align: left; 
+}
+
+.title h1 {
+  font-size: 40px;
+  color: var(--white-color);
+  letter-spacing: 2px;
+  margin: 0;
+}
+
+.delete-account-container {
+  background-color: var(--white-color);
+  color: var(--black-color);
+  max-width: 800px; 
+  height: auto; 
+  margin: 0 auto; 
+  padding: 60px 40px; 
+  border-radius: 10px;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+
+  p {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #6c757d;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    app-button {
+      margin-top: 40px;
+    }
+  }
+}
+
+

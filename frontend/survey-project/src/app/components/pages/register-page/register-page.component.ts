@@ -67,7 +67,7 @@ export class RegisterPageComponent implements OnInit {
             next: (response: RegisterResponse) => {
               if(response.session){
                 this.authService.loginUser(response.session);
-                this.router.navigate([RouteNames.HomeRoute]);
+                this.router.navigate([RouteNames.DashboardRoute]);
                 setTimeout(() => {
                   this.toastService.showSuccess("You've successfuly created an account.", "Registration success");
                 }, 500)

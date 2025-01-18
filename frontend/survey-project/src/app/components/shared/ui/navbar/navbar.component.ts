@@ -4,6 +4,8 @@ import { RouteNames } from '../../../../shared/consts/routes';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { AuthService } from '../../../../shared/services/auth.service';
+import { CommonDialogsService } from '../../../../shared/services/commondialog.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,13 +14,16 @@ import { filter } from 'rxjs/operators';
 })
 export class NavbarComponent implements OnInit {
   RouteNames = RouteNames;
+  currentUrl: string = '';
 
   hideEntireNavbar: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   hideUserSections: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   constructor(
-    private router: Router,
-    private cookieService: CookieService
+    private readonly router: Router,
+    private readonly cookieService: CookieService,
+    private readonly authService: AuthService,
+    private readonly commonDialogs: CommonDialogsService 
   ) {}
 
   ngOnInit(): void {
@@ -38,12 +43,34 @@ export class NavbarComponent implements OnInit {
 
   updateNavbarVisibility(): void {
     const currentUrl = this.router.url;
-
+    this.currentUrl = currentUrl;
     const shouldHideNavbar =
-      currentUrl === `/${RouteNames.LoginRoute}`;
+      currentUrl === `/${RouteNames.LoginRoute}` || currentUrl === `/`;
     this.hideEntireNavbar.next(shouldHideNavbar);
 
     const shouldHideUserSections = !this.isLoggedIn();
     this.hideUserSections.next(shouldHideUserSections);
+  }
+
+  onLogout(): void {
+    const currentRoute = this.router.url; 
+
+    this.commonDialogs
+      .openConfirmationDialog(
+        'Logout',
+        'Are you sure you want to logout?'
+      )
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.executeLogout();  
+          this.router.navigate([currentRoute]);  
+        }
+      });
+  }
+
+  private executeLogout(): void {
+    this.authService.logoutUser();  
+    
   }
 }
