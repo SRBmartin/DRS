@@ -1,5 +1,6 @@
 from .Mediator import Mediator
 from ..services.user_service import UserService
+from ..services.survey_service import SurveyService
 from ..features.user.commands.CreateUserCommand import CreateUserCommand, CreateUserCommandHandler
 from ..features.user.commands.LoginUserCommand import LoginUserCommand, LoginUserCommandHandler
 from ..features.user.commands.VerifySSIDCommand import VerifySSIDCommand, VerifySSIDCommandHandler
@@ -8,10 +9,12 @@ from ..features.user.commands.DeleteUserAccountCommand import DeleteUserCommand,
 from ..features.user.queries.GetGeneralInfoQuery import GetGeneralInfoQuery, GetGeneralInfoQueryHandler
 from ..features.user.commands.ChangePasswordCommand import ChangePasswordCommand, ChangePasswordCommandHandler
 from ..features.user.commands.UpdateGeneralInfoCommand import UpdateGeneralInformationCommand, UpdateGeneralInformationCommandHandler
+from ..features.survey.commands.CreateSurveyCommand import CreateSurveyCommand, CreateSurveyCommandHandler
 
 def initialize_mediator():
     mediator = Mediator()
     user_service = UserService()
+    survey_service = SurveyService()
 
     create_user_handler = CreateUserCommandHandler(user_service)
     mediator.register(CreateUserCommand, create_user_handler)
@@ -36,5 +39,8 @@ def initialize_mediator():
     
     update_general_info_handler = UpdateGeneralInformationCommandHandler(user_service)
     mediator.register(UpdateGeneralInformationCommand, update_general_info_handler)
+
+    create_survey_handler = CreateSurveyCommandHandler(survey_service, user_service)
+    mediator.register(CreateSurveyCommand, create_survey_handler)
     
     return mediator

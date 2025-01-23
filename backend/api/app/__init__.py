@@ -2,6 +2,7 @@ from flask import Flask
 from .core.config import Config
 from .core.extensions import db, migrate, ma
 from .presentation.user.routes import user_bp
+from .presentation.survey.routes import survey_bp
 import os
 from flask_migrate import Migrate
 from .application.mediator import initialize_mediator
@@ -28,5 +29,6 @@ def create_app():
 
     #TODO: Add all new routes blueprint when adding a new module
     app.register_blueprint(user_bp)
+    app.register_blueprint(survey_bp)
 
     return app

@@ -2,7 +2,7 @@ import uuid
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
-from datetime import datetime, timedelta
+from datetime import datetime
 from ...core.extensions import db
 
 class Survey(db.Model):
