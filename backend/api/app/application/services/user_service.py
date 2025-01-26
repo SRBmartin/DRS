@@ -176,6 +176,9 @@ class UserService:
         if user.check_password(new_password):
             raise ValueError({"message": "New password cannot be the same as the old password.", "status": 409})
 
+        if len(str(new_password))<6:
+            raise ValueError({"message": "Password must be at least 6 characters long.", "status": 422})
+
         user.hash_password(new_password)
         UserRepository.update_password(user.id, user.password)
         

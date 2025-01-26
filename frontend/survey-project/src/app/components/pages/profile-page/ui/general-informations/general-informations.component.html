@@ -2,10 +2,11 @@
   <form [formGroup]="generalInfoForm" novalidate>
     <div class="form-group row">
       <div class="col">
-        <label for="name">First Name</label>
         <app-input
+          label="First Name"
           type="text"
           id="name"
+          [required]="true"
           formControlName="name"
           placeholder="Enter your first name"
         ></app-input>
@@ -14,10 +15,11 @@
         </div>
       </div>
       <div class="col">
-        <label for="lastname">Last Name</label>
         <app-input
+          label="Last Name"
           type="text"
           id="lastname"
+          [required]="true"
           formControlName="lastname"
           placeholder="Enter your last name"
         ></app-input>
@@ -29,10 +31,11 @@
 
     <div class="form-group row">
       <div class="col">
-        <label for="email">Email</label>
         <app-input
+          label="Email"
           type="email"
           id="email"
+          [required]="true"
           formControlName="email"
           placeholder="Enter your email"
         ></app-input>
@@ -42,10 +45,11 @@
         </div>
       </div>
       <div class="col">
-        <label for="phone_number">Phone Number</label>
         <app-input
+          label="Phone Number"
           type="text"
           id="phone_number"
+          [required]="true"
           formControlName="phone_number"
           placeholder="Enter your phone number"
         ></app-input>
@@ -57,10 +61,11 @@
 
     <div class="form-group row">
       <div class="col">
-        <label for="address">Address</label>
         <app-input
+          label="Address"
           type="text"
           id="address"
+          [required]="true"
           formControlName="address"
           placeholder="Enter your address"
         ></app-input>
@@ -69,10 +74,11 @@
         </div>
       </div>
       <div class="col">
-        <label for="city">City</label>
         <app-input
+          label="City"
           type="text"
           id="city"
+          [required]="true"
           formControlName="city"
           placeholder="Enter your city"
         ></app-input>
@@ -83,10 +89,11 @@
     </div>
 
     <div class="form-group">
-      <label for="country">Country</label>
       <app-input
+        label="Country"
         type="text"
         id="country"
+        [required]="true"
         formControlName="country"
         placeholder="Enter your country"
       ></app-input>
