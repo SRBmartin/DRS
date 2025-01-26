@@ -100,7 +100,7 @@
         label="Save Changes"
         [class]="'btn-primary btn-lg'"
         [type]="'button'"
-        [disabled]="generalInfoForm.invalid"
+        [disabled]="generalInfoForm.invalid || !generalInfoForm.dirty"
         (click)="onSave()"
       ></app-button>
     </div>
