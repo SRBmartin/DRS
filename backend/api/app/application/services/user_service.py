@@ -236,8 +236,8 @@ class UserService:
         
         return {"message": "User information updated successfully.", "status": 200}
     
-    def get_user_id_by_ssid(self, ssid: str) -> User:
-        session = SessionRepository.get_active_by_id(ssid)
+    def get_user_id_by_ssid(self, ssid: str, ip_address: str) -> User:
+        session = SessionRepository.get_active_by_id(ssid, ip_address)
         user = session.user
         
         return user

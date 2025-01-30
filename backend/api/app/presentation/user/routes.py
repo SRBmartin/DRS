@@ -190,7 +190,7 @@ def delete_account():
         if not session:
             return jsonify({"message": "Not authenticated"}), 401
 
-        user_id = session.user_id  
+        user_id = session.user_id
 
 
         command = DeleteUserCommand(

@@ -8,7 +8,6 @@ class SurveySchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Survey
         include_fk = True
-        load_instance = True
         include_relationships = True
         sqla_session = None
 
@@ -20,12 +19,17 @@ class SurveySchema(SQLAlchemyAutoSchema):
     ending_time = fields.DateTime(required=True)
     is_anonymous = fields.Boolean(required=True)
     user_ended = fields.Boolean(dump_only=True)
+    emails = fields.List(
+        fields.Email(error_messages={"invalid": "Not a valid email address."}),
+        required=False,
+        allow_none=True,
+        validate=validate.Length(min=0)
+    )
 
 class SurveyResponsesSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = SurveyResponses
         include_fk = True
-        load_instance = True
         include_relationships = True
         sqla_session = None
 

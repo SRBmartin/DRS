@@ -24,11 +24,13 @@ def create_survey():
         return jsonify({"message": "Check the fields and try again"}), 422
     
     command = CreateSurveyCommand(
-        user_id=g.user.id,
+        ssid=g.get('auth_token'),
+        ip_address=request.remote_addr,
         title=json_data.get('title'),
         question=json_data.get('question'),
         ending_time=json_data.get('ending_time'),
-        is_anonymous=json_data.get('is_anonymous')
+        is_anonymous=json_data.get('is_anonymous'),
+        emails=json_data.get('emails')
     )
     mediator = current_app.config.get('mediator')
 
