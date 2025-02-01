@@ -1,7 +1,7 @@
 from .Mediator import Mediator
 from ...core.config import Config
 from ..services.user_service import UserService
-from ..services.survey_service import SurveyService
+from ..services.survey_service import SurveyService, SurveyResponsesService
 from ..services.email_service import EmailService
 from ..features.user.commands.CreateUserCommand import CreateUserCommand, CreateUserCommandHandler
 from ..features.user.commands.LoginUserCommand import LoginUserCommand, LoginUserCommandHandler
@@ -14,10 +14,11 @@ from ..features.user.commands.UpdateGeneralInfoCommand import UpdateGeneralInfor
 from ..features.survey.commands.CreateSurveyCommand import CreateSurveyCommand, CreateSurveyCommandHandler
 from ..features.email.commands.SurveyCreatedEmailSendCommand import SendSurveyCreatedEmailCommand, SendSurveyCreatedEmailHandler
 
-def initialize_mediator():
+def initialize_mediator(flask_app):
     mediator = Mediator()
     user_service = UserService()
     survey_service = SurveyService()
+    survey_responses_service = SurveyResponsesService()
     email_serice = EmailService(Config.EMAIL_SERVICE_URL, Config.EMAIL_SERVICE_API)
 
     create_user_handler = CreateUserCommandHandler(user_service)
@@ -47,7 +48,7 @@ def initialize_mediator():
     create_survey_handler = CreateSurveyCommandHandler(survey_service, user_service)
     mediator.register(CreateSurveyCommand, create_survey_handler)
 
-    send_created_survey_email_handler = SendSurveyCreatedEmailHandler(email_serice)
+    send_created_survey_email_handler = SendSurveyCreatedEmailHandler(email_serice, survey_responses_service, flask_app)
     mediator.register(SendSurveyCreatedEmailCommand, send_created_survey_email_handler)
     
     return mediator

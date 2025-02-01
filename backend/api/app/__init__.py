@@ -22,7 +22,7 @@ def create_app():
     migrations_dir = os.path.abspath(migrations_dir)
     migrate = Migrate(app, db, directory=migrations_dir)
 
-    mediator = initialize_mediator()
+    mediator = initialize_mediator(app)
     app.config['mediator'] = mediator
 
     from .domains.user.models import User

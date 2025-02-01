@@ -26,8 +26,10 @@ class SurveyResponses(db.Model):
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
     user_id = db.Column(UUID(as_uuid=True), ForeignKey('users.users.id'), nullable=True)
+    survey_id = db.Column(UUID(as_uuid=True), ForeignKey('surveys.surveys.id'), nullable=False)
     email = db.Column(db.String(200), nullable=True)
-    response = db.Column(db.String(32), nullable=False)
+    response = db.Column(db.String(32), nullable=False, default="no response")
     responded_time = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
     user = relationship("User", backref=db.backref("survey_responses", lazy=True))
+    survey = relationship("Survey", backref=db.backref("survey_responses", lazy=True))

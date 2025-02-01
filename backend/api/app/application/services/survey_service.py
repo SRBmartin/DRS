@@ -1,6 +1,7 @@
-from ...domains.survey.models import Survey
-from ...domains.survey.repositories import SurveyRepository
+from ...domains.survey.models import Survey, SurveyResponses
+from ...domains.survey.repositories import SurveyRepository, SurveyResponsesRepository
 from ...application.contracts.schemas.surveys.schemas import SurveySchema
+from ...domains.user.repositories import UserRepository
 
 class SurveyService:
     
@@ -22,3 +23,22 @@ class SurveyService:
         serialized_survey_schema = survey_schema.dump(survey)
 
         return serialized_survey_schema
+    
+class SurveyResponsesService:
+    
+    def create(self, survey_id, email):
+        user = UserRepository.get_by_email(email)
+        user_id = None
+
+        if user:
+            user_id = user.id
+
+        survey_response = SurveyResponses(
+            user_id=user_id,
+            survey_id=survey_id,
+            email=email
+        )
+
+        SurveyResponsesRepository.add(survey_response)
+
+        return survey_response
