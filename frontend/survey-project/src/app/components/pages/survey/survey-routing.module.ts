@@ -16,6 +16,10 @@ const routes: Routes = [
       {
         path: RouteNames.CreateSurveyRoute,
         loadChildren: () => import('./pages/create-survey-page/create-survey-page.module').then(m => m.CreateSurveyPageModule)
+      },
+      {
+        path: RouteNames.SurveyDetailsRoute,
+        loadChildren: () => import('./pages/survey-details/survey-details.module').then(m => m.SurveyDetailsModule)
       }
     ]
   }
