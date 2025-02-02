@@ -12,6 +12,7 @@ import { SearchInputComponent } from './ui/search-input/search-input.component';
 import { SwitchViewComponent } from './ui/switch-view/switch-view.component';
 import { BasicDropdownComponent } from './ui/basic-dropdown/basic-dropdown.component';
 import { DateTimePickerComponent } from './ui/date-picker/date-time-picker.component';
+import { TextareaComponent } from './ui/textarea/textarea.component';
 
 
 
@@ -26,7 +27,8 @@ import { DateTimePickerComponent } from './ui/date-picker/date-time-picker.compo
     SearchInputComponent,
     SwitchViewComponent,
     BasicDropdownComponent,
-    DateTimePickerComponent
+    DateTimePickerComponent,
+    TextareaComponent
     
   ],
   imports: [
@@ -43,7 +45,8 @@ import { DateTimePickerComponent } from './ui/date-picker/date-time-picker.compo
     SearchInputComponent,
     SwitchViewComponent,
     BasicDropdownComponent,
-    DateTimePickerComponent
+    DateTimePickerComponent,
+    TextareaComponent
   ]
 })
 export class SharedModule { }
