@@ -24,7 +24,11 @@ export class AuthService {
     ) {}
 
     loginUser(session: Session): void {
-        this.cookieService.set('ssid', session.id, new Date(session.ending_time));
+        this.cookieService.set('ssid', session.id, {
+            expires: new Date(session.ending_time),
+            sameSite: 'Lax',
+            path: '/'
+        });
     }
 
     logoutUser(): void {

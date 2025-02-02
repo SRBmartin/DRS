@@ -12,7 +12,7 @@ class SurveySchema(SQLAlchemyAutoSchema):
         sqla_session = None
 
     id = auto_field(dump_only=True)
-    user_id = fields.UUID(required=True)
+    user_id = fields.UUID(required=False) #it's not mandatary in the request
     title = fields.String(required=True, validate=validate.Length(max=200))
     question = fields.String(required=True, validate=validate.Length(max=1000))
     created_time = fields.DateTime(dump_only=True)
