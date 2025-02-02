@@ -11,6 +11,7 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
 import { SearchInputComponent } from './ui/search-input/search-input.component';
 import { SwitchViewComponent } from './ui/switch-view/switch-view.component';
 import { BasicDropdownComponent } from './ui/basic-dropdown/basic-dropdown.component';
+import { DateTimePickerComponent } from './ui/date-picker/date-time-picker.component';
 
 
 
@@ -24,7 +25,8 @@ import { BasicDropdownComponent } from './ui/basic-dropdown/basic-dropdown.compo
     ConfirmationDialogComponent,
     SearchInputComponent,
     SwitchViewComponent,
-    BasicDropdownComponent
+    BasicDropdownComponent,
+    DateTimePickerComponent
     
   ],
   imports: [
@@ -40,7 +42,8 @@ import { BasicDropdownComponent } from './ui/basic-dropdown/basic-dropdown.compo
     BasicButtonComponent,
     SearchInputComponent,
     SwitchViewComponent,
-    BasicDropdownComponent
+    BasicDropdownComponent,
+    DateTimePickerComponent
   ]
 })
 export class SharedModule { }

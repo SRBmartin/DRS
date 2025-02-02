@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouteNames } from '../../../../../shared/consts/routes';
 
@@ -9,6 +9,9 @@ import { RouteNames } from '../../../../../shared/consts/routes';
 })
 export class HeaderComponent {
   @Input() orderDropdownItems: string[] = [];
+  @Output() viewChanged = new EventEmitter<'grid' | 'row'>();
+  @Output() searchChanged = new EventEmitter<string>();
+  @Output() orderChanged = new EventEmitter<string>();
 
   constructor(
     private readonly router: Router
@@ -27,6 +30,6 @@ export class HeaderComponent {
   }
 
   onNewSurvey(): void {
-    this.router.navigate([RouteNames.CreateSurveyRoute]);
+    this.router.navigate([`${RouteNames.SurveyRoute}/${RouteNames.CreateSurveyRoute}`]);
   }
 }

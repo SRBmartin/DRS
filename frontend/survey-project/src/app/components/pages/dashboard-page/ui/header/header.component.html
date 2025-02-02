@@ -1,15 +1,27 @@
 <header class="page-header">
     <div class="header-left">
-      <h1 class="title">My surveys</h1>
+      <h1 class="title">
+        My surveys
+      </h1>
     </div>
     <div class="header-center">
-      <app-switch-view (viewChanged)="onViewChanged($event)"></app-switch-view>
+      <app-switch-view (viewChanged)="onViewChanged($event)" />
       <div class="search-container">
-        <app-search-input placeholder="Search..." (searchChanged)="onSearchChanged($event)"></app-search-input>
+        <app-search-input
+          [placeholder]="'Search surveys..'"
+          (searchChanged)="onSearchChanged($event)"
+        />
       </div>
-      <app-basic-dropdown [items]="orderDropdownItems" (orderChanged)="onOrderChanged($event)"></app-basic-dropdown>
+      <app-basic-dropdown
+        [items]="orderDropdownItems"
+        (orderChanged)="onOrderChanged($event)"
+      />
     </div>
     <div class="header-right">
-      <app-button [class]="'btn-primary'" label="New survey" (clickEvent)="onNewSurvey()"></app-button>
+      <app-button
+        [class]="'btn-primary'"
+        label="New survey"
+        (clickEvent)="onNewSurvey()"
+      />
     </div>
   </header>

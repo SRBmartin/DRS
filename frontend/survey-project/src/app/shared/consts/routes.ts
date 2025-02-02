@@ -4,7 +4,8 @@ export enum RouteNames {
     RegisterRoute = 'register',
     DashboardRoute = 'dashboard',
     ProfileRoute = 'profile',
-    CreateSurveyRoute = 'create-survey',
+    SurveyRoute = 'survey',
+    CreateSurveyRoute = 'create',
     GeneralInformationRoute = 'general-information',
     ChangePasswordRoute = 'change-password',
     DeleteMyAccountRoute = 'delete-my-account'

@@ -1,7 +1,7 @@
 :host {
     display: block;
     width: 100%;
-    background-color: var(--dark-color);
+    background-color: transparent;
     padding: 2rem 1rem 1rem 1rem;
   }
   
@@ -12,7 +12,7 @@
   }
   
   .header-left .title {
-    color: var(--white-color);
+    color: var(--black-color);
     font-size: 2.25rem;
     margin: 0;
   }
