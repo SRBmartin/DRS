@@ -107,7 +107,6 @@ export class CreateSurveyPageComponent implements OnInit {
 
   private navigateToSurveyDetails(survey_id: string) {
     const route = `${RouteNames.SurveyRoute}/${RouteNames.SurveyDetailsRoute.replace(':survey_id', survey_id)}`;
-    console.log('Navigating to:', route);
     this.router.navigate([route]);
   }
 

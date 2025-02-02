@@ -54,8 +54,7 @@ class CreateSurveyCommandHandler(IHandler):
                 message = error_info.get("message", "An unexpected error occurred.")
                 status = error_info.get("status", 500)
             else:
-                #message = "An unexpected error occurred."
-                message = str(ex)
+                message = "An unexpected error occurred."
                 status = 500
             return {"message": message, "status": status}
     

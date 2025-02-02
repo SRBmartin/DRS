@@ -12,8 +12,15 @@
         [required]="true" 
         [hasError]="(surveyForm.get('surveyTitle')?.invalid && surveyForm.get('surveyTitle')?.touched) || false">
       </app-input>
-      <div class="char-count">{{ surveyForm.get('surveyTitle')?.value?.length || 0 }} / 200</div>
-      <div *ngIf="surveyForm.get('surveyTitle')?.invalid && surveyForm.get('surveyTitle')?.touched" class="text-danger">
+      <div
+        class="char-count"
+      >
+        {{ surveyForm.get('surveyTitle')?.value?.length || 0 }} / 200
+      </div>
+      <div
+        *ngIf="surveyForm.get('surveyTitle')?.invalid && surveyForm.get('surveyTitle')?.touched"
+        class="text-danger"
+      >
         <small *ngIf="surveyForm.get('surveyTitle')?.errors?.['required']">
             Survey title is required.
         </small>
@@ -33,7 +40,10 @@
       <div class="char-count">
         {{ surveyForm.get('surveyQuestion')?.value?.length || 0 }} / 1000
       </div>
-      <div *ngIf="surveyForm.get('surveyQuestion')?.invalid && surveyForm.get('surveyQuestion')?.touched" class="text-danger">
+      <div
+        *ngIf="surveyForm.get('surveyQuestion')?.invalid && surveyForm.get('surveyQuestion')?.touched"
+        class="text-danger"
+      >
         <small *ngIf="surveyForm.get('surveyQuestion')?.errors?.['required']">
             Survey question is required.
         </small>

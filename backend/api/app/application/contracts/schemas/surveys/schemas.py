@@ -2,7 +2,7 @@ from marshmallow import Schema, fields, validate, post_load
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
 from uuid import UUID
 from datetime import datetime
-from .....domains.survey.models import Survey, SurveyResponses  # Adjust the import path as necessary
+from .....domains.survey.models import Survey, SurveyResponses
 
 class SurveySchema(SQLAlchemyAutoSchema):
     class Meta:

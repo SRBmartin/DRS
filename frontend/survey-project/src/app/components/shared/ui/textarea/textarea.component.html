@@ -1,5 +1,9 @@
 <div>
-    <label *ngIf="label" [for]="name" class="form-label text-secondary">
+    <label
+      *ngIf="label"
+      [for]="name"
+      class="form-label text-secondary"
+    >
       {{ label }}
       <span *ngIf="required" class="text-danger">*</span>
     </label>
