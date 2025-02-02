@@ -64,6 +64,8 @@ class CreateSurveyCommandHandler(IHandler):
             recipients=emails,
             survey_title=survey["title"],
             survey_id=str(survey["id"]),
+            is_anonymous=survey["is_anonymous"],
+            question=survey["question"],
             subject="Invitation to participate in a survey"
         )
         

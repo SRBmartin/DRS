@@ -15,6 +15,8 @@ class SendSurveyCreatedEmailCommand:
     recipients: List[str]
     survey_title: str
     survey_id: str
+    is_anonymous: bool
+    question: str
     subject: str = "Invitation to participate in a survey"
 
 class SendSurveyCreatedEmailHandler(IHandler):
@@ -35,9 +37,18 @@ class SendSurveyCreatedEmailHandler(IHandler):
         with open(self.template_path, "r", encoding="utf-8") as f:
             template_content = f.read()
 
+        frontend_url = current_app.config.get("FRONTEND_URL", "http://localhost:4200")
+        yes_link = f"{frontend_url}/survey/answer/mail/yes?survey_id={command.survey_id}"
+        no_link = f"{frontend_url}/survey/answer/mail/no?survey_id={command.survey_id}"
+        not_sure_link = f"{frontend_url}/survey/answer/mail/maybe?survey_id={command.survey_id}"
+
         email_body = template_content.format(
             survey_title=command.survey_title,
-            survey_id=str(command.survey_id)
+            anonymous_text="Anonymous" if command.is_anonymous else "Not Anonymous",
+            survey_question=command.question.replace("\n", "<br />"),
+            yes_link=yes_link,
+            no_link=no_link,
+            not_sure_link=not_sure_link
         )
 
         email_ids = [email.id for email in saved_emails]
