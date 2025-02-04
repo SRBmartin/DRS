@@ -1,0 +1,57 @@
+:host {
+    display: block;
+    padding: 1rem;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .form-row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+  }
+  
+  .char-count {
+    font-size: 0.875rem;
+    color: var(--secondary-color);
+    text-align: right;
+    margin-top: 0.25rem;
+  }
+  
+  .checkbox-row {
+    display: flex;
+    align-items: flex-start;
+  }
+  
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    color: var(--secondary-color);
+  }
+  
+  .checkbox-label input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+    accent-color: var(--primary-color);
+  }
+  
+  .button-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+.page-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    font-weight: 600;
+}
