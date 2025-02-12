@@ -1,5 +1,9 @@
 from flask import Blueprint, request, jsonify, current_app, g
 from marshmallow.exceptions import ValidationError
+
+from ...application.features.survey.commands.AnswerSurveyEmailCommand import AnswerSurveyEmailLinkCommand
+
+
 from ...application.contracts.schemas.surveys.schemas import SurveySchema
 from ...core.services.middleware import require_auth
 from ...application.features.survey.commands.CreateSurveyCommand import CreateSurveyCommand
@@ -37,3 +41,18 @@ def create_survey():
     result = mediator.send(command)
 
     return jsonify(result), result["status"]
+
+@survey_bp.route('/answer/mail/<uuid:email_id>/<uuid:survey_id>/<uuid:response_id>/<option>', methods=['POST', 'OPTIONS'])
+def answer_survey_email_link(email_id, survey_id, response_id, option):
+    if request.method == 'OPTIONS':
+        return '', 204
+    
+    command = AnswerSurveyEmailLinkCommand(
+        survey_id=str(survey_id),
+        email_id=str(email_id),
+        response_id=str(response_id),
+        option=str(option)
+    )
+    mediator = current_app.config.get('mediator')
+    result = mediator.send(command)
+    return jsonify(result), result.get("status", 200)

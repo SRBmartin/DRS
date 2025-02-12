@@ -24,6 +24,9 @@ class SurveyService:
 
         return serialized_survey_schema
     
+    def getSurvey(self, survey_id: str):
+        return SurveyRepository.get_by_id(survey_id)
+    
 class SurveyResponsesService:
     
     def create(self, survey_id, email):
@@ -42,3 +45,12 @@ class SurveyResponsesService:
         SurveyResponsesRepository.add(survey_response)
 
         return survey_response
+    
+    def delete(self, survey_response):
+        SurveyResponsesRepository.delete(survey_response)
+    
+    def update(self, survey_response):
+        SurveyResponsesRepository.update(survey_response)
+    
+    def get_by_id(self, response_id: str):
+        return SurveyResponsesRepository.get_by_id(response_id)
