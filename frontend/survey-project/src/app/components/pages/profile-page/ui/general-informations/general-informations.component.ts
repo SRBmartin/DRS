@@ -41,6 +41,7 @@ export class GeneralInformationsComponent implements OnInit {
   }
 
   private fetchUserInfo(): void {
+    this.loaderService.startLoading();
     this.userService
         .getGeneralInfo()
         .subscribe({
@@ -49,12 +50,15 @@ export class GeneralInformationsComponent implements OnInit {
               this.userInfo = response.data;
               this.initializeForm();
               this.cdr.detectChanges();
+              this.loaderService.stopLoading();
             } else {
               this.toastService.showError(response.message || 'Failed to fetch user information.', 'Error');
+              this.loaderService.stopLoading();
             }
           },
           error: (err) => {
             this.toastService.showError(err.message || 'An unexpected error occurred.', 'Error');
+            this.loaderService.stopLoading();
           }
         });
   }
@@ -86,9 +90,10 @@ export class GeneralInformationsComponent implements OnInit {
   }
 
   onSave(): void {
-    if (!this.generalInfoForm.invalid) {
+    if (!this.generalInfoForm.invalid && this.generalInfoForm.dirty) {
       this.commonDialogs
-        .openConfirmationDialog('Save changes',
+        .openConfirmationDialog(
+          'Save changes',
           'Are you sure you want to save changes?'
         )
         .afterClosed()
@@ -106,6 +111,7 @@ export class GeneralInformationsComponent implements OnInit {
                   } else if (response.status == "200") {
                     this.toastService.showSuccess(response.message || 'Your information has been updated successfully.', 'Success');
                     this.fetchUserInfo();
+                    this.generalInfoForm.markAsPristine();
                   } else {
                     this.toastService.showError(response.message || 'Failed to update user information.', 'Error');
                   }
