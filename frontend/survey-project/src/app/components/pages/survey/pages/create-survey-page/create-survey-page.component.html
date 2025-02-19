@@ -1,0 +1,98 @@
+<h1 class="page-title">Create new survey</h1>
+
+<form
+    [formGroup]="surveyForm"
+    (ngSubmit)="onSubmit()"
+>
+    <div class="form-row">
+      <app-input 
+        formControlName="surveyTitle" 
+        label="Survey title" 
+        name="surveyTitle" 
+        [required]="true" 
+        [hasError]="(surveyForm.get('surveyTitle')?.invalid && surveyForm.get('surveyTitle')?.touched) || false">
+      </app-input>
+      <div
+        class="char-count"
+      >
+        {{ surveyForm.get('surveyTitle')?.value?.length || 0 }} / 200
+      </div>
+      <div
+        *ngIf="surveyForm.get('surveyTitle')?.invalid && surveyForm.get('surveyTitle')?.touched"
+        class="text-danger"
+      >
+        <small *ngIf="surveyForm.get('surveyTitle')?.errors?.['required']">
+            Survey title is required.
+        </small>
+        <small *ngIf="surveyForm.get('surveyTitle')?.errors?.['maxlength']">
+            Maximum 200 characters allowed.
+        </small>
+      </div>
+    </div>
+    <div class="form-row">
+      <app-textarea 
+        formControlName="surveyQuestion" 
+        label="Survey question" 
+        name="surveyQuestion" 
+        [required]="true" 
+        [hasError]="(surveyForm.get('surveyQuestion')?.invalid && surveyForm.get('surveyQuestion')?.touched) || false"
+      />
+      <div class="char-count">
+        {{ surveyForm.get('surveyQuestion')?.value?.length || 0 }} / 1000
+      </div>
+      <div
+        *ngIf="surveyForm.get('surveyQuestion')?.invalid && surveyForm.get('surveyQuestion')?.touched"
+        class="text-danger"
+      >
+        <small *ngIf="surveyForm.get('surveyQuestion')?.errors?.['required']">
+            Survey question is required.
+        </small>
+        <small *ngIf="surveyForm.get('surveyQuestion')?.errors?.['maxlength']">
+            Maximum 1000 characters allowed.
+        </small>
+      </div>
+    </div>
+    <div class="form-row">
+        <app-date-time-picker 
+          formControlName="surveyDate"
+          label="Survey ending time"
+          name="surveyDate"
+          [required]="true"
+          [hasError]="(surveyForm.get('surveyDate')?.invalid && surveyForm.get('surveyDate')?.touched) || false">
+        </app-date-time-picker>
+        <div
+            *ngIf="surveyForm.get('surveyDate')?.invalid && surveyForm.get('surveyDate')?.touched"
+            class="text-danger"
+        >
+          <small *ngIf="surveyForm.get('surveyDate')?.errors?.['required']">
+            Survey date & time is required.
+          </small>
+          <small *ngIf="surveyForm.get('surveyDate')?.errors?.['pastDate']">
+            Date must be in the future.
+          </small>
+        </div>
+    </div>
+    <div class="form-row checkbox-row">
+      <label class="checkbox-label">
+        <input
+            type="checkbox"
+            formControlName="anonymous"
+        />
+        <span>Anonymous</span>
+      </label>
+    </div>
+    <div class="form-row">
+      <app-email-datagrid
+        (emailsChanged)="onEmailsChanged($event)"
+      />
+    </div>
+    <div class="form-row button-row">
+      <app-button
+        label="Create & Send"
+        type="submit"
+        class="btn-primary"
+        [disabled]="surveyForm.invalid || !surveyForm.get('emails')?.value?.length"
+      />
+    </div>
+  </form>
+  

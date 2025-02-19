@@ -1,0 +1,20 @@
+<div class="email-data-grid-wrapper">
+    <div class="email-data-grid">
+      <div class="email-container">
+        <div class="email-item" *ngFor="let email of emails; let i = index">
+          <span>{{ email }}</span>
+          <button type="button" (click)="removeEmail(i)">×</button>
+        </div>
+        <input type="text"
+               placeholder="Enter email"
+               [(ngModel)]="newEmail"
+               (keydown)="onKeydown($event)"
+               [ngClass]="{'error-border': emailInputError}"
+               [disabled]="emails.length >= maxEmails" />
+      </div>
+    </div>
+    <div class="email-counter">
+      {{ emails.length }} / {{ maxEmails }}
+    </div>
+  </div>
+  

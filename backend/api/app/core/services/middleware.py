@@ -7,6 +7,9 @@ user_service = UserService()
 def require_auth(f):
     @wraps(f)
     def check_token(*args, **kwargs):
+        if request.method == 'OPTIONS':
+            return ('', 204)
+
         auth_token = request.headers.get('Authorization')
 
         if not auth_token:

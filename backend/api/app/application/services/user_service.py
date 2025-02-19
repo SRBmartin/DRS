@@ -10,7 +10,7 @@ class UserService:
         existing_user = User.query.filter_by(email=command.email).first()
 
         if existing_user and not existing_user.is_deleted:
-            return {"message": "A user with this email already exists.", "status": 409}
+            return {"message": "An user with this email already exists.", "status": 409}
 
         existing_user_by_phone = User.query.filter_by(phone_number=command.phone_number).first()
         if existing_user_by_phone and not existing_user_by_phone.is_deleted:
@@ -248,6 +248,8 @@ class UserService:
         
         return {"message": "User information updated successfully.", "status": 200}
     
-    
-
-
+    def get_user_id_by_ssid(self, ssid: str, ip_address: str) -> User:
+        session = SessionRepository.get_active_by_id(ssid, ip_address)
+        user = session.user
+        
+        return user

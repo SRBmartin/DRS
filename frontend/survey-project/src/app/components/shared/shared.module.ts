@@ -8,6 +8,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoaderComponent } from './loader/loader.component';
 import { BasicButtonComponent } from './ui/button/basic-button.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { SearchInputComponent } from './ui/search-input/search-input.component';
+import { SwitchViewComponent } from './ui/switch-view/switch-view.component';
+import { BasicDropdownComponent } from './ui/basic-dropdown/basic-dropdown.component';
+import { DateTimePickerComponent } from './ui/date-picker/date-time-picker.component';
+import { TextareaComponent } from './ui/textarea/textarea.component';
 
 
 
@@ -18,7 +23,12 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     BasicInputComponent,
     LoaderComponent,
     BasicButtonComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    SearchInputComponent,
+    SwitchViewComponent,
+    BasicDropdownComponent,
+    DateTimePickerComponent,
+    TextareaComponent
     
   ],
   imports: [
@@ -31,7 +41,12 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     FooterComponent,
     BasicInputComponent,
     LoaderComponent,
-    BasicButtonComponent
+    BasicButtonComponent,
+    SearchInputComponent,
+    SwitchViewComponent,
+    BasicDropdownComponent,
+    DateTimePickerComponent,
+    TextareaComponent
   ]
 })
 export class SharedModule { }
