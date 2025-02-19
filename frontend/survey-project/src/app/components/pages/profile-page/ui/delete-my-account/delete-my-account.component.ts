@@ -56,6 +56,7 @@ export class DeleteMyAccountComponent implements OnInit {
     const password = this.deleteForm.get('password')?.value;
     const ssid = this.cookieService.get('ssid'); 
 
+
     this.loaderService.startLoading();
 
     this.authService.deleteUserAccount(password).subscribe({
