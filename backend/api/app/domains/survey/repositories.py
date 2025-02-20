@@ -32,3 +32,10 @@ class SurveyResponsesRepository:
     @staticmethod
     def get_by_id(response_id):
         return db.session.query(SurveyResponses).filter(SurveyResponses.id == response_id).one_or_none()
+    
+    @staticmethod
+    def get_by_survey_and_email(survey_id, email):
+        return db.session.query(SurveyResponses).filter(
+            SurveyResponses.survey_id == survey_id,
+            SurveyResponses.email == email
+        ).first()

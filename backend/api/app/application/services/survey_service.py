@@ -54,3 +54,6 @@ class SurveyResponsesService:
     
     def get_by_id(self, response_id: str):
         return SurveyResponsesRepository.get_by_id(response_id)
+    
+    def get_by_survey_id_and_email(self, survey_id: str, email: str):
+        return SurveyResponsesRepository.get_by_survey_and_email(survey_id, email)

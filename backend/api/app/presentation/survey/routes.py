@@ -1,9 +1,8 @@
 from flask import Blueprint, request, jsonify, current_app, g
 from marshmallow.exceptions import ValidationError
 
+from ...application.features.survey.commands.AnswerSurveyWebsiteCommand import AnswerSurveyWebsiteCommand
 from ...application.features.survey.commands.AnswerSurveyEmailCommand import AnswerSurveyEmailLinkCommand
-
-
 from ...application.contracts.schemas.surveys.schemas import SurveySchema
 from ...core.services.middleware import require_auth
 from ...application.features.survey.commands.CreateSurveyCommand import CreateSurveyCommand
@@ -56,3 +55,31 @@ def answer_survey_email_link(email_id, survey_id, response_id, option):
     mediator = current_app.config.get('mediator')
     result = mediator.send(command)
     return jsonify(result), result.get("status", 200)
+
+@survey_bp.route('/answer/website', methods=['POST', 'OPTIONS'])
+@require_auth
+def answer_surevy_webiste():
+    if request.method == 'OPTIONS':
+        return '', 204
+    
+    json_data = request.get_json()
+    if not json_data:
+        return jsonify({"message": "No data provided."}), 400
+    
+    survey_id = json_data.get('survey_id')
+    response = json_data.get('response')
+    if not survey_id:
+        return jsonify({"message": "Valid survey is required."}), 400
+    
+    if not response:
+        return jsonify({"message": "Response is required."}), 400
+    
+    command = AnswerSurveyWebsiteCommand(
+        survey_id=str(survey_id),
+        response=str(response),
+        ip_address=str(request.remote_addr),
+        ssid=str(g.get('auth_token'))
+    )
+    mediator = current_app.config.get('mediator')
+    result = mediator.send(command)
+    return jsonify(result), result["status"]
