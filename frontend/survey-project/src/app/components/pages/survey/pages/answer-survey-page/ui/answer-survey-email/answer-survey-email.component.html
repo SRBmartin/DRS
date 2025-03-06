@@ -1,11 +1,32 @@
-<div class="survey-container">
-    <h2>{{ surveyTitle }}</h2>
-    <p>{{ surveyQuestion }}</p>
-  
-    <button (click)="selectAnswer('Yes')">Yes</button>
-    <button (click)="selectAnswer('No')">No</button>
-    <button (click)="selectAnswer('Maybe')">Maybe</button>
-  
-    <p *ngIf="selectedAnswer">Selected answer: <strong>{{ selectedAnswer }}</strong></p>
+<div class="site-header">
+    <span class="survey-text">Survey</span>
+    <span class="master-text">Master</span>
 </div>
-  
+<div class="survey-container" [class.dialog-open]="isDialogOpen">
+    <h2>{{ surveyTitle }}</h2>
+    <div class="survey-question">
+        <p>{{ surveyQuestion }}</p>
+    </div>
+
+    <div class="survey-info">
+        <div class="info-item">
+            <span class="info-label">Anonymous:</span>
+            <span class="info-value">{{ isAnonymous ? 'Yes' : 'No' }}</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">End Date:</span>
+            <span class="info-value">{{ endDate }}</span>
+        </div>
+        <p *ngIf="isClosed" class="survey-closed">Survey Closed</p>
+    </div>
+
+    <div class="button-group" *ngIf="!isClosed">
+        <app-button label="Yes" (click)="selectAnswer('Yes')" class="btn-primary" />
+        <app-button label="No" (click)="selectAnswer('No')" class="btn-secondary" />
+        <app-button label="Maybe" (click)="selectAnswer('Maybe')" class="btn-secondary" />
+    </div>
+
+    <div *ngIf="selectedAnswer" class="selected-answer">
+        Your selection: <strong>{{ selectedAnswer }}</strong>
+    </div>
+</div>

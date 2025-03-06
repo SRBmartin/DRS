@@ -20,6 +20,11 @@ export class AnswerSurveyEmailComponent {
   responseId!: string;
   selectedAnswer!: string | null;
   isAnswerConfirmed: boolean = false;
+  isDialogOpen: boolean = false;
+  isAnonymous!: boolean;
+  endDate!: string;
+  endDateTime: Date | null = null;
+  isClosed!: boolean;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -36,8 +41,8 @@ export class AnswerSurveyEmailComponent {
     this.responseId = this.route.snapshot.paramMap.get('response_id')!;
     const initialAnswer = this.route.snapshot.paramMap.get('option');
 
-    if (initialAnswer) {
-      this.confirmAnswer(initialAnswer);
+    if (initialAnswer){
+      this.selectAnswer(initialAnswer);
     }
 
     this.fetchSurveyDetails();
@@ -52,6 +57,19 @@ export class AnswerSurveyEmailComponent {
       next: (response: SurveyDetailsResponse) => {
         this.surveyTitle = response.data?.title ?? '';
         this.surveyQuestion = response.data?.question ?? '';
+        this.isAnonymous = response.data?.is_anonymous ?? false;
+
+        if (response.data?.ending_time) {
+          this.endDateTime = new Date(response.data.ending_time); 
+          this.endDate = this.endDateTime.toLocaleString(); 
+        } else {
+          this.endDateTime = null;
+          this.endDate = 'No end date specified';
+        }
+        this.isClosed = response.data?.user_ended ?? false;
+        if (this.endDateTime && this.endDateTime < new Date()) {
+          this.isClosed = true;
+        }
       },
       error: () => {
         this.toastService.showError('Failed to load survey details.', 'Error');
@@ -59,30 +77,19 @@ export class AnswerSurveyEmailComponent {
     });
   }
 
-  confirmAnswer(option: string): void {
-    this.dialogService
-      .openConfirmationDialog('Confirm Your Answer', `Are you sure you want to select "${option}"?`)
-      .afterClosed()
-      .subscribe((confirmed: boolean) => {
-        if (confirmed) {
-          this.isAnswerConfirmed = true;
-          this.submitAnswer(option);
-        } else {
-          this.isAnswerConfirmed = false;
-          this.selectedAnswer = null;
-        }
-      });
-  }
-  
-
   submitAnswer(option: string): void {
+    if (this.endDateTime && this.endDateTime < new Date()) {
+      this.toastService.showError('The survey deadline has passed. You can no longer submit an answer.', 'Survey Expired');
+      return;
+    }
+
     const request: AnswerSurveyEmailRequest = {
       email_id: this.emailId,
       survey_id: this.surveyId,
       response_id: this.responseId,
       option: option
     };
-    console.log(request);
+
     this.surveyService.answerSurveyByEmail(request).subscribe({
       next: () => {
         this.selectedAnswer = option;
@@ -95,7 +102,17 @@ export class AnswerSurveyEmailComponent {
   }
 
   selectAnswer(option: string): void {
-    this.selectedAnswer = option;
-    this.confirmAnswer(option);
+    this.isDialogOpen = true;
+    this.dialogService
+      .openConfirmationDialog('Confirm Your Answer', `Are you sure you want to select "${option}"?`)
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        this.isDialogOpen = false;
+        if (confirmed) {
+          this.submitAnswer(option);
+        } else {
+          this.selectedAnswer = null;
+        }
+      });
   }
 }
