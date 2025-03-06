@@ -33,7 +33,7 @@ const routes: Routes = [
   {
     path: RouteNames.SurveyRoute,
     loadChildren: () => import('./components/pages/survey/survey.module').then(m => m.SurveyModule),
-    canActivate: [authGuard]
+    //canActivate: [authGuard]
   }
 ];
 

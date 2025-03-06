@@ -44,11 +44,18 @@ export class NavbarComponent implements OnInit {
   updateNavbarVisibility(): void {
     const currentUrl = this.router.url;
     this.currentUrl = currentUrl;
-    const shouldHideNavbar =
-      currentUrl === `/${RouteNames.LoginRoute}` || currentUrl === `/`;
+    
+    // Add check for email answer route
+    const isEmailAnswerRoute = currentUrl.startsWith(`/${RouteNames.SurveyRoute}/${RouteNames.AnswerSurveyRoute}/mail`);
+    const shouldHideNavbar = 
+      currentUrl === `/${RouteNames.LoginRoute}` || 
+      currentUrl === `/` ||
+      isEmailAnswerRoute;
+    
     this.hideEntireNavbar.next(shouldHideNavbar);
-
-    const shouldHideUserSections = !this.isLoggedIn();
+  
+    // Update user sections visibility
+    const shouldHideUserSections = !this.isLoggedIn() || isEmailAnswerRoute;
     this.hideUserSections.next(shouldHideUserSections);
   }
 

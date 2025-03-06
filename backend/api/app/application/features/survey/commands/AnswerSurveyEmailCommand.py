@@ -1,12 +1,3 @@
-# from dataclasses import dataclass
-# from datetime import datetime
-# from uuid import UUID
-# from flask import current_app
-# from ....contracts.IHandler import IHandler
-# from .....domains.survey.repositories import SurveyRepository, SurveyResponses
-# from .....domains.survey.models import SurveyResponses
-# from .....domains.email.repositories import EmailStatus
-# from .....core.extensions import db
 from dataclasses import dataclass
 from datetime import datetime
 from uuid import UUID

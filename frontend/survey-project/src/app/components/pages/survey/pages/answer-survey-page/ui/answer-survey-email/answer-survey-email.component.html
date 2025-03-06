@@ -1,0 +1,11 @@
+<div class="survey-container">
+    <h2>{{ surveyTitle }}</h2>
+    <p>{{ surveyQuestion }}</p>
+  
+    <button (click)="selectAnswer('Yes')">Yes</button>
+    <button (click)="selectAnswer('No')">No</button>
+    <button (click)="selectAnswer('Maybe')">Maybe</button>
+  
+    <p *ngIf="selectedAnswer">Selected answer: <strong>{{ selectedAnswer }}</strong></p>
+</div>
+  

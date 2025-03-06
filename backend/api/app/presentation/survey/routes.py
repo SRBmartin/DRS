@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, current_app, g
 from marshmallow.exceptions import ValidationError
 
+from ...application.features.survey.queries.GetSurveyDetailsQuery import GetSurveyDetailsQuery
 from ...application.features.survey.commands.AnswerSurveyWebsiteCommand import AnswerSurveyWebsiteCommand
 from ...application.features.survey.commands.AnswerSurveyEmailCommand import AnswerSurveyEmailLinkCommand
 from ...application.contracts.schemas.surveys.schemas import SurveySchema
@@ -83,3 +84,32 @@ def answer_surevy_webiste():
     mediator = current_app.config.get('mediator')
     result = mediator.send(command)
     return jsonify(result), result["status"]
+
+@survey_bp.route('/details', methods=['POST', 'OPTIONS'])
+def get_survey_details():
+    if request.method == 'OPTIONS':
+        return '', 204
+    
+    json_data = request.get_json()
+    if not json_data:
+        return jsonify({"message": "No data provided."}), 400
+    
+    survey_id = json_data.get('survey_id')
+    query = GetSurveyDetailsQuery(survey_id=survey_id)
+    mediator = current_app.config.get('mediator')
+    
+    try:
+        result = mediator.send(query)
+        if "data" in result:
+            return jsonify({
+                "message": "Survey information retrieved successfully",
+                "data": result["data"],
+                "status": 200
+            }), 200
+        else:
+            return jsonify({
+                "message": "Survey not found",
+                "status": 404
+            }), 404
+    except Exception as e:
+        return jsonify({"message": "An unexpected error occurred."}), 500

@@ -10,5 +10,7 @@ export enum RouteNames {
     GeneralInformationRoute = 'general-information',
     ChangePasswordRoute = 'change-password',
     DeleteMyAccountRoute = 'delete-my-account',
-    AnswerSurveyEmailRoute = 'answer/mail/:email_id/:survey_id/:response_id/:option'
+    AnswerSurveyRoute = 'answer',
+    AnswerSurveyEmailRoute = 'mail/:email_id/:survey_id/:response_id/:option',
+    AnswerSurveyWebsiteRoute = 'website'
 };
