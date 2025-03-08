@@ -119,10 +119,22 @@ class UserService:
                 return {"message": "User logged out successfully", "status": 200}
             except Exception as ex:
                 return {"message": "An unexpected error occurred", "details": str(ex), "status": 500}
-            
+   
+    def get_user_id_from_ssid(self, ssid: str, ip_address: str):
+        try:
+            session = SessionRepository.get_active_by_ssid(uuid.UUID(ssid), ip_address)
+
+            if not session:
+                return None
+            return session.user_id
+        except ValueError as ve:
+            return None
+
+
     def delete_user(self, user_id: uuid.UUID, password: str):
         try:
             user = User.query.get(user_id)
+
             if not user:
                 return {"message": "User not found", "status": 404}
 
@@ -175,6 +187,9 @@ class UserService:
 
         if user.check_password(new_password):
             raise ValueError({"message": "New password cannot be the same as the old password.", "status": 409})
+
+        if len(str(new_password))<6:
+            raise ValueError({"message": "Password must be at least 6 characters long.", "status": 422})
 
         user.hash_password(new_password)
         UserRepository.update_password(user.id, user.password)

@@ -61,7 +61,6 @@ export class NavbarComponent implements OnInit {
 
   onLogout(): void {
     const currentRoute = this.router.url; 
-
     this.commonDialogs
       .openConfirmationDialog(
         'Logout',

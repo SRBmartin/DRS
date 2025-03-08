@@ -1,29 +1,39 @@
 import { Injectable } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { ModalOpenerService } from './modal-opener.service';
+import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../components/shared/confirmation-dialog/confirmation-dialog.component';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class CommonDialogsService {
-  constructor(
-    private readonly modalOpener: ModalOpenerService
-  ) {}
+  constructor(private dialog: MatDialog) {}
 
-  openConfirmationDialog(
-    title: string,
-    question: string
-  ): MatDialogRef<ConfirmationDialogComponent> {
-    return this.modalOpener.openResponsive(
-      ConfirmationDialogComponent,
-      { width: '50dvw', height: '40dvh' }, 
-      { width: '50dvw', height: '40dvh' }, 
-      { width: '50dvw', height: '40dvh' }, 
-      {
-        title, 
-        question, 
+  openConfirmationDialog(title: string, question: string) {
+    document.body.classList.add('modal-open');
+    document.documentElement.style.overflow = 'hidden';  
+
+    
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: { title, question },
+      width: '400px',
+    });
+  
+    dialogRef.afterOpened().subscribe(() => {
+      setTimeout(() => {
+        window.scrollTo(0, 0);  
+      }, 0);      
+      const modal = document.querySelector('.modal');
+      if (modal) {
+        modal.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
-    );
+    });
+  
+    dialogRef.afterClosed().subscribe(() => {
+      document.body.classList.remove('modal-open');
+      document.documentElement.style.overflow = '';  
+    });
+  
+    return dialogRef;
   }
+  
 }
