@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from flask import current_app, g
 
 from ....services.survey_service import SurveyResponsesService, SurveyService
@@ -34,14 +34,19 @@ class AnswerSurveyWebsiteCommandHandler(IHandler):
             survey = self.survey_service.getSurvey(command.survey_id)
             if not survey:
                 return {"message": "Survey not found.", "status": 404}
-            if survey.ending_time < datetime.utcnow():
+
+            now = datetime.now(timezone.utc)  
+            survey_end_time = survey.ending_time.replace(tzinfo=timezone.utc)
+
+            if survey_end_time < now:
                 return {"message": "Survey has expired.", "status": 400}
-            
+
             survey_response = self.survey_responses_service.get_by_survey_id_and_email(command.survey_id, user.email)
-            now = datetime.utcnow()
+
             if survey_response:
                 if survey_response.response.lower() != "no response":
                     return {"message": "Survey already answered.", "status": 400}
+
                 survey_response.response = option
                 survey_response.responded_time = now
                 self.survey_responses_service.update(survey_response)

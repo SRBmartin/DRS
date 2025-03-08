@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyService } from '../../../../../../../shared/services/survey.service';
 import { CommonDialogsService } from '../../../../../../../shared/services/commondialog.service';
 import { ToastService } from '../../../../../../../shared/services/toast.service';
+import { LoaderService } from '../../../../../../../shared/services/loader.service';
 
 @Component({
   selector: 'app-answer-survey-email',
@@ -30,7 +31,8 @@ export class AnswerSurveyEmailComponent {
     private readonly route: ActivatedRoute,
     private readonly surveyService: SurveyService,
     private readonly dialogService: CommonDialogsService,
-    private readonly toastService: ToastService
+    private readonly toastService: ToastService,
+    private readonly loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {
@@ -52,7 +54,7 @@ export class AnswerSurveyEmailComponent {
     const request: SurveyDetailsRequest = {
       survey_id: this.surveyId
     };
-
+    this.loaderService.startLoading();
     this.surveyService.getSurveyDetails(request).subscribe({
       next: (response: SurveyDetailsResponse) => {
         this.surveyTitle = response.data?.title ?? '';
@@ -70,9 +72,11 @@ export class AnswerSurveyEmailComponent {
         if (this.endDateTime && this.endDateTime < new Date()) {
           this.isClosed = true;
         }
+        this.loaderService.stopLoading();
       },
       error: () => {
         this.toastService.showError('Failed to load survey details.', 'Error');
+        this.loaderService.stopLoading();
       }
     });
   }
@@ -89,14 +93,16 @@ export class AnswerSurveyEmailComponent {
       response_id: this.responseId,
       option: option
     };
-
+    this.loaderService.startLoading();
     this.surveyService.answerSurveyByEmail(request).subscribe({
       next: () => {
         this.selectedAnswer = option;
         this.toastService.showSuccess('Your response has been submitted.', 'Success');
+        this.loaderService.stopLoading();
       },
       error: () => {
         this.toastService.showError('Failed to submit your response.', 'Error');
+        this.loaderService.stopLoading();
       }
     });
   }
