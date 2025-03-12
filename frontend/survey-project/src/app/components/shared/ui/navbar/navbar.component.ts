@@ -45,7 +45,6 @@ export class NavbarComponent implements OnInit {
     const currentUrl = this.router.url;
     this.currentUrl = currentUrl;
     
-    // Add check for email answer route
     const isEmailAnswerRoute = currentUrl.startsWith(`/${RouteNames.SurveyRoute}/${RouteNames.AnswerSurveyRoute}/mail`);
     const shouldHideNavbar = 
       currentUrl === `/${RouteNames.LoginRoute}` || 
@@ -54,7 +53,6 @@ export class NavbarComponent implements OnInit {
     
     this.hideEntireNavbar.next(shouldHideNavbar);
   
-    // Update user sections visibility
     const shouldHideUserSections = !this.isLoggedIn() || isEmailAnswerRoute;
     this.hideUserSections.next(shouldHideUserSections);
   }
