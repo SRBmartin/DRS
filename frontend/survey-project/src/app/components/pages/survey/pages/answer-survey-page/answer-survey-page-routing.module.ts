@@ -23,8 +23,7 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: RouteNames.AnswerSurveyWebsiteRoute,
-        pathMatch: 'full',
-        //canActivate: [authGuard]
+        pathMatch: 'full'
       },
       {
         path: '**',

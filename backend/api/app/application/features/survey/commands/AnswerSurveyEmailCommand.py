@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from uuid import UUID
 from flask import current_app
 from sqlalchemy.orm import Session
@@ -31,7 +31,11 @@ class AnswerSurveyEmailLinkCommandHandler(IHandler):
         survey = self.survey_service.getSurvey(command.survey_id)
         if not survey:
             return {"message": "Survey not found.", "status": 404}
-        if survey.ending_time < datetime.utcnow():
+        
+        now_utc = datetime.utcnow().replace(tzinfo=timezone.utc)  
+        survey_end_time = survey.ending_time.replace(tzinfo=timezone.utc)
+        
+        if survey_end_time < now_utc:
             return {"message": "Survey has expired.", "status": 400}
         
         try:

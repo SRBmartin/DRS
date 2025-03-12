@@ -8,6 +8,7 @@ import { SurveyDetailsRequest } from '../../../../../../../shared/dto/requests/s
 import { SurveyDetailsResponse } from '../../../../../../../shared/dto/responses/survey/survey-details-response';
 import { AnswerSurveyWebsiteRequest } from '../../../../../../../shared/dto/requests/survey/answer-survey-website-request';
 import { RouteNames } from '../../../../../../../shared/consts/routes';
+import { AnswerSurveyWebsiteResponse } from '../../../../../../../shared/dto/responses/survey/answer-survey-website-response';
 
 @Component({
   selector: 'app-answer-survey-website',
@@ -23,6 +24,7 @@ export class AnswerSurveyWebsiteComponent implements OnInit{
   endDate!: string;
   endDateTime: Date | null = null;
   isClosed!: boolean;
+  isUsersClosed!: boolean;
   isDialogOpen = false;
 
   constructor(
@@ -50,16 +52,14 @@ export class AnswerSurveyWebsiteComponent implements OnInit{
         this.isAnonymous = response.data?.is_anonymous ?? false;
 
         if (response.data?.ending_time) {
-          this.endDateTime = new Date(response.data.ending_time);
+          this.endDateTime = new Date(response.data.ending_time + 'Z'); 
           this.endDate = this.endDateTime.toLocaleString();
         } else {
           this.endDate = 'No end date specified';
         }
-
-        this.isClosed = response.data?.user_ended ?? false;
-        if (this.endDateTime && this.endDateTime < new Date()) {
-          this.isClosed = true;
-        }
+      
+        this.isUsersClosed = response.data?.user_ended ?? false;
+        this.updateIsClosed();
         this.loaderService.stopLoading();
       },
       error: () => {
@@ -69,7 +69,14 @@ export class AnswerSurveyWebsiteComponent implements OnInit{
     });
   }
 
+  private updateIsClosed(): void{
+    if ((this.endDateTime && this.endDateTime < new Date()) || this.isUsersClosed) {
+      this.isClosed = true;
+    }
+  }
+
   selectAnswer(option: string): void {
+    this.updateIsClosed();
     if (this.isClosed) {
       this.toastService.showError('This survey is closed.', 'Error');
       return;
@@ -90,6 +97,11 @@ export class AnswerSurveyWebsiteComponent implements OnInit{
   }
 
   private submitAnswer(option: string): void {
+    this.updateIsClosed();
+    if (this.isClosed) {
+      this.toastService.showError('This survey is closed.', 'Error');
+      return;
+    }
     const request: AnswerSurveyWebsiteRequest = {
       survey_id: this.surveyId,
       response: option
@@ -97,15 +109,16 @@ export class AnswerSurveyWebsiteComponent implements OnInit{
 
     this.loaderService.startLoading();
     this.surveyService.answerSurveyByWebsite(request).subscribe({
-      next: () => {
+      next: (response: AnswerSurveyWebsiteResponse) => {
         this.selectedAnswer = option;
-        this.toastService.showSuccess('Response submitted successfully!', 'Success');
+        this.toastService.showSuccess(response.message || 'Response submitted successfully!', 'Success');
         this.loaderService.stopLoading();
         //TODO
         //redirect to Displaying surveys
       },
-      error: () => {
-        this.toastService.showError('Failed to submit response.', 'Error');
+      error: (error) => {
+        const errorMessage = error.message || 'Failed to submit response.';
+        this.toastService.showError(errorMessage, 'Error');
         this.loaderService.stopLoading();
       }
     });

@@ -27,7 +27,8 @@ const routes: Routes = [
       {
         path: RouteNames.AnswerSurveyRoute,
         loadChildren: () => import('./pages/answer-survey-page/answer-survey-page.module').then(m => m.AnswerSurveyPageModule)
-      }
+      },
+
     ]
   }
 ];
