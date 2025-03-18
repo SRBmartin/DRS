@@ -17,6 +17,7 @@ class Survey(db.Model):
     ending_time = db.Column(db.DateTime, nullable=False)
     is_anonymous = db.Column(db.Boolean, nullable=False)
     user_ended = db.Column(db.Boolean, default=False, nullable=False)
+    is_deleted = db.Column(db.Boolean, default=False, nullable=False)
 
     user = relationship("User", backref=db.backref("surveys", lazy=True))
 
