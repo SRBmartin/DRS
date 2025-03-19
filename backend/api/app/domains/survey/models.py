@@ -31,6 +31,7 @@ class SurveyResponses(db.Model):
     email = db.Column(db.String(200), nullable=True)
     response = db.Column(db.String(32), nullable=False, default="no response")
     responded_time = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    is_deleted = db.Column(db.Boolean, default=False, nullable=False)
 
     user = relationship("User", backref=db.backref("survey_responses", lazy=True))
     survey = relationship("Survey", backref=db.backref("survey_responses", lazy=True))

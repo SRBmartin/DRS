@@ -25,6 +25,7 @@ class SurveySchema(SQLAlchemyAutoSchema):
         allow_none=True,
         validate=validate.Length(min=0)
     )
+    is_deleted = fields.Boolean(dump_only=True, default=False)
 
 class SurveyResponsesSchema(SQLAlchemyAutoSchema):
     class Meta:
@@ -38,3 +39,4 @@ class SurveyResponsesSchema(SQLAlchemyAutoSchema):
     email = fields.Email(required=False, allow_none=True, validate=validate.Length(max=200))
     response = fields.String(required=True, validate=validate.Length(max=32))
     responded_time = fields.DateTime(dump_only=True)
+    is_deleted = fields.Boolean(dump_only=True, default=False)
