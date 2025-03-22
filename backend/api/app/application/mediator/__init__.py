@@ -13,6 +13,7 @@ from ..features.user.commands.ChangePasswordCommand import ChangePasswordCommand
 from ..features.user.commands.UpdateGeneralInfoCommand import UpdateGeneralInformationCommand, UpdateGeneralInformationCommandHandler
 from ..features.survey.commands.CreateSurveyCommand import CreateSurveyCommand, CreateSurveyCommandHandler
 from ..features.email.commands.SurveyCreatedEmailSendCommand import SendSurveyCreatedEmailCommand, SendSurveyCreatedEmailHandler
+from ..features.survey.commands.DeleteEndedSurveyCommand import DeleteEndedSurveyCommand, DeleteEndedSurveyCommandHandler
 
 def initialize_mediator(flask_app):
     mediator = Mediator()
@@ -51,4 +52,6 @@ def initialize_mediator(flask_app):
     send_created_survey_email_handler = SendSurveyCreatedEmailHandler(email_serice, survey_responses_service, flask_app)
     mediator.register(SendSurveyCreatedEmailCommand, send_created_survey_email_handler)
     
+    delete_ended_survey_handler = DeleteEndedSurveyCommandHandler(survey_service, survey_responses_service)
+    mediator.register(DeleteEndedSurveyCommand, delete_ended_survey_handler)
     return mediator

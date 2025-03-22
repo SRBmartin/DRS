@@ -24,6 +24,21 @@ class SurveyService:
 
         return serialized_survey_schema
     
+    def getSurveyById(self, survey_id):
+        return SurveyRepository.get_by_id(survey_id)
+    
+    def deleteSurvey(self, survey_id):
+        survey: Survey = SurveyRepository.get_by_id(survey_id)
+        if not survey or survey.is_deleted:
+            return {"message": "Survey not found", "status": 404}
+        
+        survey.is_deleted = True
+        try:
+            SurveyRepository.update_survey(survey)
+            return {"message": "Survey deleted successfully.", "status": 200}
+        except Exception as e:
+            return {"message": f"Failed to delete survey: {str(e)}", "status": 500}
+
 class SurveyResponsesService:
     
     def create(self, survey_id, email):
@@ -42,3 +57,13 @@ class SurveyResponsesService:
         SurveyResponsesRepository.add(survey_response)
 
         return survey_response
+    
+    def delete_survey_responses(self, survey_id):
+        try:
+            count = SurveyResponsesRepository.mark_deleted_by_survey_id(survey_id)
+            print(f"Updated responses: {count}")
+            print("Survey responses deleted successfully.")
+            return {"message": "Survey responses deleted successfully.", "status": 200}
+        except Exception as e:
+            print("Survey responses not deleted successfully.")
+            return {"message": f"Failed to delete survey responses: {str(e)}", "status": 500}
