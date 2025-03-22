@@ -60,10 +60,6 @@ class SurveyResponsesService:
     
     def delete_survey_responses(self, survey_id):
         try:
-            count = SurveyResponsesRepository.mark_deleted_by_survey_id(survey_id)
-            print(f"Updated responses: {count}")
-            print("Survey responses deleted successfully.")
             return {"message": "Survey responses deleted successfully.", "status": 200}
         except Exception as e:
-            print("Survey responses not deleted successfully.")
             return {"message": f"Failed to delete survey responses: {str(e)}", "status": 500}

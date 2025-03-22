@@ -16,10 +16,10 @@ class DeleteEndedSurveyCommandHandler:
     def handle(self, command: DeleteEndedSurveyCommand):
         try:
             survey: Survey = self.survey_service.getSurveyById(command.survey_id)
-            now_utc = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc)  
+            
+            now_utc = datetime.datetime.now().replace(tzinfo=datetime.timezone.utc)  
             survey_end_time = survey.ending_time.replace(tzinfo=datetime.timezone.utc)
-            print(survey.is_deleted)
-            print(f"now_utc: {now_utc}\nsurvey end time: {survey_end_time}")
+
             if survey.is_deleted:
                 return {"message": "Survey does not exist.", "status": 404}                
 
