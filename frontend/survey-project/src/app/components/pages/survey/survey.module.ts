@@ -6,7 +6,7 @@ import { SurveyComponent } from './survey.component';
 
 @NgModule({
   declarations: [
-    SurveyComponent
+    SurveyComponent,
   ],
   imports: [
     CommonModule,
