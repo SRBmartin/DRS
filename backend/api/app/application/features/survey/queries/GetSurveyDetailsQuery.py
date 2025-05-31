@@ -45,6 +45,7 @@ class GetSurveyDetailsQueryHandler:
                 "title": survey.title,
                 "question": survey.question,
                 "ending_time": survey.ending_time,
+                "user_ended": survey.user_ended,
                 "is_anonymous": survey.is_anonymous,
                 "responses": response_counts,
                 "user_responses": responses_with_users if responses_with_users is not None else [],
