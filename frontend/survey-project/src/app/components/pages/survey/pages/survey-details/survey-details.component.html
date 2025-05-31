@@ -1,7 +1,49 @@
-<canvas
-  baseChart
-  [data]="pieChartData"
-  [type]="pieChartType"
-  [options]="pieChartOptions"
-  [legend]="pieChartLegend">
-</canvas>
+<div class="survey-details-container">
+  <canvas
+    baseChart
+    [data]="pieChartData"
+    [type]="pieChartType"
+    [options]="pieChartOptions"
+    [legend]="pieChartLegend">
+  </canvas>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div class="summary-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Answer</th>
+            <th>Percentage</th>
+            <th>Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let label of pieChartData.labels; let i = index">
+            <td>{{ label }}</td>
+            <td>{{ pieChartData.datasets[0].data[i] | number: '1.0-0' }}%</td>
+            <td>{{ getCountFromPercentage(pieChartData.datasets[0].data[i]) }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="total-responses">Total Responses: {{ totalResponses }}</p>
+    </div>
+
+    <div *ngIf="!isAnonymous && respondents.length > 0" class="respondents-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Respondents</th>
+            <th>Answer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of respondents">
+            <td>{{ user.email }}</td>
+            <td>{{ user.answer | titlecase }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
