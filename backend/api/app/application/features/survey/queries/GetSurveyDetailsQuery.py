@@ -24,9 +24,11 @@ class GetSurveyDetailsQueryHandler:
                 return {"message": "User not authenticated.", "status": 403}
             
             survey = self.survey_service.get_survey_by_id(query.survey_id)
-            
+
             if not survey:
                 return {"message": "Survey not found", "status": 404}
+                        
+            #TODO ADD CHECK IF survey.is_deleted IS TRUE AFTER MERGE WITH DELETE SURVEY BRANCH 
             
             if user_id.id != survey.user_id:
                 return {"message": "Unauthorized", "status": 401}
@@ -36,8 +38,7 @@ class GetSurveyDetailsQueryHandler:
             responses_with_users = None
             if not survey.is_anonymous:
                 responses_with_users = self.survey_responses_service.get_responses_with_users(query.survey_id)
-            
-            
+    
             return {
                 "title": survey.title,
                 "question": survey.question,

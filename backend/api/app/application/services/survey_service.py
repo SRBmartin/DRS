@@ -50,13 +50,9 @@ class SurveyResponsesService:
         return survey_response
     
     def count_responses_by_survey_id(self, survey_id: str) -> dict:
-        
         yes: int = SurveyResponsesRepository.get_yes_count(survey_id)
         no: int = SurveyResponsesRepository.get_no_count(survey_id)
         maybe: int = SurveyResponsesRepository.get_maybe_count(survey_id)
-        
-        # if not yes or not no or not maybe:
-        #     raise ({"message": "Survey responses not found.", "status": 404})
         
         return {
             "yes": yes or 0,
@@ -65,7 +61,6 @@ class SurveyResponsesService:
         }
     
     def get_responses_with_users(self, survey_id: str):
-        
         responses = SurveyResponsesRepository.get_all_responses_with_users(survey_id)
         response_list = []
         

@@ -60,7 +60,6 @@ export class SurveyDetailsComponent implements OnInit {
   public question = '';
   public isClosed = false;
 
-
   ngOnInit(): void {
     const survey_id = this.route.snapshot.paramMap.get('survey_id');
     if (survey_id) {

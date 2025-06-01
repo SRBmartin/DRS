@@ -30,12 +30,12 @@ export class SurveyService {
     }
 
     getSurveyResults(request: SurveyResultsRequest): Observable<SurveyResultsResponse> {
-    const url = `${this.baseUrl}/details/${request.survey_id}`;
-    return this.httpClient.get<SurveyResultsResponse>(url)
-        .pipe(
-            catchError((e: HttpErrorResponse) => {
-                return throwError(e.error);
-            })
-        );
+        const url = `${this.baseUrl}/details/${request.survey_id}`;
+        return this.httpClient.get<SurveyResultsResponse>(url)
+            .pipe(
+                catchError((e: HttpErrorResponse) => {
+                    return throwError(e.error);
+                })
+            );
     }
 }
