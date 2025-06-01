@@ -31,9 +31,6 @@ class GetSurveyDetailsQueryHandler:
             if user_id.id != survey.user_id:
                 return {"message": "Unauthorized", "status": 401}
             
-            if survey.ending_time > datetime.now() and not survey.user_ended:
-                return {"message": "Survey is still ongoing. You will be able to see details once the survey is finished.", "status": 400}
-            
             response_counts = self.survey_responses_service.count_responses_by_survey_id(query.survey_id)
             
             responses_with_users = None
