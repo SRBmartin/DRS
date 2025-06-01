@@ -3,6 +3,7 @@ export interface SurveyResultsResponse {
     title: string;
     question: string;
     ending_time: string;
+    user_ended: boolean;
     is_anonymous: boolean;
     responses: {
         yes: number;

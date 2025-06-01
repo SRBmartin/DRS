@@ -1,10 +1,30 @@
+<div class="survey-header-bar">
+  <div class="left-info">
+    <div class="tags">
+      <span class="badge" [ngClass]="isClosed ? 'closed' : 'open'">
+        {{ isClosed ? 'Closed' : 'Open' }}
+      </span>
+      <span class="badge">
+        {{ isAnonymous ? 'Anonymous' : 'Non-Anonymous' }}
+      </span>
+    </div>
+    <div class="title">{{ title }}</div>
+    <div class="question">{{ question }}</div>
+  </div>
+
+  <div class="right-actions">
+    <app-button class="action-btn" label="Close Survey" size="sm" [disabled]="isClosed"></app-button>
+    <app-button class="action-btn delete" label="Delete Survey" size="sm" [disabled]="!isClosed"></app-button>
+  </div>
+</div>
+
 <div class="survey-details-container">
   <canvas
     baseChart
-    [data]="pieChartData"
-    [type]="pieChartType"
-    [options]="pieChartOptions"
-    [legend]="pieChartLegend">
+    [data]="chartData"
+    [type]="chartType"
+    [options]="chartOptions"
+    [legend]="chartLegend">
   </canvas>
 
   <div class="grid grid-cols-2 gap-4">
@@ -18,10 +38,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let label of pieChartData.labels; let i = index">
+          <tr *ngFor="let label of chartData.labels; let i = index">
             <td>{{ label }}</td>
-            <td>{{ pieChartData.datasets[0].data[i] | number: '1.0-0' }}%</td>
-            <td>{{ getCountFromPercentage(pieChartData.datasets[0].data[i]) }}</td>
+            <td>{{ getPercentage(i) | number: '1.0-0' }}%</td>
+            <td>{{ getCount(i) }}</td>
           </tr>
         </tbody>
       </table>

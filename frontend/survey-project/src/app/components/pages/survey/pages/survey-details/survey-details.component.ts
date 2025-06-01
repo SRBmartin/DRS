@@ -13,10 +13,17 @@ import { SurveyResultsResponse } from '../../../../../shared/dto/responses/surve
   styleUrl: './survey-details.component.scss'
 })
 export class SurveyDetailsComponent implements OnInit {
-  public pieChartType: ChartType = 'bar';
-  public pieChartLegend = false;
+  public chartType: ChartType = 'bar';
+  public chartLegend = false;
 
-  public pieChartOptions: ChartOptions = {
+  constructor(
+    private readonly surveyService: SurveyService,
+    private readonly route: ActivatedRoute,
+    private readonly toastService: ToastService,
+    private readonly loaderService: LoaderService
+  ) {}
+
+  public chartOptions: ChartOptions = {
     responsive: true,
     indexAxis: 'y',
     scales: {
@@ -24,10 +31,7 @@ export class SurveyDetailsComponent implements OnInit {
         beginAtZero: true,
         max: 100,
         ticks: {
-          callback: function(tickValue: number | string, index: number, ticks: any[]): string {
-            const val = typeof tickValue === 'number' ? tickValue : parseFloat(tickValue);
-            return `${val}%`;
-          }
+          callback: (value: number | string) => `${value}%`
         }
       }
     },
@@ -41,24 +45,21 @@ export class SurveyDetailsComponent implements OnInit {
     }
   };
 
-  public pieChartData: ChartData<'bar', number[], string | string[]> = {
+  public chartData: ChartData<'bar', number[], string | string[]> = {
     labels: ['Yes', 'No', 'No Response'],
-    datasets: [{ 
+    datasets: [{
       data: [0, 0, 0],
       backgroundColor: ['#4CAF50', '#F44336', '#9E9E9E']
     }]
   };
 
-  public totalResponses: number = 0;
-  public isAnonymous: boolean = true;
+  public totalResponses = 0;
+  public isAnonymous = true;
   public respondents: { name: string; email: string; answer: string }[] = [];
+  public title = '';
+  public question = '';
+  public isClosed = false;
 
-  constructor(
-    private readonly surveyService: SurveyService,
-    private readonly route: ActivatedRoute,
-    private readonly toastService: ToastService,
-    private readonly loaderService: LoaderService
-  ) {}
 
   ngOnInit(): void {
     const survey_id = this.route.snapshot.paramMap.get('survey_id');
@@ -76,14 +77,13 @@ export class SurveyDetailsComponent implements OnInit {
         const yes = response.responses.yes;
         const no = response.responses.no;
         const noResponse = response.responses['no response'];
-
         this.totalResponses = yes + no + noResponse;
 
         const yesPercent = (yes / this.totalResponses) * 100;
         const noPercent = (no / this.totalResponses) * 100;
         const noResponsePercent = (noResponse / this.totalResponses) * 100;
 
-        this.pieChartData = {
+        this.chartData = {
           labels: ['Yes', 'No', 'No Response'],
           datasets: [{
             data: [yesPercent, noPercent, noResponsePercent],
@@ -91,9 +91,12 @@ export class SurveyDetailsComponent implements OnInit {
           }]
         };
 
+        this.title = response.title;
+        this.question = response.question;
+        this.isClosed = response.user_ended || new Date(response.ending_time) < new Date();
         this.isAnonymous = response.is_anonymous;
         this.respondents = response.user_responses.map(u => ({
-          name: '', // ako želiš da dodaš ime kasnije
+          name: '',
           email: u.email,
           answer: u.response
         }));
@@ -107,7 +110,12 @@ export class SurveyDetailsComponent implements OnInit {
     });
   }
 
-  getCountFromPercentage(percent: number): number {
-    return Math.round((percent / 100) * this.totalResponses);
+  getPercentage(index: number): number {
+    const val = this.chartData.datasets[0].data[index];
+    return typeof val === 'number' ? val : 0;
+  }
+
+  getCount(index: number): number {
+    return Math.round((this.getPercentage(index) / 100) * this.totalResponses);
   }
 }
