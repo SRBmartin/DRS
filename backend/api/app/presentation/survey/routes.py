@@ -60,9 +60,6 @@ def answer_survey_email_link(email_id, survey_id, response_id, option):
 @survey_bp.route('/answer/website', methods=['POST', 'OPTIONS'])
 @require_auth
 def answer_surevy_webiste():
-    if request.method == 'OPTIONS':
-        return '', 204
-    
     json_data = request.get_json()
     if not json_data:
         return jsonify({"message": "No data provided."}), 400
