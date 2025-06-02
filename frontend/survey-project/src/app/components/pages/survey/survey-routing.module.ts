@@ -22,7 +22,7 @@ const routes: Routes = [
         loadChildren: () => import('./pages/survey-details/survey-details.module').then(m => m.SurveyDetailsModule)
       }
     ]
-  }
+  },
 ];
 
 @NgModule({

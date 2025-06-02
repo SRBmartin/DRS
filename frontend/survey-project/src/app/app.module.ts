@@ -28,7 +28,7 @@ import { ToastrModule } from 'ngx-toastr';
       progressBar: true
     }),
     SharedModule,
-    BrowserAnimationsModule 
+    BrowserAnimationsModule
   ],
   providers: [
     CookieService,
