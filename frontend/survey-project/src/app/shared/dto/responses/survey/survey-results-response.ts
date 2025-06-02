@@ -8,7 +8,7 @@ export interface SurveyResultsResponse {
     responses: {
         yes: number;
         no: number;
-        "no response": number;
+        no_response: number;
     };
     user_responses: {
         email: string;

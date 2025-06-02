@@ -40,7 +40,7 @@ def create_survey():
 
 @survey_bp.route('/details/<uuid:survey_id>', methods=['GET'])
 @require_auth
-def get_survey_details(survey_id):
+def get_survey_details_get(survey_id):
     query = GetSurveyDetailsQuery(survey_id=str(survey_id), ssid=g.get('auth_token'), ip_address=str(request.remote_addr))
     mediator = current_app.config.get('mediator')
     
