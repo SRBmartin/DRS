@@ -1,18 +1,18 @@
 from dataclasses import dataclass
 
-from .....application.contracts.schemas.surveys.schemas import SurveySchema
+from ....contracts.schemas.surveys.schemas import SurveySchema
 from ....services.survey_service import SurveyService
 from ....contracts.IHandler import IHandler
 
 @dataclass
-class GetSurveyDetailsQuery:
+class GetSurveyAnswerDetailsQuery:
     survey_id: str
     
-class GetSurveyDetailsQueryHandler(IHandler):
+class GetSurveyAnswerDetailsQueryHandler(IHandler):
     def __init__(self, survey_service: SurveyService):
         self.survey_service = survey_service
         
-    def handle(self, query: GetSurveyDetailsQuery):
+    def handle(self, query: GetSurveyAnswerDetailsQuery):
         try:
             survey = self.survey_service.getSurvey(query.survey_id)
             survey_schema = SurveySchema()

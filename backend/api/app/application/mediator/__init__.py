@@ -16,7 +16,7 @@ from ..features.email.commands.SurveyCreatedEmailSendCommand import SendSurveyCr
 from ..features.email.commands.SurveyResponseConfirmationEmailCommand import SendSurveyResponseConfirmationEmailCommand, SendSurveyResponseConfirmationEmailHandler
 from ..features.survey.commands.AnswerSurveyEmailCommand import AnswerSurveyEmailLinkCommand, AnswerSurveyEmailLinkCommandHandler
 from ..features.survey.commands.AnswerSurveyWebsiteCommand import AnswerSurveyWebsiteCommandHandler, AnswerSurveyWebsiteCommand
-from ..features.survey.queries.GetSurveyDetailsQuery import GetSurveyDetailsQuery, GetSurveyDetailsQueryHandler
+from ..features.survey.queries.GetSurveyAnswerDetailsQuery import GetSurveyAnswerDetailsQuery, GetSurveyAnswerDetailsQueryHandler
 
 
 def initialize_mediator(flask_app):
@@ -65,7 +65,7 @@ def initialize_mediator(flask_app):
     answer_survey_website_handler = AnswerSurveyWebsiteCommandHandler(survey_service, survey_responses_service, user_service)
     mediator.register(AnswerSurveyWebsiteCommand, answer_survey_website_handler)
     
-    get_survey_details_handler = GetSurveyDetailsQueryHandler(survey_service)
-    mediator.register(GetSurveyDetailsQuery, get_survey_details_handler)
+    get_survey_answer_details_handler = GetSurveyAnswerDetailsQueryHandler(survey_service)
+    mediator.register(GetSurveyAnswerDetailsQuery, get_survey_answer_details_handler)
     
     return mediator

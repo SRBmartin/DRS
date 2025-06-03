@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, current_app, g
 from marshmallow.exceptions import ValidationError
 
-from ...application.features.survey.queries.GetSurveyDetailsQuery import GetSurveyDetailsQuery
+from ...application.features.survey.queries.GetSurveyAnswerDetailsQuery import GetSurveyAnswerDetailsQuery
 from ...application.features.survey.commands.AnswerSurveyWebsiteCommand import AnswerSurveyWebsiteCommand
 from ...application.features.survey.commands.AnswerSurveyEmailCommand import AnswerSurveyEmailLinkCommand
 from ...application.contracts.schemas.surveys.schemas import SurveySchema
@@ -92,7 +92,7 @@ def get_survey_details():
         return jsonify({"message": "No data provided."}), 400
     
     survey_id = json_data.get('survey_id')
-    query = GetSurveyDetailsQuery(survey_id=survey_id)
+    query = GetSurveyAnswerDetailsQuery(survey_id=survey_id)
     mediator = current_app.config.get('mediator')
     
     try:
