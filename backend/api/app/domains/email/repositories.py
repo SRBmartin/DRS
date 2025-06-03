@@ -21,3 +21,12 @@ class SurveySentEmailRepository:
             survey_email.status = new_status
             survey_email.status_change_time = datetime.utcnow()
             session.commit()
+            
+    @staticmethod
+    def add(survey_email: SurveySentEmail):
+        db.session.add(survey_email)
+        db.session.commit()
+        
+    @staticmethod
+    def get_by_uuid(email_id, session):
+        return session.query(SurveySentEmail).get(email_id)

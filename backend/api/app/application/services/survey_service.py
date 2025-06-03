@@ -30,6 +30,9 @@ class SurveyService:
             raise ({"message": "Survey not found.", "status": 404})
         return survey
     
+    def getSurvey(self, survey_id: str):
+        return SurveyRepository.get_by_id(survey_id)
+    
 class SurveyResponsesService:
     
     def create(self, survey_id, email):
@@ -71,3 +74,15 @@ class SurveyResponsesService:
             })
             
         return response_list
+    
+    def delete(self, survey_response):
+        SurveyResponsesRepository.delete(survey_response)
+    
+    def update(self, survey_response):
+        SurveyResponsesRepository.update(survey_response)
+    
+    def get_by_id(self, response_id: str):
+        return SurveyResponsesRepository.get_by_id(response_id)
+    
+    def get_by_survey_id_and_email(self, survey_id: str, email: str):
+        return SurveyResponsesRepository.get_by_survey_and_email(survey_id, email)
