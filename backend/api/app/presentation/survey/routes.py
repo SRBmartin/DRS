@@ -5,7 +5,7 @@ from ...application.features.survey.commands.UserEndingSurveyCommand import User
 from ...application.contracts.schemas.surveys.schemas import SurveySchema
 from ...core.services.middleware import require_auth
 from ...application.features.survey.commands.CreateSurveyCommand import CreateSurveyCommand
-
+from ...application.features.survey.queries.GetSurveyDetailsQuery import GetSurveyDetailsQuery
 survey_bp = Blueprint('survey', __name__, url_prefix='/survey')
 survey_schema = SurveySchema()
 surveys_schema = SurveySchema(many=True)
@@ -39,6 +39,18 @@ def create_survey():
     result = mediator.send(command)
 
     return jsonify(result), result["status"]
+
+@survey_bp.route('/details/<uuid:survey_id>', methods=['GET'])
+@require_auth
+def get_survey_details_get(survey_id):
+    query = GetSurveyDetailsQuery(survey_id=str(survey_id), ssid=g.get('auth_token'), ip_address=str(request.remote_addr))
+    mediator = current_app.config.get('mediator')
+    
+    try:
+        result = mediator.send(query)
+        return jsonify(result), result["status"]
+    except Exception:
+        return jsonify({"message": "Fetching survey details failed."}), 500
 
 @survey_bp.route('/end_survey', methods=['PATCH', 'OPTIONS'])
 @require_auth
