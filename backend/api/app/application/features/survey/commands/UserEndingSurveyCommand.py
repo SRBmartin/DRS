@@ -20,27 +20,25 @@ class UserEndingSurveyCommandHandler(IHandler):
             survey: Survey = self.survey_service.get_survey_by_id(command.survey_id)
             if not survey:
                 raise ValueError({"message": "Survey not found.", "status": 404})
-            #now_utc = datetime.datetime.now().replace(tzinfo=datetime.timezone.utc)
+            
             now_utc = datetime.datetime.now(datetime.timezone.utc)
             if survey.ending_time.tzinfo is None:
                 survey.ending_time = survey.ending_time.replace(tzinfo=datetime.timezone.utc)
-            print(survey.ending_time)
-            print(now_utc)
+            
 
-            if (survey.ending_time and survey.ending_time <= now_utc) or survey.user_ended:
+            if (survey.ending_time.tzinfo and survey.ending_time <= now_utc) or survey.user_ended:
                 return {"message": "Survey is already ended.", "status": 400}
-            print("hi")
+            
 
             survey.user_ended = True
             survey.ending_time = now_utc
-            print(survey)
             update_status = self.survey_service.updateSurvey(survey)
 
             if update_status["status"] != 200:
                 return {"message": "Failed to update survey.", "status": 500}
             
            # pending_users = self.survey_responses_service.get_pending_users(command.survey_id)
-            # self.email_service.notify_users_survey_ended(command.survey_id, pending_users)
+            #self.email_service.notify_users_survey_ended(command.survey_id, pending_users)
             
             return {"message": "Survey ended successfully.", "status": 200}
         
