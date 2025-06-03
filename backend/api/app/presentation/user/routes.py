@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify, current_app, g
+
 from ...application.contracts.schemas.user.schemas import UserSchema, LoginSchema
 from marshmallow import ValidationError
 from ...application.features.user.commands.CreateUserCommand import CreateUserCommand
@@ -223,4 +224,4 @@ def save_general_info():
         return jsonify({
             "message": "An unexpected error occurred."
         }), 500
-
+    
