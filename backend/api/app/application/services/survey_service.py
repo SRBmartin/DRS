@@ -30,6 +30,13 @@ class SurveyService:
             raise ({"message": "Survey not found.", "status": 404})
         return survey
     
+    def updateSurvey(self, updated_survey: Survey):
+            print("helo")
+
+            SurveyRepository.update(updated_survey)
+            print("helo")
+            return {"message": "Survey updated successfully.", "status": 200}
+
 class SurveyResponsesService:
     
     def create(self, survey_id, email):

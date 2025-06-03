@@ -11,7 +11,11 @@ class SurveyRepository:
     @staticmethod
     def get_survey_by_id(survey_id):
         return Survey.query.get(survey_id)
-
+    
+    @staticmethod
+    def update(survey: Survey):
+        db.session.merge(survey)
+        db.session.commit()
 
 class SurveyResponsesRepository:
 

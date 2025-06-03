@@ -13,7 +13,7 @@ class Survey(db.Model):
     user_id = db.Column(UUID(as_uuid=True), ForeignKey('users.users.id'), nullable=False)
     title = db.Column(db.String(200), nullable=False)
     question = db.Column(db.String(1000), nullable=False)
-    created_time = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    created_time = db.Column(db.DateTime, default=datetime.now, nullable=False)
     ending_time = db.Column(db.DateTime, nullable=False)
     is_anonymous = db.Column(db.Boolean, nullable=False)
     user_ended = db.Column(db.Boolean, default=False, nullable=False)
