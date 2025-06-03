@@ -4,6 +4,8 @@ import { environment } from "../environment/environment";
 import { CreateSurveyRequest } from "../dto/requests/survey/create-survey-request";
 import { catchError, Observable, throwError } from "rxjs";
 import { CreateSurveyResponse } from "../dto/responses/survey/create-survey-response";
+import { SurveyResultsResponse } from "../dto/responses/survey/survey-results-response";
+import { SurveyResultsRequest } from "../dto/requests/survey/survey-results-request";
 import { AnswerSurveyEmailRequest } from "../dto/requests/survey/answer-survey-email-request";
 import { AnswerSurveyEmailResponse } from "../dto/responses/survey/answer-survey-email-response";
 import { AnswerSurveyWebsiteRequest } from "../dto/requests/survey/answer-survey-website-request";
@@ -33,6 +35,15 @@ export class SurveyService {
                     );
     }
 
+    getSurveyResults(request: SurveyResultsRequest): Observable<SurveyResultsResponse> {
+        const url = `${this.baseUrl}/details/${request.survey_id}`;
+        return this.httpClient.get<SurveyResultsResponse>(url)
+            .pipe(
+                catchError((e: HttpErrorResponse) => {
+                    return throwError(e.error);
+                })
+            );
+    }
     answerSurveyByEmail(request: AnswerSurveyEmailRequest): Observable<AnswerSurveyEmailResponse> {
         const url = `${this.baseUrl}/answer/mail/${request.email_id}/${request.survey_id}/${request.response_id}/${request.option}`;
         return this.httpClient.post<AnswerSurveyEmailResponse>(url, null)

@@ -24,6 +24,12 @@ class SurveyService:
 
         return serialized_survey_schema
     
+    def get_survey_by_id(self, survey_id) -> Survey:
+        survey = SurveyRepository.get_survey_by_id(survey_id)
+        if not survey:
+            raise ({"message": "Survey not found.", "status": 404})
+        return survey
+    
     def getSurvey(self, survey_id: str):
         return SurveyRepository.get_by_id(survey_id)
     
@@ -45,6 +51,29 @@ class SurveyResponsesService:
         SurveyResponsesRepository.add(survey_response)
 
         return survey_response
+    
+    def count_responses_by_survey_id(self, survey_id: str) -> dict:
+        yes: int = SurveyResponsesRepository.get_yes_count(survey_id)
+        no: int = SurveyResponsesRepository.get_no_count(survey_id)
+        maybe: int = SurveyResponsesRepository.get_maybe_count(survey_id)
+        
+        return {
+            "yes": yes or 0,
+            "no": no or 0,
+            "no_response": maybe or 0
+        }
+    
+    def get_responses_with_users(self, survey_id: str):
+        responses = SurveyResponsesRepository.get_all_responses_with_users(survey_id)
+        response_list = []
+        
+        for response in responses:
+            response_list.append({
+                "email": response.email,
+                "response": response.response
+            })
+            
+        return response_list
     
     def delete(self, survey_response):
         SurveyResponsesRepository.delete(survey_response)
