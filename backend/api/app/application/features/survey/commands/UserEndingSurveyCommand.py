@@ -9,11 +9,10 @@ from ....contracts.IHandler import IHandler
 @dataclass
 class UserEndingSurveyCommand:
     survey_id:str
-    #emails: List[str]
 class UserEndingSurveyCommandHandler(IHandler):
-    def __init__(self, survey_service: SurveyService, survey_response_service: SurveyResponsesService):
+    def __init__(self, survey_service: SurveyService, survey_responses_service: SurveyResponsesService):
         self.survey_service = survey_service
-        self.survey_response_service = survey_response_service
+        self.survey_responses_service = survey_responses_service
 
     def handle(self, command: UserEndingSurveyCommand):
         try:
@@ -28,7 +27,6 @@ class UserEndingSurveyCommandHandler(IHandler):
 
             if (survey.ending_time.tzinfo and survey.ending_time <= now_utc) or survey.user_ended:
                 return {"message": "Survey is already ended.", "status": 400}
-            
 
             survey.user_ended = True
             survey.ending_time = now_utc
@@ -36,8 +34,9 @@ class UserEndingSurveyCommandHandler(IHandler):
 
             if update_status["status"] != 200:
                 return {"message": "Failed to update survey.", "status": 500}
-            
-           # pending_users = self.survey_responses_service.get_pending_users(command.survey_id)
+            print("Ziv sam")
+            pending_users = self.survey_responses_service.get_pending_users(command.survey_id)
+            print(pending_users)
             #self.email_service.notify_users_survey_ended(command.survey_id, pending_users)
             
             return {"message": "Survey ended successfully.", "status": 200}
@@ -58,4 +57,3 @@ class UserEndingSurveyCommandHandler(IHandler):
                 message = "An unexpected error occurred."
                 status = 500
             return {"message": message, "status": status}
-
