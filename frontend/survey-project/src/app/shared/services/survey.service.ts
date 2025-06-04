@@ -6,6 +6,8 @@ import { catchError, Observable, throwError } from "rxjs";
 import { CreateSurveyResponse } from "../dto/responses/survey/create-survey-response";
 import { SurveyResultsResponse } from "../dto/responses/survey/survey-results-response";
 import { SurveyResultsRequest } from "../dto/requests/survey/survey-results-request";
+import { UserEndedRequest } from "../dto/requests/survey/user_ended_request";
+import { UserEndedResponse } from "../dto/responses/survey/user_ended_response";
 
 @Injectable({
     providedIn: 'root'
@@ -37,5 +39,13 @@ export class SurveyService {
                     return throwError(e.error);
                 })
             );
+    }
+    endSurvey(request: UserEndedRequest): Observable<UserEndedResponse> {
+        const url = `${this.baseUrl}/end_survey`;
+
+        return this.httpClient.patch<UserEndedResponse>(url, request)
+            .pipe(
+                catchError((e: HttpErrorResponse) => throwError(e.error))
+        );
     }
 }
