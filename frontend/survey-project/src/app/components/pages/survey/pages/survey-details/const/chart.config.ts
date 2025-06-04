@@ -26,7 +26,7 @@ export const DEFAULT_CHART_OPTIONS: ChartOptions = {
 };
 
 export const INITIAL_CHART_DATA: ChartData<'bar', number[], string | string[]> = {
-  labels: ['Yes', 'No', 'No Response'],
+  labels: ['Yes', 'No', 'Maybe'],
   datasets: [{
     data: [0, 0, 0],
     backgroundColor: ['#4CAF50', '#F44336', '#9E9E9E']
