@@ -60,7 +60,7 @@ class SurveyResponsesService:
         return {
             "yes": yes or 0,
             "no": no or 0,
-            "no_response": maybe or 0
+            "maybe": maybe or 0
         }
     
     def get_responses_with_users(self, survey_id: str):

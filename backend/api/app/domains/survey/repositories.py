@@ -42,7 +42,7 @@ class SurveyResponsesRepository:
     def get_maybe_count(survey_id: str) -> int:
         return SurveyResponses.query.filter_by(
             survey_id=survey_id,
-            response='no response'
+            response='maybe'
         ).count()
         
     @staticmethod
