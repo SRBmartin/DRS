@@ -104,6 +104,7 @@ class SurveyResponsesService:
     
     def delete_survey_responses(self, survey_id):
         try:
+            SurveyResponsesRepository.mark_deleted_by_survey_id(survey_id=survey_id)
             return {"message": "Survey responses deleted successfully.", "status": 200}
         except Exception as e:
             return {"message": f"Failed to delete survey responses: {str(e)}", "status": 500}
