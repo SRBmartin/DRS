@@ -12,6 +12,8 @@ import { AnswerSurveyWebsiteRequest } from "../dto/requests/survey/answer-survey
 import { AnswerSurveyWebsiteResponse } from "../dto/responses/survey/answer-survey-website-response";
 import { SurveyDetailsRequest } from "../dto/requests/survey/survey-details-request";
 import { SurveyDetailsResponse } from "../dto/responses/survey/survey-details-response";
+import { DeleteSurveyRequest } from "../dto/requests/survey/delete-survey-request";
+import { DeleteSurveyResponse } from "../dto/responses/survey/delete-survey-response";
 
 @Injectable({
     providedIn: 'root'
@@ -72,5 +74,15 @@ export class SurveyService {
                             return throwError(e.error);
                         })
                     );
+    }
+
+    deleteSurvey(request: DeleteSurveyRequest): Observable<DeleteSurveyResponse>{
+        const url = `${this.baseUrl}/delete`;
+        return this.httpClient.patch<DeleteSurveyResponse>(url, request)
+                    .pipe(
+                        catchError((e: HttpErrorResponse) => {
+                            return throwError(e.error);
+                        })
+                    )
     }
 }

@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { SurveyService } from '../../../../../shared/services/survey.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '../../../../../shared/services/toast.service';
 import { LoaderService } from '../../../../../shared/services/loader.service';
 import { SurveyResultsRequest } from '../../../../../shared/dto/requests/survey/survey-results-request';
 import { SurveyResultsResponse } from '../../../../../shared/dto/responses/survey/survey-results-response';
 import { DEFAULT_CHART_LEGEND, DEFAULT_CHART_OPTIONS, DEFAULT_CHART_TYPE, INITIAL_CHART_DATA } from './const/chart.config';
+import { CommonDialogsService } from '../../../../../shared/services/commondialog.service';
+import { DeleteSurveyRequest } from '../../../../../shared/dto/requests/survey/delete-survey-request';
 
 @Component({
   selector: 'app-survey-details',
@@ -20,7 +22,9 @@ export class SurveyDetailsComponent implements OnInit {
     private readonly surveyService: SurveyService,
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastService,
-    private readonly loaderService: LoaderService
+    private readonly loaderService: LoaderService,
+    private readonly dialogService: CommonDialogsService,
+    private readonly router: Router
   ) {}
 
   public chartOptions = DEFAULT_CHART_OPTIONS;
@@ -82,6 +86,34 @@ export class SurveyDetailsComponent implements OnInit {
       }
     });
   }
+
+  public onDeleteSurvey(): void {
+    const survey_id = this.route.snapshot.paramMap.get('survey_id');
+    if (!survey_id) return;
+
+    this.dialogService
+      .openConfirmationDialog('Confirm Your Answer', `Are you sure you want to delete "${this.title}"?`)
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        const request: DeleteSurveyRequest = { survey_id };
+        this.loaderService.startLoading();
+
+        this.surveyService.deleteSurvey(request).subscribe({
+          next: (res) => {
+            this.toastService.showSuccess(res.message || 'Survey deleted successfully.', 'Success');
+            this.router.navigate(['/dashboard']);
+            this.loaderService.stopLoading();
+          },
+          error: (err) => {
+            this.toastService.showError(err.message || 'Failed to delete survey.', 'Error');
+            this.loaderService.stopLoading();
+          }
+        });
+      }
+    });
+}
+
 
   getPercentage(index: number): number {
     const val = this.chartData.datasets[0].data[index];
