@@ -43,8 +43,6 @@ class UserRepository:
     def get_by_phone_number(phone_number: str):
         return User.query.filter_by(phone_number=phone_number, is_deleted=False).first()
 
-        
-    
 class SessionRepository:
     @staticmethod
     def add(session):
@@ -53,7 +51,7 @@ class SessionRepository:
 
     @staticmethod
     def get_active_by_user_id(id: uuid.UUID, ip_address: str):
-        current_time = datetime.utcnow()
+        current_time = datetime.now()
         
         active_session = Session.query.filter(
             and_(
@@ -73,7 +71,7 @@ class SessionRepository:
     
     @staticmethod
     def get_active_by_id(id: uuid.UUID, ip_address) -> Session:
-        current_time = datetime.utcnow()
+        current_time = datetime.now()
         return Session.query.filter(
             and_(
                 Session.id == id,
@@ -99,7 +97,7 @@ class SessionRepository:
             #user_uuid = uuid.UUID(id)
         except ValueError:
             raise ValueError({"message":"Invalid ID", "status": 400})
-        current_time = datetime.utcnow()
+        current_time = datetime.now()
 
         active_session = Session.query.filter(
             and_(

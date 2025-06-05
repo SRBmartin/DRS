@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { SurveyDetailsRoutingModule } from './survey-details-routing.module';
 import { SurveyDetailsComponent } from './survey-details.component';
+import { NgChartsModule } from 'ng2-charts';
+import { SharedModule } from "../../../../shared/shared.module";
 
 
 @NgModule({
@@ -11,7 +13,9 @@ import { SurveyDetailsComponent } from './survey-details.component';
   ],
   imports: [
     CommonModule,
-    SurveyDetailsRoutingModule
-  ]
+    SurveyDetailsRoutingModule,
+    NgChartsModule,
+    SharedModule
+]
 })
 export class SurveyDetailsModule { }

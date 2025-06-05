@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RouteNames } from '../../../shared/consts/routes';
 import { SurveyComponent } from './survey.component';
+import { authGuard } from '../../../shared/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -15,14 +16,21 @@ const routes: Routes = [
       },
       {
         path: RouteNames.CreateSurveyRoute,
-        loadChildren: () => import('./pages/create-survey-page/create-survey-page.module').then(m => m.CreateSurveyPageModule)
+        loadChildren: () => import('./pages/create-survey-page/create-survey-page.module').then(m => m.CreateSurveyPageModule),
+        canActivate: [authGuard]
       },
       {
         path: RouteNames.SurveyDetailsRoute,
-        loadChildren: () => import('./pages/survey-details/survey-details.module').then(m => m.SurveyDetailsModule)
-      }
+        loadChildren: () => import('./pages/survey-details/survey-details.module').then(m => m.SurveyDetailsModule),
+        canActivate: [authGuard]
+      },
+      {
+        path: RouteNames.AnswerSurveyRoute,
+        loadChildren: () => import('./pages/answer-survey-page/answer-survey-page.module').then(m => m.AnswerSurveyPageModule)
+      },
+
     ]
-  }
+  },
 ];
 
 @NgModule({

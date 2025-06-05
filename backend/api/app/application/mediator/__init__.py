@@ -13,6 +13,12 @@ from ..features.user.commands.ChangePasswordCommand import ChangePasswordCommand
 from ..features.user.commands.UpdateGeneralInfoCommand import UpdateGeneralInformationCommand, UpdateGeneralInformationCommandHandler
 from ..features.survey.commands.CreateSurveyCommand import CreateSurveyCommand, CreateSurveyCommandHandler
 from ..features.email.commands.SurveyCreatedEmailSendCommand import SendSurveyCreatedEmailCommand, SendSurveyCreatedEmailHandler
+from ..features.survey.queries.GetSurveyDetailsQuery import GetSurveyDetailsQuery, GetSurveyDetailsQueryHandler
+from ..features.email.commands.SurveyResponseConfirmationEmailCommand import SendSurveyResponseConfirmationEmailCommand, SendSurveyResponseConfirmationEmailHandler
+from ..features.survey.commands.AnswerSurveyEmailCommand import AnswerSurveyEmailLinkCommand, AnswerSurveyEmailLinkCommandHandler
+from ..features.survey.commands.AnswerSurveyWebsiteCommand import AnswerSurveyWebsiteCommandHandler, AnswerSurveyWebsiteCommand
+from ..features.survey.queries.GetSurveyAnswerDetailsQuery import GetSurveyAnswerDetailsQuery, GetSurveyAnswerDetailsQueryHandler
+
 from ..features.survey.commands.DeleteEndedSurveyCommand import DeleteEndedSurveyCommand, DeleteEndedSurveyCommandHandler
 
 def initialize_mediator(flask_app):
@@ -51,6 +57,21 @@ def initialize_mediator(flask_app):
 
     send_created_survey_email_handler = SendSurveyCreatedEmailHandler(email_serice, survey_responses_service, flask_app)
     mediator.register(SendSurveyCreatedEmailCommand, send_created_survey_email_handler)
+    
+    get_survey_details_handler = GetSurveyDetailsQueryHandler(survey_responses_service, survey_service, user_service)
+    mediator.register(GetSurveyDetailsQuery, get_survey_details_handler)
+    
+    send_survey_response_confirmation_handler = SendSurveyResponseConfirmationEmailHandler(email_serice, flask_app)
+    mediator.register(SendSurveyResponseConfirmationEmailCommand, send_survey_response_confirmation_handler)
+    
+    answer_survey_email_handler = AnswerSurveyEmailLinkCommandHandler(survey_service, survey_responses_service)
+    mediator.register(AnswerSurveyEmailLinkCommand, answer_survey_email_handler)
+    
+    answer_survey_website_handler = AnswerSurveyWebsiteCommandHandler(survey_service, survey_responses_service, user_service)
+    mediator.register(AnswerSurveyWebsiteCommand, answer_survey_website_handler)
+    
+    get_survey_answer_details_handler = GetSurveyAnswerDetailsQueryHandler(survey_service)
+    mediator.register(GetSurveyAnswerDetailsQuery, get_survey_answer_details_handler)
     
     delete_ended_survey_handler = DeleteEndedSurveyCommandHandler(survey_service, survey_responses_service)
     mediator.register(DeleteEndedSurveyCommand, delete_ended_survey_handler)
