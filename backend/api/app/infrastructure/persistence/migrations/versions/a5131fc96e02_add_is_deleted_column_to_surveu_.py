@@ -24,4 +24,4 @@ def upgrade():
 
 
 def downgrade():
-    op.drop_column('surveys', 'is_deleted', schema='surveys')
+    op.drop_column('survey_responses', 'is_deleted', schema='surveys')
