@@ -17,6 +17,11 @@ class SurveyRepository:
     def get_by_id(survey_id):
         return db.session.query(Survey).filter(Survey.id == survey_id).one_or_none()
 
+    @staticmethod
+    def get_by_user_id(user_id):
+        return Survey.query.filter_by(user_id=user_id).all()
+
+
 class SurveyResponsesRepository:
 
     @staticmethod
@@ -69,3 +74,8 @@ class SurveyResponsesRepository:
             SurveyResponses.survey_id == survey_id,
             SurveyResponses.email == email
         ).first()
+        
+    @staticmethod
+    def get_survey_ids_by_user_id(user_id):
+        responses = SurveyResponses.query.filter_by(user_id=user_id).all()
+        return list(set([response.survey_id for response in responses]))

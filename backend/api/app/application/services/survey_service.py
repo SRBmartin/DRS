@@ -33,6 +33,9 @@ class SurveyService:
     def getSurvey(self, survey_id: str):
         return SurveyRepository.get_by_id(survey_id)
     
+    def get_surveys_by_user_id(self, user_id: str):
+        return SurveyRepository.get_by_user_id(user_id=user_id)
+    
 class SurveyResponsesService:
     
     def create(self, survey_id, email):
@@ -86,3 +89,6 @@ class SurveyResponsesService:
     
     def get_by_survey_id_and_email(self, survey_id: str, email: str):
         return SurveyResponsesRepository.get_by_survey_and_email(survey_id, email)
+    
+    def get_survey_ids_for_user(self, user_id):
+        return SurveyResponsesRepository.get_survey_ids_by_user_id(user_id)
