@@ -40,6 +40,7 @@ export class SurveyService {
                 })
             );
     }
+    
     endSurvey(request: UserEndedRequest): Observable<UserEndedResponse> {
         const url = `${this.baseUrl}/end_survey`;
 
