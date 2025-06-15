@@ -39,11 +39,7 @@ class UserEndingSurveyCommandHandler(IHandler):
             pending_users = self.survey_responses_service.get_pending_users(command.survey_id)
             print(pending_users)
             if pending_users:
-                mediator = current_app.config.get("mediator")
-                mediator.send(SendSurveyEndedEmailCommand(
-                    recipients=pending_users,
-                    survey_title=survey.title
-                ))
+                self._init_send_mails(pending_users, survey)
 
             return {"message": "Survey ended successfully.", "status": 200}
         
@@ -52,4 +48,14 @@ class UserEndingSurveyCommandHandler(IHandler):
                 return err.args[0]
         except Exception as ex:
             return {"message": "An unexpected error occurred.", "status": 500}
-    
+        
+    def _init_send_mails(self, emails: List[str], survey: Survey):
+        command = SendSurveyEndedEmailCommand(
+                recipients=emails,
+                survey_title=survey.title,
+                survey_id = survey.id
+            )
+        
+        mediator = current_app.config.get('mediator')
+        mediator.send(command)
+        

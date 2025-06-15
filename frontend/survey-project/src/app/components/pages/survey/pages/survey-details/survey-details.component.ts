@@ -7,6 +7,7 @@ import { SurveyResultsRequest } from '../../../../../shared/dto/requests/survey/
 import { SurveyResultsResponse } from '../../../../../shared/dto/responses/survey/survey-results-response';
 import { DEFAULT_CHART_LEGEND, DEFAULT_CHART_OPTIONS, DEFAULT_CHART_TYPE, INITIAL_CHART_DATA } from './const/chart.config';
 import { UserEndedRequest } from '../../../../../shared/dto/requests/survey/user_ended_request';
+import { UserEndedResponse } from '../../../../../shared/dto/responses/survey/user_ended_response';
 @Component({
   selector: 'app-survey-details',
   templateUrl: './survey-details.component.html',
@@ -102,8 +103,8 @@ export class SurveyDetailsComponent implements OnInit {
   
     this.loaderService.startLoading();
     this.surveyService.endSurvey(request).subscribe({
-      next: (response) => {
-        this.toastService.showSuccess('Survey successfully closed.', 'Success');
+      next: (response: UserEndedResponse) => {
+        this.toastService.showSuccess(response.message || 'Survey successfully closed.', 'Success');
         this.isClosed = true;
         this.loaderService.stopLoading();
       },
