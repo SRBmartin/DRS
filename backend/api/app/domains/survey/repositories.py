@@ -17,6 +17,10 @@ class SurveyRepository:
         db.session.merge(survey)
         db.session.commit()
 
+    @staticmethod
+    def get_by_id(survey_id):
+        return db.session.query(Survey).filter(Survey.id == survey_id).one_or_none()
+
 class SurveyResponsesRepository:
 
     @staticmethod
@@ -42,7 +46,7 @@ class SurveyResponsesRepository:
     def get_maybe_count(survey_id: str) -> int:
         return SurveyResponses.query.filter_by(
             survey_id=survey_id,
-            response='no response'
+            response='maybe'
         ).count()
         
     @staticmethod
@@ -52,3 +56,25 @@ class SurveyResponsesRepository:
     @staticmethod
     def get_responses_by_survey_id_and_response(survey_id: str, response: str):
         return SurveyResponses.query.filter_by(survey_id=survey_id, response=response).all()
+
+        
+    @staticmethod
+    def delete(survey_response):
+        db.session.delete(survey_response)
+        db.session.commit()
+        
+    @staticmethod
+    def update(survey_response):
+        db.session.merge(survey_response)
+        db.session.commit()
+        
+    @staticmethod
+    def get_by_id(response_id):
+        return db.session.query(SurveyResponses).filter(SurveyResponses.id == response_id).one_or_none()
+    
+    @staticmethod
+    def get_by_survey_and_email(survey_id, email):
+        return db.session.query(SurveyResponses).filter(
+            SurveyResponses.survey_id == survey_id,
+            SurveyResponses.email == email
+        ).first()

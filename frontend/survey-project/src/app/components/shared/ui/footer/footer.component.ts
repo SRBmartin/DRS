@@ -41,11 +41,16 @@ export class FooterComponent implements OnInit {
 
   updateFooterVisibility(): void {
     const currentUrl = this.router.url;
-
-    const shouldHideFooter = currentUrl === `/${RouteNames.LoginRoute}` || currentUrl === `/`;
+    
+    const isEmailAnswerRoute = currentUrl.startsWith(`/${RouteNames.SurveyRoute}/${RouteNames.AnswerSurveyRoute}/mail`);
+    const shouldHideFooter = 
+      currentUrl === `/${RouteNames.LoginRoute}` || 
+      currentUrl === `/` ||
+      isEmailAnswerRoute;
+    
     this.hideEntireFooter.next(shouldHideFooter);
-
-    const shouldHideUserSections = !this.isLoggedIn();
+  
+    const shouldHideUserSections = !this.isLoggedIn() || isEmailAnswerRoute;
     this.hideUserSections.next(shouldHideUserSections);
   }
 }

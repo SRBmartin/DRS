@@ -37,6 +37,9 @@ class SurveyService:
             print("helo")
             return {"message": "Survey updated successfully.", "status": 200}
 
+    def getSurvey(self, survey_id: str):
+        return SurveyRepository.get_by_id(survey_id)
+    
 class SurveyResponsesService:
     
     def create(self, survey_id, email):
@@ -64,7 +67,7 @@ class SurveyResponsesService:
         return {
             "yes": yes or 0,
             "no": no or 0,
-            "no_response": maybe or 0
+            "maybe": maybe or 0
         }
     
     def get_responses_with_users(self, survey_id: str):
@@ -92,3 +95,16 @@ class SurveyResponsesService:
             raise ({"message": "No emails found.", "status": 404})
         
         return no_response_emails
+
+    
+    def delete(self, survey_response):
+        SurveyResponsesRepository.delete(survey_response)
+    
+    def update(self, survey_response):
+        SurveyResponsesRepository.update(survey_response)
+    
+    def get_by_id(self, response_id: str):
+        return SurveyResponsesRepository.get_by_id(response_id)
+    
+    def get_by_survey_id_and_email(self, survey_id: str, email: str):
+        return SurveyResponsesRepository.get_by_survey_and_email(survey_id, email)

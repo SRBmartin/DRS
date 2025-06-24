@@ -43,8 +43,6 @@ class UserRepository:
     def get_by_phone_number(phone_number: str):
         return User.query.filter_by(phone_number=phone_number, is_deleted=False).first()
 
-        
-    
 class SessionRepository:
     @staticmethod
     def add(session):

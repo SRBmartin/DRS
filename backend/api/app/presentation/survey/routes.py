@@ -1,6 +1,10 @@
 from flask import Blueprint, request, jsonify, current_app, g
 from marshmallow.exceptions import ValidationError
 
+from ...application.features.survey.queries.GetSurveyAnswerDetailsQuery import GetSurveyAnswerDetailsQuery
+from ...application.features.survey.commands.AnswerSurveyWebsiteCommand import AnswerSurveyWebsiteCommand
+from ...application.features.survey.commands.AnswerSurveyEmailCommand import AnswerSurveyEmailLinkCommand
+
 from ...application.features.survey.commands.UserEndingSurveyCommand import UserEndingSurveyCommand
 from ...application.contracts.schemas.surveys.schemas import SurveySchema
 from ...core.services.middleware import require_auth
@@ -75,3 +79,73 @@ def end_survey():
     except Exception:
         return jsonify({"message": "Stopping survey failed."}), 500
 
+
+
+@survey_bp.route('/answer/mail/<uuid:email_id>/<uuid:survey_id>/<uuid:response_id>/<option>', methods=['POST', 'OPTIONS'])
+def answer_survey_email_link(email_id, survey_id, response_id, option):
+    if request.method == 'OPTIONS':
+        return '', 204
+    
+    command = AnswerSurveyEmailLinkCommand(
+        survey_id=str(survey_id),
+        email_id=str(email_id),
+        response_id=str(response_id),
+        option=str(option)
+    )
+    mediator = current_app.config.get('mediator')
+    result = mediator.send(command)
+    return jsonify(result), result.get("status", 200)
+
+@survey_bp.route('/answer/website', methods=['POST', 'OPTIONS'])
+@require_auth
+def answer_surevy_webiste():
+    json_data = request.get_json()
+    if not json_data:
+        return jsonify({"message": "No data provided."}), 400
+    
+    survey_id = json_data.get('survey_id')
+    response = json_data.get('response')
+    if not survey_id:
+        return jsonify({"message": "Valid survey is required."}), 400
+    
+    if not response:
+        return jsonify({"message": "Response is required."}), 400
+    
+    command = AnswerSurveyWebsiteCommand(
+        survey_id=str(survey_id),
+        response=str(response),
+        ip_address=str(request.remote_addr),
+        ssid=str(g.get('auth_token'))
+    )
+    mediator = current_app.config.get('mediator')
+    result = mediator.send(command)
+    return jsonify(result), result["status"]
+
+@survey_bp.route('/details', methods=['POST', 'OPTIONS'])
+def get_survey_details():
+    if request.method == 'OPTIONS':
+        return '', 204
+    
+    json_data = request.get_json()
+    if not json_data:
+        return jsonify({"message": "No data provided."}), 400
+    
+    survey_id = json_data.get('survey_id')
+    query = GetSurveyAnswerDetailsQuery(survey_id=survey_id)
+    mediator = current_app.config.get('mediator')
+    
+    try:
+        result = mediator.send(query)
+        if "data" in result:
+            return jsonify({
+                "message": "Survey information retrieved successfully",
+                "data": result["data"],
+                "status": 200
+            }), 200
+        else:
+            return jsonify({
+                "message": "Survey not found",
+                "status": 404
+            }), 404
+    except Exception as e:
+        return jsonify({"message": "An unexpected error occurred."}), 500

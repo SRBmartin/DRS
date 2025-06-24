@@ -54,17 +54,17 @@ export class SurveyDetailsComponent implements OnInit {
       next: (response: SurveyResultsResponse) => {
         const yes = response.responses.yes;
         const no = response.responses.no;
-        const noResponse = response.responses.no_response;
-        this.totalResponses = yes + no + noResponse;
+        const maybe = response.responses.maybe;
+        this.totalResponses = yes + no + maybe;
 
         const yesPercent = (yes / this.totalResponses) * 100;
         const noPercent = (no / this.totalResponses) * 100;
-        const noResponsePercent = (noResponse / this.totalResponses) * 100;
+        const maybePercent = (maybe / this.totalResponses) * 100;
 
         this.chartData = {
-          labels: ['Yes', 'No', 'No Response'],
+          labels: ['Yes', 'No', 'Maybe'],
           datasets: [{
-            data: [yesPercent, noPercent, noResponsePercent],
+            data: [yesPercent, noPercent, maybePercent],
             backgroundColor: ['#4CAF50', '#F44336', '#9E9E9E']
           }]
         };

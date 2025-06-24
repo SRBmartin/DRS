@@ -256,3 +256,15 @@ class UserService:
         user = session.user
         
         return user
+    
+    def get_user_by_id(self, user_id: str):
+        try:
+            uid = uuid.UUID(user_id)
+        except Exception:
+            raise ValueError({"message": "You are not logged in.", "status": 400})
+        
+        user = UserRepository.get_by_id(uid)
+        if not user:
+            raise ValueError({"message": "User not found", "status": 404})
+
+        return user

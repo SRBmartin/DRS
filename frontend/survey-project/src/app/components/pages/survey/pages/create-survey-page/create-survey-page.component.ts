@@ -93,17 +93,18 @@ export class CreateSurveyPageComponent implements OnInit {
     const now = new Date();
     return inputDate <= now ? { pastDate: true } : null;
   }
-
+  
   private formatDateTime(date: Date): string {
     const pad = (n: number) => n < 10 ? '0' + n : n;
-    const year = date.getFullYear();
-    const month = pad(date.getMonth() + 1);
-    const day = pad(date.getDate());
-    const hours = pad(date.getHours());
-    const minutes = pad(date.getMinutes());
-    const seconds = pad(date.getSeconds());
+    const year = date.getUTCFullYear();
+    const month = pad(date.getUTCMonth() + 1);
+    const day = pad(date.getUTCDate());
+    const hours = pad(date.getUTCHours());
+    const minutes = pad(date.getUTCMinutes());
+    const seconds = pad(date.getUTCSeconds());
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   }
+  
 
   private navigateToSurveyDetails(survey_id: string) {
     const route = `${RouteNames.SurveyRoute}/${RouteNames.SurveyDetailsRoute.replace(':survey_id', survey_id)}`;

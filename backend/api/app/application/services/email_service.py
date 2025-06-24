@@ -35,3 +35,11 @@ class EmailService:
 
         SurveySentEmailRepository.add_list(survey_emails)
         return survey_emails
+    
+    def save_single_survey_email(self, survey_id: str, email: str) -> SurveySentEmail:
+        survey_email = SurveySentEmail(
+            survey_id=survey_id,
+            email=email
+        )
+        SurveySentEmailRepository.add(survey_email)
+        return survey_email
