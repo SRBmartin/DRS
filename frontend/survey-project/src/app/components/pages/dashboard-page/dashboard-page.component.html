@@ -1,5 +1,26 @@
 <div class="container">
     <app-header
         [orderDropdownItems]="orderDropdownItems"
+        (orderChanged)="onOrderChanged($event)"
+        (searchChanged)="onSearchChanged($event)"
     />
+    <div class="survey-mode-switch">
+    <button
+        [class.active]="selectedMode === 'createdByMe'"
+        (click)="onSwitchMode('createdByMe')">
+        My Surveys
+    </button>
+    <button
+        [class.active]="selectedMode === 'forMe'"
+        (click)="onSwitchMode('forMe')">
+        Surveys For Me
+    </button>
+    </div>
+
+    <app-survey-list
+        [mode]="selectedMode"
+        [order]="selectedOrder"
+        [searchQuery]="searchQuery">
+    </app-survey-list>
 </div>
+

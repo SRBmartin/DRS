@@ -4,12 +4,14 @@ import { DashboardPageRoutingModule } from './dashboard-page-routing.module';
 import { DashboardPageComponent } from './dashboard-page.component';
 import { SharedModule } from '../../shared/shared.module';
 import { HeaderComponent } from './ui/header/header.component';
+import { SurveyListComponent } from './ui/survey-list/survey-list.component';
 
 
 @NgModule({
   declarations: [
     DashboardPageComponent,
-    HeaderComponent
+    HeaderComponent,
+    SurveyListComponent
   ],
   imports: [
     CommonModule,

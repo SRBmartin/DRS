@@ -12,6 +12,8 @@ import { AnswerSurveyWebsiteRequest } from "../dto/requests/survey/answer-survey
 import { AnswerSurveyWebsiteResponse } from "../dto/responses/survey/answer-survey-website-response";
 import { SurveyDetailsRequest } from "../dto/requests/survey/survey-details-request";
 import { SurveyDetailsResponse } from "../dto/responses/survey/survey-details-response";
+import { GetMySurveysResponse } from "../dto/responses/survey/get-my-surveys-response";
+import { GetSurveysForMeResponse } from "../dto/responses/survey/get-surveys-for-me-response";
 
 @Injectable({
     providedIn: 'root'
@@ -72,5 +74,25 @@ export class SurveyService {
                             return throwError(e.error);
                         })
                     );
+    }
+
+    getMySurveys(): Observable<GetMySurveysResponse> {
+    const url = `${this.baseUrl}/my`;
+    return this.httpClient.get<GetMySurveysResponse>(url)
+        .pipe(
+            catchError((e: HttpErrorResponse) => {
+                return throwError(e.error);
+            })
+        );
+    }
+
+    getSurveysForMe(): Observable<GetSurveysForMeResponse> {
+    const url = `${this.baseUrl}/for-me`;
+    return this.httpClient.get<GetSurveysForMeResponse>(url)
+        .pipe(
+            catchError((e: HttpErrorResponse) => {
+                return throwError(e.error);
+            })
+        );
     }
 }

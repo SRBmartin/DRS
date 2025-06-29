@@ -1,0 +1,26 @@
+<div *ngIf="surveys.length === 0">
+  No surveys available.
+</div>
+
+<div class="survey-grid">
+  <div class="survey-card" *ngFor="let survey of surveys">
+    <div class="badge" [ngClass]="survey.user_ended || isExpired(survey.ending_time) ? 'closed' : 'open'">
+      {{ (survey.user_ended || isExpired(survey.ending_time)) ? 'Closed' : 'Open' }}
+    </div>
+
+    <h2>{{ survey.title }}</h2>
+    <p>{{ survey.question }}</p>
+
+    <app-button
+      *ngIf="mode === 'createdByMe'"
+      label="View Details"
+      [routerLink]="['/survey/details', survey.id]">
+    </app-button>
+
+    <app-button
+      *ngIf="mode === 'forMe' && !survey.user_ended && !isExpired(survey.ending_time)"
+      label="Answer Survey"
+      [routerLink]="['/survey/answer/website', survey.id]">
+    </app-button>
+  </div>
+</div>
