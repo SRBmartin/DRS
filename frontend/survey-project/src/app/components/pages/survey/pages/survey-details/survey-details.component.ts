@@ -38,11 +38,8 @@ export class SurveyDetailsComponent implements OnInit {
   ngOnInit(): void {
     const survey_id = this.route.snapshot.paramMap.get('survey_id');
     if (survey_id) {
+      this.surveyId = survey_id;
       this.fetchSurveyResults(survey_id);
-    }
-    this.surveyId = this.route.snapshot.paramMap.get('survey_id');
-    if (this.surveyId) {
-      this.fetchSurveyResults(this.surveyId);
     }
   }
 
@@ -97,7 +94,10 @@ export class SurveyDetailsComponent implements OnInit {
     return Math.round((this.getPercentage(index) / 100) * this.totalResponses);
   }
   public closeSurvey(): void {
-    if (!this.surveyId) return;
+    if (!this.surveyId) {
+      this.toastService.showError('Invalid survey.', 'Error');
+      return;
+    }
   
     const request: UserEndedRequest = { survey_id: this.surveyId };
   

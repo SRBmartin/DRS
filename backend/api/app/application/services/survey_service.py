@@ -31,10 +31,7 @@ class SurveyService:
         return survey
     
     def updateSurvey(self, updated_survey: Survey):
-            print("helo")
-
             SurveyRepository.update(updated_survey)
-            print("helo")
             return {"message": "Survey updated successfully.", "status": 200}
 
     def getSurvey(self, survey_id: str):

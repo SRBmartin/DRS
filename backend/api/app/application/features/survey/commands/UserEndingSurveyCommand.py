@@ -30,7 +30,6 @@ class UserEndingSurveyCommandHandler(IHandler):
                 return {"message": "Survey is already ended.", "status": 400}
 
             survey.user_ended = True
-            survey.ending_time = now_utc
             update_status = self.survey_service.updateSurvey(survey)
 
             if update_status["status"] != 200:
