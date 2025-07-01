@@ -125,23 +125,17 @@ def get_survey_details():
     except Exception as e:
         return jsonify({"message": "An unexpected error occurred."}), 500
 
-@survey_bp.route('/delete', methods=['PATCH', 'OPTIONS'])
+@survey_bp.route('/<survey_id>', methods=['DELETE', 'OPTIONS'])
 @require_auth
-def delete_ended_survey():
+def delete_ended_survey(survey_id):
     if request.method == 'OPTIONS':
         return '', 204
-    
-    json_data = request.get_json()
-    if not json_data:
-        return jsonify({"message": "No data provided."}), 400
-    
-    survey_id = json_data.get('survey_id')
     
     if not survey_id:
         return jsonify({"message": "Valid survey is required."}), 400
     
     command = DeleteEndedSurveyCommand(
-        survey_id=str(json_data.get('survey_id'))
+        survey_id=str(survey_id)
     )
     
     mediator = current_app.config.get("mediator")

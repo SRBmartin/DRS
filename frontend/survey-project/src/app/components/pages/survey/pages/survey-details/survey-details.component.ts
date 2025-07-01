@@ -99,7 +99,7 @@ export class SurveyDetailsComponent implements OnInit {
         const request: DeleteSurveyRequest = { survey_id };
         this.loaderService.startLoading();
 
-        this.surveyService.deleteSurvey(request).subscribe({
+        this.surveyService.deleteSurvey(survey_id).subscribe({
           next: (res) => {
             this.toastService.showSuccess(res.message || 'Survey deleted successfully.', 'Success');
             this.router.navigate(['/dashboard']);

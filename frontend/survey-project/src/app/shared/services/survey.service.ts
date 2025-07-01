@@ -76,13 +76,12 @@ export class SurveyService {
                     );
     }
 
-    deleteSurvey(request: DeleteSurveyRequest): Observable<DeleteSurveyResponse>{
-        const url = `${this.baseUrl}/delete`;
-        return this.httpClient.patch<DeleteSurveyResponse>(url, request)
-                    .pipe(
-                        catchError((e: HttpErrorResponse) => {
-                            return throwError(e.error);
-                        })
-                    )
+    deleteSurvey(surveyId: string): Observable<DeleteSurveyResponse> {
+        const url = `${this.baseUrl}/${surveyId}`;
+        return this.httpClient.delete<DeleteSurveyResponse>(url).pipe(
+            catchError((e: HttpErrorResponse) => {
+                return throwError(() => e.error);
+            })
+        );
     }
 }
