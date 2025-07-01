@@ -7,7 +7,6 @@ import { SurveyResultsRequest } from '../../../../../shared/dto/requests/survey/
 import { SurveyResultsResponse } from '../../../../../shared/dto/responses/survey/survey-results-response';
 import { DEFAULT_CHART_LEGEND, DEFAULT_CHART_OPTIONS, DEFAULT_CHART_TYPE, INITIAL_CHART_DATA } from './const/chart.config';
 import { CommonDialogsService } from '../../../../../shared/services/commondialog.service';
-import { DeleteSurveyRequest } from '../../../../../shared/dto/requests/survey/delete-survey-request';
 
 @Component({
   selector: 'app-survey-details',
@@ -96,7 +95,6 @@ export class SurveyDetailsComponent implements OnInit {
       .afterClosed()
       .subscribe((confirmed: boolean) => {
       if (confirmed) {
-        const request: DeleteSurveyRequest = { survey_id };
         this.loaderService.startLoading();
 
         this.surveyService.deleteSurvey(survey_id).subscribe({
