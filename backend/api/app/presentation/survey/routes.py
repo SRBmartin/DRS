@@ -5,6 +5,8 @@ from ...application.features.survey.queries.GetSurveyAnswerDetailsQuery import G
 from ...application.features.survey.commands.AnswerSurveyWebsiteCommand import AnswerSurveyWebsiteCommand
 from ...application.features.survey.commands.AnswerSurveyEmailCommand import AnswerSurveyEmailLinkCommand
 
+from ...application.features.survey.commands.DeleteEndedSurveyCommand import DeleteEndedSurveyCommand
+
 from ...application.features.survey.commands.UserEndingSurveyCommand import UserEndingSurveyCommand
 from ...application.contracts.schemas.surveys.schemas import SurveySchema
 from ...core.services.middleware import require_auth
@@ -149,3 +151,26 @@ def get_survey_details():
             }), 404
     except Exception as e:
         return jsonify({"message": "An unexpected error occurred."}), 500
+
+@survey_bp.route('/<survey_id>', methods=['DELETE', 'OPTIONS'])
+@require_auth
+def delete_ended_survey(survey_id):
+    if request.method == 'OPTIONS':
+        return '', 204
+    
+    if not survey_id:
+        return jsonify({"message": "Valid survey is required."}), 400
+    
+    command = DeleteEndedSurveyCommand(
+        survey_id=str(survey_id)
+    )
+    
+    mediator = current_app.config.get("mediator")
+    try:
+        result = mediator.send(command)
+        return jsonify(result), result["status"]
+    except Exception as e:
+        return jsonify({"message": "Deleting survey failed."}), 500
+
+    
+    

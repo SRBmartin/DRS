@@ -19,8 +19,10 @@ from ..features.survey.commands.AnswerSurveyEmailCommand import AnswerSurveyEmai
 from ..features.survey.commands.AnswerSurveyWebsiteCommand import AnswerSurveyWebsiteCommandHandler, AnswerSurveyWebsiteCommand
 from ..features.survey.queries.GetSurveyAnswerDetailsQuery import GetSurveyAnswerDetailsQuery, GetSurveyAnswerDetailsQueryHandler
 
+from ..features.survey.commands.DeleteEndedSurveyCommand import DeleteEndedSurveyCommand, DeleteEndedSurveyCommandHandler
 from ..features.survey.commands.UserEndingSurveyCommand  import UserEndingSurveyCommand, UserEndingSurveyCommandHandler
 from ..features.email.commands.SendSurveyEndedEmailHandler import SendSurveyEndedEmailHandler, SendSurveyEndedEmailCommand
+
 def initialize_mediator(flask_app):
     mediator = Mediator()
     user_service = UserService()
@@ -73,9 +75,13 @@ def initialize_mediator(flask_app):
     get_survey_answer_details_handler = GetSurveyAnswerDetailsQueryHandler(survey_service)
     mediator.register(GetSurveyAnswerDetailsQuery, get_survey_answer_details_handler)
     
+    delete_ended_survey_handler = DeleteEndedSurveyCommandHandler(survey_service, survey_responses_service)
+    mediator.register(DeleteEndedSurveyCommand, delete_ended_survey_handler)
+    
     user_ending_survey_handler = UserEndingSurveyCommandHandler(survey_service, survey_responses_service)
     mediator.register(UserEndingSurveyCommand, user_ending_survey_handler)
 
     send_survey_ended_email_handler = SendSurveyEndedEmailHandler(email_serice, flask_app)
     mediator.register(SendSurveyEndedEmailCommand, send_survey_ended_email_handler)
+    
     return mediator
