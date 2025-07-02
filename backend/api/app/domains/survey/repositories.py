@@ -11,7 +11,11 @@ class SurveyRepository:
     @staticmethod
     def get_survey_by_id(survey_id):
         return Survey.query.get(survey_id)
-
+    
+    @staticmethod
+    def update(survey: Survey):
+        db.session.merge(survey)
+        db.session.commit()
 
     @staticmethod
     def get_by_id(survey_id):
@@ -48,6 +52,11 @@ class SurveyResponsesRepository:
     @staticmethod
     def get_all_responses_with_users(survey_id: str):
         return SurveyResponses.query.filter_by(survey_id=survey_id).all()
+    
+    @staticmethod
+    def get_responses_by_survey_id_and_response(survey_id: str, response: str):
+        return SurveyResponses.query.filter_by(survey_id=survey_id, response=response).all()
+
         
     @staticmethod
     def delete(survey_response):

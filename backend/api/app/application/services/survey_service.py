@@ -30,6 +30,10 @@ class SurveyService:
             raise ({"message": "Survey not found.", "status": 404})
         return survey
     
+    def updateSurvey(self, updated_survey: Survey):
+            SurveyRepository.update(updated_survey)
+            return {"message": "Survey updated successfully.", "status": 200}
+
     def getSurvey(self, survey_id: str):
         return SurveyRepository.get_by_id(survey_id)
     
@@ -74,6 +78,21 @@ class SurveyResponsesService:
             })
             
         return response_list
+    def get_pending_users(self, survey_id: str):
+        
+        responses: SurveyResponses = SurveyResponsesRepository.get_responses_by_survey_id_and_response(survey_id=survey_id, response="no response")
+        if not responses:
+            raise ({"message": "Survey responses not found.", "status": 404})
+        
+        no_response_emails = []
+        for response in responses:
+            no_response_emails.append(response.email)
+            
+        if len(no_response_emails) == 0:
+            raise ({"message": "No emails found.", "status": 404})
+        
+        return no_response_emails
+
     
     def delete(self, survey_response):
         SurveyResponsesRepository.delete(survey_response)

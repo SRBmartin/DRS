@@ -12,6 +12,8 @@ import { AnswerSurveyWebsiteRequest } from "../dto/requests/survey/answer-survey
 import { AnswerSurveyWebsiteResponse } from "../dto/responses/survey/answer-survey-website-response";
 import { SurveyDetailsRequest } from "../dto/requests/survey/survey-details-request";
 import { SurveyDetailsResponse } from "../dto/responses/survey/survey-details-response";
+import { UserEndedRequest } from "../dto/requests/survey/user_ended_request";
+import { UserEndedResponse } from "../dto/responses/survey/user_ended_response";
 
 @Injectable({
     providedIn: 'root'
@@ -72,5 +74,14 @@ export class SurveyService {
                             return throwError(e.error);
                         })
                     );
+    }
+    
+    endSurvey(request: UserEndedRequest): Observable<UserEndedResponse> {
+        const url = `${this.baseUrl}/end_survey`;
+
+        return this.httpClient.patch<UserEndedResponse>(url, request)
+            .pipe(
+                catchError((e: HttpErrorResponse) => throwError(e.error))
+        );
     }
 }

@@ -6,7 +6,8 @@ import { LoaderService } from '../../../../../shared/services/loader.service';
 import { SurveyResultsRequest } from '../../../../../shared/dto/requests/survey/survey-results-request';
 import { SurveyResultsResponse } from '../../../../../shared/dto/responses/survey/survey-results-response';
 import { DEFAULT_CHART_LEGEND, DEFAULT_CHART_OPTIONS, DEFAULT_CHART_TYPE, INITIAL_CHART_DATA } from './const/chart.config';
-
+import { UserEndedRequest } from '../../../../../shared/dto/requests/survey/user_ended_request';
+import { UserEndedResponse } from '../../../../../shared/dto/responses/survey/user_ended_response';
 @Component({
   selector: 'app-survey-details',
   templateUrl: './survey-details.component.html',
@@ -33,10 +34,11 @@ export class SurveyDetailsComponent implements OnInit {
   public title = '';
   public question = '';
   public isClosed = false;
-
+  private surveyId: string | null = null;
   ngOnInit(): void {
     const survey_id = this.route.snapshot.paramMap.get('survey_id');
     if (survey_id) {
+      this.surveyId = survey_id;
       this.fetchSurveyResults(survey_id);
     }
   }
@@ -90,5 +92,26 @@ export class SurveyDetailsComponent implements OnInit {
 
   getCount(index: number): number {
     return Math.round((this.getPercentage(index) / 100) * this.totalResponses);
+  }
+  public closeSurvey(): void {
+    if (!this.surveyId) {
+      this.toastService.showError('Invalid survey.', 'Error');
+      return;
+    }
+  
+    const request: UserEndedRequest = { survey_id: this.surveyId };
+  
+    this.loaderService.startLoading();
+    this.surveyService.endSurvey(request).subscribe({
+      next: (response: UserEndedResponse) => {
+        this.toastService.showSuccess(response.message || 'Survey successfully closed.', 'Success');
+        this.isClosed = true;
+        this.loaderService.stopLoading();
+      },
+      error: (err) => {
+        this.toastService.showError(err.message || 'Failed to close survey.', 'Error');
+        this.loaderService.stopLoading();
+      }
+    });
   }
 }
