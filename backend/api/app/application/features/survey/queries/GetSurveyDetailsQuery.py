@@ -28,7 +28,8 @@ class GetSurveyDetailsQueryHandler:
             if not survey:
                 return {"message": "Survey not found", "status": 404}
                         
-            #TODO ADD CHECK IF survey.is_deleted IS TRUE AFTER MERGE WITH DELETE SURVEY BRANCH 
+            if survey.is_deleted:
+                return {"message": "Survey not found", "status": 404}
             
             if user_id.id != survey.user_id:
                 return {"message": "Unauthorized", "status": 401}
