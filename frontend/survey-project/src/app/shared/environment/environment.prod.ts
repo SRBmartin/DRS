@@ -1,3 +1,3 @@
 export const environment = {
-    api: "https://drs-production-be.azurewebsites.net"
+    api: "https://drs-flask-app.azurewebsites.net"
 }
