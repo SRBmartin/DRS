@@ -18,7 +18,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/mailservice:latest .
+        docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/mailservice:latest ./mail-service/project
 
     - name: Push Docker image
       run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/mailservice:latest
@@ -26,5 +26,5 @@ jobs:
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        app-name: ${{ secrets.APP_NAME }}
+        app-name: ${{ secrets.APP_NAME_EMAIL_SERVICE }}
         images: ${{ secrets.ACR_LOGIN_SERVER }}/mailservice:latest
