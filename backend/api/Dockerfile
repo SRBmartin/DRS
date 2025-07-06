@@ -15,7 +15,8 @@ COPY --from=builder /root/.local /root/.local
 COPY --from=builder /app /app
 
 ENV PATH=/root/.local/bin:$PATH
+ENV PYTHONUNBUFFERED=1
 
-ENV PORT=8000
+ENV PORT=80
 
-CMD ["gunicorn", "--bind=0.0.0.0:8000", "--timeout=600", "run:app", "--log-file", "-"]
+CMD ["gunicorn", "--bind=0.0.0.0:80", "--timeout=600", "run:app", "--log-file", "-"]
