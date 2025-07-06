@@ -4,7 +4,7 @@
       <div class="col-md-3">
         <a
           class="footer-logo"
-          [routerLink]="[RouteNames.HomeRoute]"
+          [routerLink]="[RouteNames.DashboardRoute]"
           routerLinkActive="active">
           <img src="assets/images/logo-footer.png"/>
           <span>Survey<b>Master</b></span>
@@ -16,7 +16,7 @@
           <ul class="footer-menu">
             <li class="footer-menu-item">
               <a 
-                [routerLink]="[RouteNames.HomeRoute]" 
+                [routerLink]="[RouteNames.DashboardRoute]" 
                 routerLinkActive="active"
               >
                 My Surveys
@@ -91,7 +91,7 @@
         </div>
       </div>
       <div class="col-md-12 footer-copyright">
-        <p>© 2024 Survey<span>Master</span>, Inc. All rights reserved</p>
+        <p>© {{ currentYear }} Survey<span>Master</span>, Inc. All rights reserved</p>
       </div>
     </div>
   </div>
