@@ -5,6 +5,8 @@ from alembic import command
 import os
 import sys
 
+print('[DEBUG] Starting the application...')
+
 app = create_app()
 
 def run_migrations():
@@ -26,5 +28,4 @@ def run_migrations():
 if __name__ == '__main__':
     with app.app_context():
         run_migrations()
-
-app.run(debug=True)
+    app.run(debug=True)
