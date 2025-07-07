@@ -1,0 +1,35 @@
+name: Deploy Angular App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Log in to Azure Container Registry
+      run: echo "${{ secrets.ACR_PASSWORD }}" | docker login ${{ secrets.ACR_LOGIN_SERVER }} -u ${{ secrets.ACR_USERNAME }} --password-stdin
+
+    - name: Build Angular Docker Image
+      run: |
+        docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/angularui:latest ./frontend/survey-project
+
+    - name: Push Angular Docker Image
+      run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/angularui:latest
+
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS_DEPLOYER }}
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ secrets.APP_NAME_ANGULAR_UI }}
+        images: ${{ secrets.ACR_LOGIN_SERVER }}/angularui:latest

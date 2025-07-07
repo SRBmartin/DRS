@@ -6,8 +6,6 @@ import { Component } from '@angular/core';
   styleUrl: './dashboard-page.component.scss'
 })
 export class DashboardPageComponent {
-  
-
   orderDropdownItems: string[] = [
     'From newest to oldest',
     'From oldest to newest',
