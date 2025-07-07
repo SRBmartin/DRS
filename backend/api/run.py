@@ -28,5 +28,4 @@ def run_migrations():
 if __name__ == '__main__':
     with app.app_context():
         run_migrations()
-
-app.run(debug=True)
+    app.run(debug=True)
