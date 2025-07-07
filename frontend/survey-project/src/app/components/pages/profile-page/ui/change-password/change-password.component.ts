@@ -19,7 +19,6 @@ export class ChangePasswordComponent implements OnInit{
     private readonly fb: FormBuilder,
     private readonly userService: UserService,
     private readonly toastService: ToastService,
-    private readonly cookieService: CookieService,
     private readonly loaderService: LoaderService
   ) {}
 

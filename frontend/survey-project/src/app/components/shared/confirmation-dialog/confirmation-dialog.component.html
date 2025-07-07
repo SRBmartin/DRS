@@ -1,6 +1,7 @@
-<div class="modal-content">
-    <h2>{{ data.title }}</h2> 
-    <p>{{ data.question }}</p> 
+<div class="modal">
+  <div class="modal-content">
+    <h2>{{ data.title }}</h2>
+    <p>{{ data.question }}</p>
     <div class="modal-actions">
       <app-button
         [label]="'Yes'"
@@ -17,5 +18,5 @@
         (clickEvent)="onCancel()"
       ></app-button>
     </div>
+  </div>
 </div>
-  
