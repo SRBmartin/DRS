@@ -5,6 +5,8 @@ from alembic import command
 import os
 import sys
 
+print('[DEBUG] Starting the application...')
+
 app = create_app()
 
 def run_migrations():
