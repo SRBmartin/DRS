@@ -8,6 +8,8 @@ import { SurveyResultsResponse } from '../../../../../shared/dto/responses/surve
 import { DEFAULT_CHART_LEGEND, DEFAULT_CHART_OPTIONS, DEFAULT_CHART_TYPE, INITIAL_CHART_DATA } from './const/chart.config';
 import { UserEndedRequest } from '../../../../../shared/dto/requests/survey/user_ended_request';
 import { UserEndedResponse } from '../../../../../shared/dto/responses/survey/user_ended_response';
+import { CommonDialogsService } from '../../../../../shared/services/commondialog.service'; 
+
 @Component({
   selector: 'app-survey-details',
   templateUrl: './survey-details.component.html',
@@ -21,7 +23,8 @@ export class SurveyDetailsComponent implements OnInit {
     private readonly surveyService: SurveyService,
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastService,
-    private readonly loaderService: LoaderService
+    private readonly loaderService: LoaderService, 
+    private readonly commonDialogs: CommonDialogsService 
   ) {}
 
   public chartOptions = DEFAULT_CHART_OPTIONS;
@@ -99,19 +102,30 @@ export class SurveyDetailsComponent implements OnInit {
       return;
     }
   
-    const request: UserEndedRequest = { survey_id: this.surveyId };
+    this.commonDialogs
+      .openConfirmationDialog(
+        'Close Survey',
+        'Are you sure you want to close this survey? This action cannott be undone.'
+      )
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          const request: UserEndedRequest = { survey_id: this.surveyId! };
   
-    this.loaderService.startLoading();
-    this.surveyService.endSurvey(request).subscribe({
-      next: (response: UserEndedResponse) => {
-        this.toastService.showSuccess(response.message || 'Survey successfully closed.', 'Success');
-        this.isClosed = true;
-        this.loaderService.stopLoading();
-      },
-      error: (err) => {
-        this.toastService.showError(err.message || 'Failed to close survey.', 'Error');
-        this.loaderService.stopLoading();
-      }
-    });
+          this.loaderService.startLoading();
+          this.surveyService.endSurvey(request).subscribe({
+            next: (response: UserEndedResponse) => {
+              this.toastService.showSuccess(response.message || 'Survey successfully closed.', 'Success');
+              this.isClosed = true;
+              this.loaderService.stopLoading();
+            },
+            error: (err) => {
+              this.toastService.showError(err.message || 'Failed to close survey.', 'Error');
+              this.loaderService.stopLoading();
+            }
+          });
+        }
+      });
   }
+  
 }
