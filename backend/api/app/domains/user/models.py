@@ -40,8 +40,8 @@ class Session(db.Model):
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
     user_id = db.Column(UUID(as_uuid=True), ForeignKey('users.users.id'), nullable=False)
-    started_time = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
-    ending_time = db.Column(db.DateTime, default=lambda: datetime.utcnow() + timedelta(hours=2), nullable=True)
+    started_time = db.Column(db.DateTime, default=datetime.now, nullable=False)
+    ending_time = db.Column(db.DateTime, default=lambda: datetime.now() + timedelta(hours=2), nullable=True)
     ip_address = db.Column(db.String(45), nullable=False)
     logged_out = db.Column(db.Boolean, default=False, nullable=False)
 

@@ -1,0 +1,33 @@
+:host {
+    display: block;
+    width: 100%;
+    background-color: transparent;
+    padding: 2rem 1rem 1rem 1rem;
+  }
+  
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .header-left .title {
+    color: var(--black-color);
+    font-size: 2.25rem;
+    margin: 0;
+  }
+  
+  .header-center {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  
+  .search-container {
+    width: 15rem;
+  }
+  
+  .header-right {
+    display: flex;
+    align-items: center;
+  }

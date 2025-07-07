@@ -1,0 +1,26 @@
+<div class="switch-view">
+    <button
+        type="button"
+        (click)="selectView('grid')"
+        [ngClass]="{'active': selectedView === 'grid'}"
+    >
+      <img
+        src='assets/images/grid-white.png'
+        alt="Grid View"
+        width="32"
+        height="32"
+      >
+    </button>
+    <button
+        type="button"
+        (click)="selectView('row')"
+        [ngClass]="{'active': selectedView === 'row'}"
+    >
+      <img
+        src='assets/images/lines-white.png'
+        alt="Row View"
+        width="32"
+        height="32"
+    >
+    </button>
+  </div>

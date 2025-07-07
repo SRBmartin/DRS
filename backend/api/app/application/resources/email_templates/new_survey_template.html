@@ -1,0 +1,72 @@
+<html>
+  <head>
+    <style>
+      body {{
+        font-family: 'Montserrat', sans-serif;
+        background-color: #0f0942;
+        color: #fff;
+        margin: 0;
+        padding: 1rem;
+      }}
+      h1 {{
+        font-size: 2.5rem;
+        color: #4C3BCF;
+        text-align: center;
+        margin-bottom: 1rem;
+      }}
+      p {{
+        font-size: 1rem;
+        line-height: 1.5;
+        margin: 0 0 1rem 0;
+      }}
+      .survey-title {{
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        text-align: center;
+      }}
+      .survey-anonymous {{
+        font-size: 1rem;
+        text-align: center;
+        margin-bottom: 1rem;
+      }}
+      .survey-question {{
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }}
+      .button-container {{
+        text-align: center;
+        margin-top: 1.5rem;
+      }}
+      .button {{
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        margin: 0 0.5rem;
+        border: 1px solid #4C3BCF;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: bold;
+        color: #fff;
+        background-color: transparent;
+        transition: background-color 0.3s;
+      }}
+      .button:hover {{
+        background-color: #4B70F5;
+        color: #fff;
+      }}
+    </style>
+  </head>
+  <body>
+    <p>You are invited to participate in the following survey:</p>
+    <h1 class="survey-title">{survey_title}</h1>
+    <div class="survey-anonymous">{anonymous_text}</div>
+    <div class="survey-question">{survey_question}</div>
+    <div class="button-container">
+      <a href="{yes_link}" class="button">Yes</a>
+      <a href="{no_link}" class="button">No</a>
+      <a href="{not_sure_link}" class="button">I'm not sure</a>
+    </div>
+  </body>
+</html>

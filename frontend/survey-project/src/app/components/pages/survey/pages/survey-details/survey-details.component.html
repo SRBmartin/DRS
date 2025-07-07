@@ -1,0 +1,69 @@
+<div class="survey-header-bar">
+  <div class="left-info">
+    <div class="tags">
+      <span class="badge" [ngClass]="isClosed ? 'closed' : 'open'">
+        {{ isClosed ? 'Closed' : 'Open' }}
+      </span>
+      <span class="badge">
+        {{ isAnonymous ? 'Anonymous' : 'Non-Anonymous' }}
+      </span>
+    </div>
+    <div class="title">{{ title }}</div>
+    <div class="question">{{ question }}</div>
+  </div>
+
+  <div class="right-actions">
+    <app-button class="action-btn" label="Close Survey" size="sm" [disabled]="isClosed" (click)="closeSurvey()"></app-button>
+    <app-button class="action-btn delete" label="Delete Survey" size="sm" [disabled]="!isClosed" (clickEvent)="onDeleteSurvey()"></app-button>
+  </div>
+</div>
+
+<div class="survey-details-container">
+  <canvas
+    baseChart
+    [data]="chartData"
+    [type]="chartType"
+    [options]="chartOptions"
+    [legend]="chartLegend">
+  </canvas>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div class="summary-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Answer</th>
+            <th>Percentage</th>
+            <th>Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let label of chartData.labels; let i = index">
+            <td>{{ label }}</td>
+            <td>{{ getPercentage(i) | number: '1.0-0' }}%</td>
+            <td>{{ getCount(i) }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="total-responses">Total Responses: {{ totalResponses }}</p>
+    </div>
+
+    <div *ngIf="!isAnonymous && respondents.length > 0" class="respondents-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Respondents</th>
+            <th>Answer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of respondents">
+            <td>{{ user.email }}</td>
+            <td>{{ user.answer | titlecase }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -19,7 +19,7 @@ def run_migrations():
     alembic_cfg = Config(alembic_ini_path)
     
     try:
-        command.upgrade(alembic_cfg, "head")
+        command.upgrade(alembic_cfg, "heads")
         print("Database migrated successfully.")
     except Exception as e:
         print(f"Error during migration: {e}")
