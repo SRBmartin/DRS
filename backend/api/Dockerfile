@@ -19,4 +19,4 @@ ENV PYTHONUNBUFFERED=1
 
 ENV PORT=80
 
-CMD ["gunicorn", "--bind", "0.0.0.0:${PORT:-80}", "--timeout", "600", "run:app", "--log-file", "-"]
+CMD ["gunicorn", "--bind", "0.0.0.0:80", "--timeout", "600", "run:app", "--log-file", "-"]
