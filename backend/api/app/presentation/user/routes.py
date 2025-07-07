@@ -197,11 +197,7 @@ def delete_account():
         return jsonify({"message": str(e)}), 400
     except Exception as ex:
         return jsonify({"message": "An unexpected error occurred", "error": str(ex)}), 500
-<<<<<<< HEAD
-
-=======
     
->>>>>>> 0cfffc2ad0e5496b01bb41cf0724be2f5e49cab1
 @user_bp.route('/save-general-information', methods=['PUT'])
 @require_auth
 def save_general_info():
