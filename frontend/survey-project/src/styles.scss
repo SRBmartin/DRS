@@ -7,6 +7,7 @@
     --black-color: #000;
     --white-color: #fff;
     --error-color: #DC3545;
+    --bg-color: #b6b3d1;
 
     --font-quicksand: 'Quicksand', sans-serif;
     --font-montserrat: 'Montserrat', sans-serif;
@@ -16,3 +17,8 @@ body {
     font-family: var(--font-montserrat) !important;
     background-color: var(--dark-color) !important;
 }
+
+body.modal-open {
+    overflow: hidden;
+}
+  

@@ -179,22 +179,14 @@ def delete_account():
         return jsonify({"message": "No data provided."}), 400
     
     password = json_data.get('password')
-    ssid = g.get("auth_token")
-    
+    ssid = g.get("auth_token")  
+
     if not password:
         return jsonify({"message": "Password is required."}), 400
 
     try:
-        ses_id = g.get("auth_token")
-        session = SessionRepository.get_active_by_id(ses_id, request.remote_addr)
-        if not session:
-            return jsonify({"message": "Not authenticated"}), 401
-
-        user_id = session.user_id  
-
-
         command = DeleteUserCommand(
-            user_id=user_id,
+            ssid=ssid,  
             password=password
         )
 
@@ -205,8 +197,7 @@ def delete_account():
         return jsonify({"message": str(e)}), 400
     except Exception as ex:
         return jsonify({"message": "An unexpected error occurred", "error": str(ex)}), 500
-        
-            
+    
 @user_bp.route('/save-general-information', methods=['PUT'])
 @require_auth
 def save_general_info():
@@ -232,4 +223,4 @@ def save_general_info():
         return jsonify({
             "message": "An unexpected error occurred."
         }), 500
-
+    

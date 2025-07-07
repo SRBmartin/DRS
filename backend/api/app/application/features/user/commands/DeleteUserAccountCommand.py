@@ -1,12 +1,12 @@
 from dataclasses import dataclass
 from ....services.user_service import UserService
 from ....contracts.IHandler import IHandler
-import uuid  
+from flask import request
 
 
 @dataclass
 class DeleteUserCommand:
-    user_id: uuid.UUID  
+    ssid: str  
     password: str  
 
 class DeleteUserCommandHandler(IHandler):
@@ -15,17 +15,18 @@ class DeleteUserCommandHandler(IHandler):
 
     def handle(self, command: DeleteUserCommand):
         try:
+            ip_address = request.remote_addr 
+            user_id = self.user_service.get_user_id_from_ssid(command.ssid, ip_address)
+
+            if not user_id:
+                return {"message": "Unauthorized", "status": 401}
+
             result = self.user_service.delete_user(
-                user_id=command.user_id,  
+                user_id=user_id,
                 password=command.password
             )
+
             return result
+
         except Exception as ex:
-            if ex.args and isinstance(ex.args[0], dict):
-                error_info = ex.args[0]
-                message = error_info.get("message", "An unexpected error occurred.")
-                status = error_info.get("status", 500)
-            else:
-                message = "An unexpected error occurred."
-                status = 500
-            return {"message": message, "status": status}
+            return {"message": "An unexpected error occurred", "status": 500}

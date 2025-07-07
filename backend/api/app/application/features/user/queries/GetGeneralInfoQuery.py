@@ -12,7 +12,6 @@ class GetGeneralInfoQueryHandler(IHandler):
         self.user_service = user_service 
         
     def handle(self, query: GetGeneralInfoQuery):
-
         try:
             session_response = self.user_service.get_user_info(query.ssid, query.ip_address)
             return session_response

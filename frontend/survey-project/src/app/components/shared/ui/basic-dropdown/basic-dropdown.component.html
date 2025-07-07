@@ -1,0 +1,22 @@
+<div class="order-dropdown">
+    <button
+        type="button"
+        class="dropdown-toggle"
+        (click)="toggleDropdown()"
+    >
+      {{selected}}
+    </button>
+    <div
+        *ngIf="dropdownOpen"
+        class="dropdown-menu"
+    >
+      <button
+        *ngFor="let item of items"
+        type="button"
+        class="dropdown-item"
+        (click)="selectItem(item)"
+       >
+        {{item}}
+      </button>
+    </div>
+  </div>
