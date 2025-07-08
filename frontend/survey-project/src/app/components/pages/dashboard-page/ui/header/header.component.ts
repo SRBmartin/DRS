@@ -9,7 +9,6 @@ import { RouteNames } from '../../../../../shared/consts/routes';
 })
 export class HeaderComponent {
   @Input() orderDropdownItems: string[] = [];
-  @Output() viewChanged = new EventEmitter<'grid' | 'row'>();
   @Output() searchChanged = new EventEmitter<string>();
   @Output() orderChanged = new EventEmitter<string>();
 
@@ -17,16 +16,12 @@ export class HeaderComponent {
     private readonly router: Router
   ) {}
 
-  onViewChanged(view: 'grid' | 'row'): void {
-    
-  }
-
   onSearchChanged(query: string): void {
-    
+    this.searchChanged.emit(query);
   }
 
   onOrderChanged(order: string): void {
-    
+    this.orderChanged.emit(order);
   }
 
   onNewSurvey(): void {
