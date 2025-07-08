@@ -27,6 +27,7 @@ export class AuthService {
         this.cookieService.set('ssid', session.id, {
             expires: new Date(session.ending_time),
             sameSite: 'Lax',
+            secure: true,
             path: '/'
         });
     }
