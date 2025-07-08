@@ -3,6 +3,7 @@ from ...core.extensions import db
 from sqlalchemy import and_
 import uuid
 from datetime import datetime
+from ...infrastructure.utils.time import now
 
 
 class UserRepository:
@@ -51,7 +52,7 @@ class SessionRepository:
 
     @staticmethod
     def get_active_by_user_id(id: uuid.UUID, ip_address: str):
-        current_time = datetime.now()
+        current_time = now()
         
         active_session = Session.query.filter(
             and_(
@@ -71,7 +72,7 @@ class SessionRepository:
     
     @staticmethod
     def get_active_by_id(id: uuid.UUID, ip_address) -> Session:
-        current_time = datetime.now()
+        current_time = now()
         return Session.query.filter(
             and_(
                 Session.id == id,
@@ -97,7 +98,7 @@ class SessionRepository:
             #user_uuid = uuid.UUID(id)
         except ValueError:
             raise ValueError({"message":"Invalid ID", "status": 400})
-        current_time = datetime.now()
+        current_time = now()
 
         active_session = Session.query.filter(
             and_(
