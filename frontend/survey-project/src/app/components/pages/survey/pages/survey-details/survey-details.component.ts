@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { SurveyService } from '../../../../../shared/services/survey.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '../../../../../shared/services/toast.service';
 import { LoaderService } from '../../../../../shared/services/loader.service';
 import { SurveyResultsRequest } from '../../../../../shared/dto/requests/survey/survey-results-request';
 import { SurveyResultsResponse } from '../../../../../shared/dto/responses/survey/survey-results-response';
 import { DEFAULT_CHART_LEGEND, DEFAULT_CHART_OPTIONS, DEFAULT_CHART_TYPE, INITIAL_CHART_DATA } from './const/chart.config';
+import { CommonDialogsService } from '../../../../../shared/services/commondialog.service';
+import { UserEndedRequest } from '../../../../../shared/dto/requests/survey/user_ended_request';
+import { UserEndedResponse } from '../../../../../shared/dto/responses/survey/user_ended_response';
 
 @Component({
   selector: 'app-survey-details',
@@ -20,7 +23,9 @@ export class SurveyDetailsComponent implements OnInit {
     private readonly surveyService: SurveyService,
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastService,
-    private readonly loaderService: LoaderService
+    private readonly loaderService: LoaderService,
+    private readonly dialogService: CommonDialogsService,
+    private readonly router: Router
   ) {}
 
   public chartOptions = DEFAULT_CHART_OPTIONS;
@@ -33,10 +38,11 @@ export class SurveyDetailsComponent implements OnInit {
   public title = '';
   public question = '';
   public isClosed = false;
-
+  private surveyId: string | null = null;
   ngOnInit(): void {
     const survey_id = this.route.snapshot.paramMap.get('survey_id');
     if (survey_id) {
+      this.surveyId = survey_id;
       this.fetchSurveyResults(survey_id);
     }
   }
@@ -83,6 +89,33 @@ export class SurveyDetailsComponent implements OnInit {
     });
   }
 
+  public onDeleteSurvey(): void {
+    const survey_id = this.route.snapshot.paramMap.get('survey_id');
+    if (!survey_id) return;
+
+    this.dialogService
+      .openConfirmationDialog('Confirm Your Answer', `Are you sure you want to delete "${this.title}"?`)
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.loaderService.startLoading();
+
+        this.surveyService.deleteSurvey(survey_id).subscribe({
+          next: (res) => {
+            this.toastService.showSuccess(res.message || 'Survey deleted successfully.', 'Success');
+            this.router.navigate(['/dashboard']);
+            this.loaderService.stopLoading();
+          },
+          error: (err) => {
+            this.toastService.showError(err.message || 'Failed to delete survey.', 'Error');
+            this.loaderService.stopLoading();
+          }
+        });
+      }
+    });
+}
+
+
   getPercentage(index: number): number {
     const val = this.chartData.datasets[0].data[index];
     return typeof val === 'number' ? val : 0;
@@ -90,5 +123,26 @@ export class SurveyDetailsComponent implements OnInit {
 
   getCount(index: number): number {
     return Math.round((this.getPercentage(index) / 100) * this.totalResponses);
+  }
+  public closeSurvey(): void {
+    if (!this.surveyId) {
+      this.toastService.showError('Invalid survey.', 'Error');
+      return;
+    }
+  
+    const request: UserEndedRequest = { survey_id: this.surveyId };
+  
+    this.loaderService.startLoading();
+    this.surveyService.endSurvey(request).subscribe({
+      next: (response: UserEndedResponse) => {
+        this.toastService.showSuccess(response.message || 'Survey successfully closed.', 'Success');
+        this.isClosed = true;
+        this.loaderService.stopLoading();
+      },
+      error: (err) => {
+        this.toastService.showError(err.message || 'Failed to close survey.', 'Error');
+        this.loaderService.stopLoading();
+      }
+    });
   }
 }

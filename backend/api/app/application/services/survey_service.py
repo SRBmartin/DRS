@@ -30,12 +30,31 @@ class SurveyService:
             raise ({"message": "Survey not found.", "status": 404})
         return survey
     
+    def updateSurvey(self, updated_survey: Survey):
+            SurveyRepository.update(updated_survey)
+            return {"message": "Survey updated successfully.", "status": 200}
+
     def getSurvey(self, survey_id: str):
         return SurveyRepository.get_by_id(survey_id)
     
     def get_surveys_by_user_id(self, user_id: str):
         return SurveyRepository.get_by_user_id(user_id=user_id)
     
+    def getSurveyById(self, survey_id):
+        return SurveyRepository.get_by_id(survey_id)
+    
+    def deleteSurvey(self, survey_id):
+        survey: Survey = SurveyRepository.get_by_id(survey_id)
+        if not survey or survey.is_deleted:
+            return {"message": "Survey not found", "status": 404}
+        
+        survey.is_deleted = True
+        try:
+            SurveyRepository.update_survey(survey)
+            return {"message": "Survey deleted successfully.", "status": 200}
+        except Exception as e:
+            return {"message": f"Failed to delete survey: {str(e)}", "status": 500}
+
 class SurveyResponsesService:
     
     def create(self, survey_id, email):
@@ -77,6 +96,21 @@ class SurveyResponsesService:
             })
             
         return response_list
+    def get_pending_users(self, survey_id: str):
+        
+        responses: SurveyResponses = SurveyResponsesRepository.get_responses_by_survey_id_and_response(survey_id=survey_id, response="no response")
+        if not responses:
+            raise ({"message": "Survey responses not found.", "status": 404})
+        
+        no_response_emails = []
+        for response in responses:
+            no_response_emails.append(response.email)
+            
+        if len(no_response_emails) == 0:
+            raise ({"message": "No emails found.", "status": 404})
+        
+        return no_response_emails
+
     
     def delete(self, survey_response):
         SurveyResponsesRepository.delete(survey_response)
@@ -92,3 +126,9 @@ class SurveyResponsesService:
     
     def get_survey_ids_for_user(self, user_id):
         return SurveyResponsesRepository.get_survey_ids_by_user_id(user_id)
+    def delete_survey_responses(self, survey_id):
+        try:
+            SurveyResponsesRepository.mark_deleted_by_survey_id(survey_id=survey_id)
+            return {"message": "Survey responses deleted successfully.", "status": 200}
+        except Exception as e:
+            return {"message": f"Failed to delete survey responses: {str(e)}", "status": 500}

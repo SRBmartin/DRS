@@ -14,6 +14,9 @@ import { SurveyDetailsRequest } from "../dto/requests/survey/survey-details-requ
 import { SurveyDetailsResponse } from "../dto/responses/survey/survey-details-response";
 import { GetMySurveysResponse } from "../dto/responses/survey/get-my-surveys-response";
 import { GetSurveysForMeResponse } from "../dto/responses/survey/get-surveys-for-me-response";
+import { DeleteSurveyResponse } from "../dto/responses/survey/delete-survey-response";
+import { UserEndedRequest } from "../dto/requests/survey/user_ended_request";
+import { UserEndedResponse } from "../dto/responses/survey/user_ended_response";
 
 @Injectable({
     providedIn: 'root'
@@ -93,6 +96,24 @@ export class SurveyService {
             catchError((e: HttpErrorResponse) => {
                 return throwError(e.error);
             })
+        );
+    }   
+       
+    deleteSurvey(surveyId: string): Observable<DeleteSurveyResponse> {
+        const url = `${this.baseUrl}/${surveyId}`;
+        return this.httpClient.delete<DeleteSurveyResponse>(url).pipe(
+            catchError((e: HttpErrorResponse) => {
+                return throwError(() => e.error);
+            })
+        );
+    }
+    
+    endSurvey(request: UserEndedRequest): Observable<UserEndedResponse> {
+        const url = `${this.baseUrl}/end_survey`;
+
+        return this.httpClient.patch<UserEndedResponse>(url, request)
+            .pipe(
+                catchError((e: HttpErrorResponse) => throwError(e.error))
         );
     }
 }
