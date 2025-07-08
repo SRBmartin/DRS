@@ -8,7 +8,7 @@ import { SurveyResultsResponse } from '../../../../../shared/dto/responses/surve
 import { DEFAULT_CHART_LEGEND, DEFAULT_CHART_OPTIONS, DEFAULT_CHART_TYPE, INITIAL_CHART_DATA } from './const/chart.config';
 import { UserEndedRequest } from '../../../../../shared/dto/requests/survey/user_ended_request';
 import { UserEndedResponse } from '../../../../../shared/dto/responses/survey/user_ended_response';
-import { CommonDialogsService } from '../../../../../shared/services/commondialog.service'; 
+import { CommonDialogsService } from '../../../../../shared/services/commondialog.service';
 
 @Component({
   selector: 'app-survey-details',

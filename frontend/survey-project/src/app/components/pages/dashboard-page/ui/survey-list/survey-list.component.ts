@@ -34,7 +34,7 @@ export class SurveyListComponent implements OnChanges {
   constructor(
     private surveyService: SurveyService,
     private readonly loaderService: LoaderService,
-    private readonly toastService: ToastService
+    private readonly toastService: ToastService,
   ) {}
 
   private applyFilters(): void {
