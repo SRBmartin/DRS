@@ -38,7 +38,7 @@ class UserEndingSurveyCommandHandler(IHandler):
                 return {"message": "Failed to update survey.", "status": 500}
 
             pending_users = self.survey_responses_service.get_pending_users(command.survey_id)
-            print(pending_users)
+
             if pending_users:
                 self._init_send_mails(pending_users, survey)
 
@@ -48,6 +48,7 @@ class UserEndingSurveyCommandHandler(IHandler):
             if err.args and isinstance(err.args[0], dict):
                 return err.args[0]
         except Exception as ex:
+            print(ex)
             return {"message": "An unexpected error occurred.", "status": 500}
         
     def _init_send_mails(self, emails: List[str], survey: Survey):

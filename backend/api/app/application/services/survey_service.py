@@ -99,15 +99,10 @@ class SurveyResponsesService:
     def get_pending_users(self, survey_id: str):
         
         responses: SurveyResponses = SurveyResponsesRepository.get_responses_by_survey_id_and_response(survey_id=survey_id, response="no response")
-        if not responses:
-            raise ({"message": "Survey responses not found.", "status": 404})
         
         no_response_emails = []
         for response in responses:
             no_response_emails.append(response.email)
-            
-        if len(no_response_emails) == 0:
-            raise ({"message": "No emails found.", "status": 404})
         
         return no_response_emails
 
