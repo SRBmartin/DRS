@@ -25,13 +25,14 @@ export class AuthService {
     ) {}
 
     loginUser(session: Session): void {
-        this.cookieService.set('ssid', session.id, {
-            expires: new Date(session.ending_time),
-            sameSite: 'Lax',
-            secure: true,
-            path: '/',
-            domain: environment.origin
-        });
+        // this.cookieService.set('ssid', session.id, {
+        //     expires: new Date(session.ending_time),
+        //     sameSite: 'Lax',
+        //     secure: true,
+        //     path: '/',
+        //     domain: environment.origin
+        // });
+        document.cookie = `ssid=${session.id}; expires=${new Date(session.ending_time)}; path=/; SameSite=Lax; Secure`;
     }
 
     logoutUser(): void {
