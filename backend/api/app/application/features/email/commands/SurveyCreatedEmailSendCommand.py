@@ -54,9 +54,9 @@ class SendSurveyCreatedEmailHandler(IHandler):
                     survey_email = SurveySentEmailRepository.get_by_id(email_id, session)
                     response_record = self.survey_responses_service.create(command.survey_id, survey_email.email)
                     frontend_url = current_app.config.get("FRONTEND_URL", "http://localhost:4200")
-                    yes_link = f"{frontend_url}/survey/answer/mail/{email_id}/{command.survey_id}/{response_record.id}/yes"
-                    no_link = f"{frontend_url}/survey/answer/mail/{email_id}/{command.survey_id}/{response_record.id}/no"
-                    not_sure_link = f"{frontend_url}/survey/answer/mail/{email_id}/{command.survey_id}/{response_record.id}/maybe"
+                    yes_link = f"{frontend_url}/survey/answer/mail/{survey_email.id}/{command.survey_id}/{response_record.id}/yes"
+                    no_link = f"{frontend_url}/survey/answer/mail/{survey_email.id}/{command.survey_id}/{response_record.id}/no"
+                    not_sure_link = f"{frontend_url}/survey/answer/mail/{survey_email.id}/{command.survey_id}/{response_record.id}/maybe"
 
                     email_body = template_content.format(
                         survey_title=command.survey_title,

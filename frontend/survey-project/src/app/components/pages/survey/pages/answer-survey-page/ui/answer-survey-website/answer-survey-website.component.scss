@@ -18,6 +18,10 @@
         color: var(--dark-color);
         margin-bottom: 1.5rem;
         font-weight: 600;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        white-space: normal;
     }
 
     .survey-question {
@@ -33,6 +37,10 @@
             line-height: 1.6;
             margin: 0;
             font-weight: 500;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            white-space: normal;           
         }
     }
 
