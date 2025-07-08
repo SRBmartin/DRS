@@ -9,6 +9,7 @@ import { DEFAULT_CHART_LEGEND, DEFAULT_CHART_OPTIONS, DEFAULT_CHART_TYPE, INITIA
 import { CommonDialogsService } from '../../../../../shared/services/commondialog.service';
 import { UserEndedRequest } from '../../../../../shared/dto/requests/survey/user_ended_request';
 import { UserEndedResponse } from '../../../../../shared/dto/responses/survey/user_ended_response';
+import { CommonDialogsService } from '../../../../../shared/services/commondialog.service'; 
 
 @Component({
   selector: 'app-survey-details',
@@ -130,19 +131,30 @@ export class SurveyDetailsComponent implements OnInit {
       return;
     }
   
-    const request: UserEndedRequest = { survey_id: this.surveyId };
+    this.dialogService
+      .openConfirmationDialog(
+        'Close Survey',
+        'Are you sure you want to close this survey? This action cannott be undone.'
+      )
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          const request: UserEndedRequest = { survey_id: this.surveyId! };
   
-    this.loaderService.startLoading();
-    this.surveyService.endSurvey(request).subscribe({
-      next: (response: UserEndedResponse) => {
-        this.toastService.showSuccess(response.message || 'Survey successfully closed.', 'Success');
-        this.isClosed = true;
-        this.loaderService.stopLoading();
-      },
-      error: (err) => {
-        this.toastService.showError(err.message || 'Failed to close survey.', 'Error');
-        this.loaderService.stopLoading();
-      }
-    });
+          this.loaderService.startLoading();
+          this.surveyService.endSurvey(request).subscribe({
+            next: (response: UserEndedResponse) => {
+              this.toastService.showSuccess(response.message || 'Survey successfully closed.', 'Success');
+              this.isClosed = true;
+              this.loaderService.stopLoading();
+            },
+            error: (err) => {
+              this.toastService.showError(err.message || 'Failed to close survey.', 'Error');
+              this.loaderService.stopLoading();
+            }
+          });
+        }
+      });
   }
+  
 }
