@@ -23,7 +23,7 @@ class GetSurveyAnswerDetailsQueryHandler(IHandler):
             survey_data = survey_schema.dump(survey)
             
             if not survey_data:
-                return {"message": "Survey not fount.", "status": 404}
+                return {"message": "Survey not found.", "status": 404}
             
             return {
                 "message": "Survey details retrieved successfully",

@@ -3,6 +3,8 @@ import { GetMySurveysResponse, SurveyDto } from '../../../../../shared/dto/respo
 import { GetSurveysForMeResponse } from '../../../../../shared/dto/responses/survey/get-surveys-for-me-response';
 import { SurveyService } from '../../../../../shared/services/survey.service';
 import { LoaderService } from '../../../../../shared/services/loader.service';
+import { ToastService } from '../../../../../shared/services/toast.service';
+import { error } from 'jquery';
 
 @Component({
   selector: 'app-survey-list',
@@ -31,7 +33,8 @@ export class SurveyListComponent implements OnChanges {
 
   constructor(
     private surveyService: SurveyService,
-    private readonly loaderService: LoaderService
+    private readonly loaderService: LoaderService,
+    private readonly toastService: ToastService
   ) {}
 
   private applyFilters(): void {
@@ -63,10 +66,11 @@ export class SurveyListComponent implements OnChanges {
         this.applyFilters();
         this.loaderService.stopLoading();
       },
-      error: () => {
+      error: (e: any) => {
         this.originalSurveys = [];
         this.surveys = [];
         this.loaderService.stopLoading();
+        this.toastService.showError(e.message ?? '', "Error fetching surveys");
       }
     });
   }
