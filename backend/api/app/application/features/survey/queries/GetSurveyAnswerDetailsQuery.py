@@ -15,6 +15,10 @@ class GetSurveyAnswerDetailsQueryHandler(IHandler):
     def handle(self, query: GetSurveyAnswerDetailsQuery):
         try:
             survey = self.survey_service.getSurvey(query.survey_id)
+            
+            if survey.is_deleted:
+                return {"message": "Survey not fount.", "status": 404}
+            
             survey_schema = SurveySchema()
             survey_data = survey_schema.dump(survey)
             

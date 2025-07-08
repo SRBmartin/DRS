@@ -27,8 +27,7 @@ class GetSurveysForMeQueryHandler:
             surveys_data = []
             for survey_id in survey_ids:
                 survey = self.survey_service.get_survey_by_id(survey_id)
-                #TODO add "and not survey.is_deleted" to if statement expression after migrations
-                if survey:
+                if survey and not survey.is_deleted:
                     surveys_data.append({
                         "id": str(survey.id),
                         "title": survey.title,

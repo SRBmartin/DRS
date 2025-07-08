@@ -24,25 +24,15 @@ class GetMySurveysQueryHandler:
             
             surveys_data = []
             for survey in surveys:
-                surveys_data.append({
-                    "id": str(survey.id),
-                    "title": survey.title,
-                    "question": survey.question,
-                    "ending_time": survey.ending_time,
-                    "user_ended": survey.user_ended,
-                    "is_anonymous": survey.is_anonymous
-                })
-                #TODO uncomment after migration with is_deleted is live, and delete the code above
-                
-                # if not survey.is_deleted:
-                #     surveys_data.append({
-                #         "id": str(survey.id),
-                #         "title": survey.title,
-                #         "question": survey.question,
-                #         "ending_time": survey.ending_time,
-                #         "user_ended": survey.user_ended,
-                #         "is_anonymous": survey.is_anonymous
-                #     })
+                if not survey.is_deleted:
+                    surveys_data.append({
+                        "id": str(survey.id),
+                        "title": survey.title,
+                        "question": survey.question,
+                        "ending_time": survey.ending_time,
+                        "user_ended": survey.user_ended,
+                        "is_anonymous": survey.is_anonymous
+                    })
 
             return {"surveys": surveys_data, "status": 200}
         
