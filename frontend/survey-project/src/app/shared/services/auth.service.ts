@@ -8,6 +8,7 @@ import { DeleteRequest } from "../dto/requests/user/delete-request";
 import { DeleteResponse } from "../dto/responses/user/delete-response";
 import { RouteNames } from "../consts/routes";
 import { ToastService } from "./toast.service";
+import { environment } from "../environment/environment";
 
 
 @Injectable({
@@ -27,7 +28,9 @@ export class AuthService {
         this.cookieService.set('ssid', session.id, {
             expires: new Date(session.ending_time),
             sameSite: 'Lax',
-            path: '/'
+            secure: true,
+            path: '/',
+            domain: environment.origin
         });
     }
 
