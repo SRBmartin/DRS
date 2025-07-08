@@ -1,4 +1,4 @@
-from .models import Survey, SurveyResponses
+from .models import Survey, SurveyResponses, SurveyResponses
 from ...core.extensions import db
 
 class SurveyRepository:
@@ -20,6 +20,14 @@ class SurveyRepository:
     @staticmethod
     def get_by_id(survey_id):
         return db.session.query(Survey).filter(Survey.id == survey_id).one_or_none()
+        
+    @staticmethod
+    def get_by_id(survey_id):
+        return Survey.query.get(survey_id)
+    
+    @staticmethod
+    def update_survey(survey):
+        db.session.commit()
 
 class SurveyResponsesRepository:
 
@@ -78,3 +86,11 @@ class SurveyResponsesRepository:
             SurveyResponses.survey_id == survey_id,
             SurveyResponses.email == email
         ).first()
+        
+    @staticmethod
+    def mark_deleted_by_survey_id(survey_id):
+        updated_count = db.session.query(SurveyResponses).filter_by(survey_id=survey_id).update(
+            {"is_deleted": True}
+        )
+        db.session.commit()
+        return updated_count

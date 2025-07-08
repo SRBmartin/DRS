@@ -37,6 +37,21 @@ class SurveyService:
     def getSurvey(self, survey_id: str):
         return SurveyRepository.get_by_id(survey_id)
     
+    def getSurveyById(self, survey_id):
+        return SurveyRepository.get_by_id(survey_id)
+    
+    def deleteSurvey(self, survey_id):
+        survey: Survey = SurveyRepository.get_by_id(survey_id)
+        if not survey or survey.is_deleted:
+            return {"message": "Survey not found", "status": 404}
+        
+        survey.is_deleted = True
+        try:
+            SurveyRepository.update_survey(survey)
+            return {"message": "Survey deleted successfully.", "status": 200}
+        except Exception as e:
+            return {"message": f"Failed to delete survey: {str(e)}", "status": 500}
+
 class SurveyResponsesService:
     
     def create(self, survey_id, email):
@@ -105,3 +120,10 @@ class SurveyResponsesService:
     
     def get_by_survey_id_and_email(self, survey_id: str, email: str):
         return SurveyResponsesRepository.get_by_survey_and_email(survey_id, email)
+    
+    def delete_survey_responses(self, survey_id):
+        try:
+            SurveyResponsesRepository.mark_deleted_by_survey_id(survey_id=survey_id)
+            return {"message": "Survey responses deleted successfully.", "status": 200}
+        except Exception as e:
+            return {"message": f"Failed to delete survey responses: {str(e)}", "status": 500}
