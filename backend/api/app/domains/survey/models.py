@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
 from datetime import datetime
 from ...core.extensions import db
+from ...infrastructure.utils.time import now
 
 class Survey(db.Model):
     __tablename__ = 'surveys'
@@ -13,7 +14,7 @@ class Survey(db.Model):
     user_id = db.Column(UUID(as_uuid=True), ForeignKey('users.users.id'), nullable=False)
     title = db.Column(db.String(200), nullable=False)
     question = db.Column(db.String(1000), nullable=False)
-    created_time = db.Column(db.DateTime, default=datetime.now, nullable=False)
+    created_time = db.Column(db.DateTime(timezone=True), default=now, nullable=False)
     ending_time = db.Column(db.DateTime, nullable=False)
     is_anonymous = db.Column(db.Boolean, nullable=False)
     user_ended = db.Column(db.Boolean, default=False, nullable=False)
@@ -30,7 +31,7 @@ class SurveyResponses(db.Model):
     survey_id = db.Column(UUID(as_uuid=True), ForeignKey('surveys.surveys.id'), nullable=False)
     email = db.Column(db.String(200), nullable=True)
     response = db.Column(db.String(32), nullable=False, default="no response")
-    responded_time = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    responded_time = db.Column(db.DateTime(timezone=True), default=now, nullable=False)
     is_deleted = db.Column(db.Boolean, default=False, nullable=False)
 
     user = relationship("User", backref=db.backref("survey_responses", lazy=True))

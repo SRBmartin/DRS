@@ -7,6 +7,8 @@ from app.domains.survey.models import Survey
 from ....services.survey_service import SurveyResponsesService, SurveyService
 from ....contracts.IHandler import IHandler
 from ...email.commands.SendSurveyEndedEmailHandler import SendSurveyEndedEmailCommand
+from .....infrastructure.utils.time import now
+
 @dataclass
 class UserEndingSurveyCommand:
     survey_id: str
@@ -22,7 +24,7 @@ class UserEndingSurveyCommandHandler(IHandler):
             if not survey:
                 raise ValueError({"message": "Survey not found.", "status": 404})
             
-            now_utc = datetime.datetime.now(datetime.timezone.utc)
+            now_utc = now()
             if survey.ending_time.tzinfo is None:
                 survey.ending_time = survey.ending_time.replace(tzinfo=datetime.timezone.utc)
 
