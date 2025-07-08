@@ -29,6 +29,11 @@ class SurveyRepository:
     def update_survey(survey):
         db.session.commit()
 
+    @staticmethod
+    def get_by_user_id(user_id):
+        return Survey.query.filter_by(user_id=user_id).all()
+
+
 class SurveyResponsesRepository:
 
     @staticmethod
@@ -88,6 +93,9 @@ class SurveyResponsesRepository:
         ).first()
         
     @staticmethod
+    def get_survey_ids_by_user_id(user_id):
+        responses = SurveyResponses.query.filter_by(user_id=user_id).all()
+        return list(set([response.survey_id for response in responses]))
     def mark_deleted_by_survey_id(survey_id):
         updated_count = db.session.query(SurveyResponses).filter_by(survey_id=survey_id).update(
             {"is_deleted": True}

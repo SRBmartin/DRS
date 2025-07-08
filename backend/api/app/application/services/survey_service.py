@@ -37,6 +37,9 @@ class SurveyService:
     def getSurvey(self, survey_id: str):
         return SurveyRepository.get_by_id(survey_id)
     
+    def get_surveys_by_user_id(self, user_id: str):
+        return SurveyRepository.get_by_user_id(user_id=user_id)
+    
     def getSurveyById(self, survey_id):
         return SurveyRepository.get_by_id(survey_id)
     
@@ -121,6 +124,8 @@ class SurveyResponsesService:
     def get_by_survey_id_and_email(self, survey_id: str, email: str):
         return SurveyResponsesRepository.get_by_survey_and_email(survey_id, email)
     
+    def get_survey_ids_for_user(self, user_id):
+        return SurveyResponsesRepository.get_survey_ids_by_user_id(user_id)
     def delete_survey_responses(self, survey_id):
         try:
             SurveyResponsesRepository.mark_deleted_by_survey_id(survey_id=survey_id)

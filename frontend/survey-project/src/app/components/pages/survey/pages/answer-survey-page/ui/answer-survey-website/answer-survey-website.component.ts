@@ -113,8 +113,7 @@ export class AnswerSurveyWebsiteComponent implements OnInit{
         this.selectedAnswer = option;
         this.toastService.showSuccess(response.message || 'Response submitted successfully!', 'Success');
         this.loaderService.stopLoading();
-        //TODO
-        //redirect to Displaying surveys
+        this.router.navigate([RouteNames.DashboardRoute]);
       },
       error: (error) => {
         const errorMessage = error.message || 'Failed to submit response.';
