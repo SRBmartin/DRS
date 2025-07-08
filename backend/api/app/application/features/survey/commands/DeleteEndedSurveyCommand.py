@@ -3,6 +3,7 @@ import datetime
 
 from .....domains.survey.models import Survey
 from .....application.services.survey_service import SurveyResponsesService, SurveyService
+from .....infrastructure.utils.time import now
 
 @dataclass
 class DeleteEndedSurveyCommand:
@@ -17,11 +18,11 @@ class DeleteEndedSurveyCommandHandler:
         try:
             survey: Survey = self.survey_service.getSurveyById(command.survey_id)
             
-            now_utc = datetime.datetime.now().replace(tzinfo=datetime.timezone.utc)  
+            now_utc = now()
             survey_end_time = survey.ending_time.replace(tzinfo=datetime.timezone.utc)
 
             if survey.is_deleted:
-                return {"message": "Survey does not exist.", "status": 404}                
+                return {"message": "Survey does not exist.", "status": 404}
 
             if survey_end_time > now_utc and not(survey.user_ended):
                 return {"message": "Survey is still in progress.", "status": 400}
