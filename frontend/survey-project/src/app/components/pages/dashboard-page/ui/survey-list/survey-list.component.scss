@@ -1,3 +1,18 @@
+.empty-state {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;  
+  min-height: 70vh;         
+  padding-top: 100px;       
+}
+
+.empty-state img {
+  max-width: 300px;
+  width: 100%;
+  height: auto;
+  opacity: 0.8;
+}
+
 .survey-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));

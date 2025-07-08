@@ -13,4 +13,5 @@ export enum RouteNames {
     AnswerSurveyRoute = 'answer',
     AnswerSurveyEmailRoute = 'mail/:email_id/:survey_id/:response_id/:option',
     AnswerSurveyWebsiteRoute = 'website/:survey_id'
+    
 };
