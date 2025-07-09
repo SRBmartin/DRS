@@ -35,11 +35,14 @@ class AnswerSurveyWebsiteCommandHandler(IHandler):
             if not survey:
                 return {"message": "Survey not found.", "status": 404}
 
+            if survey.user_ended:
+                return {"message": "Survey has ended.", "status": 403}
+
             now_utc = datetime.utcnow().replace(tzinfo=timezone.utc)  
             survey_end_time = survey.ending_time.replace(tzinfo=timezone.utc)
 
             if survey_end_time < now_utc:
-                return {"message": "Survey has expired.", "status": 400}
+                return {"message": "Survey has expired.", "status": 403}
 
             survey_response = self.survey_responses_service.get_by_survey_id_and_email(command.survey_id, user.email)
 

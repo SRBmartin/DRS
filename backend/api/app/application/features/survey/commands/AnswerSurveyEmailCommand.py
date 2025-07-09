@@ -33,11 +33,14 @@ class AnswerSurveyEmailLinkCommandHandler(IHandler):
             if not survey:
                 return {"message": "Survey not found.", "status": 404}
             
+            if survey.user_ended:
+                return {"message": "Survey has ended.", "status": 403}
+            
             now_utc = datetime.utcnow().replace(tzinfo=timezone.utc)  
             survey_end_time = survey.ending_time.replace(tzinfo=timezone.utc)
             
             if survey_end_time < now_utc:
-                return {"message": "Survey has expired.", "status": 400}
+                return {"message": "Survey has expired.", "status": 403}
             
             email_uuid = UUID(command.email_id)
             session = Session(db.engine)
