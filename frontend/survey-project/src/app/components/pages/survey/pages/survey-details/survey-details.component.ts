@@ -129,6 +129,8 @@ export class SurveyDetailsComponent implements OnInit {
       this.toastService.showError('Invalid survey.', 'Error');
       return;
     }
+
+    if (this.isClosed) return;
   
     this.dialogService
       .openConfirmationDialog(

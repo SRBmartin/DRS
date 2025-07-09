@@ -30,7 +30,7 @@ class AnswerSurveyEmailLinkCommandHandler(IHandler):
                 return {"message": "Invalid option.", "status": 400}
             
             survey = self.survey_service.getSurvey(command.survey_id)
-            if not survey:
+            if not survey or survey.is_deleted:
                 return {"message": "Survey not found.", "status": 404}
             
             now_utc = datetime.utcnow().replace(tzinfo=timezone.utc)  
