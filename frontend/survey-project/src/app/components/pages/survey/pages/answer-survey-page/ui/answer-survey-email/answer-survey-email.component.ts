@@ -73,8 +73,8 @@ export class AnswerSurveyEmailComponent {
         this.updateIsClosed();
         this.loaderService.stopLoading();
       },
-      error: () => {
-        this.toastService.showError('Failed to load survey details.', 'Error');
+      error: (err: any) => {
+        this.toastService.showError(err.message || 'Failed to load survey details.', 'Error');
         this.loaderService.stopLoading();
       }
     });

@@ -13,8 +13,8 @@
   </div>
 
   <div class="right-actions">
-    <app-button class="action-btn" label="Close Survey" size="sm" [disabled]="isClosed" (click)="closeSurvey()"></app-button>
-    <app-button class="action-btn delete" label="Delete Survey" size="sm" [disabled]="!isClosed" (clickEvent)="onDeleteSurvey()"></app-button>
+    <app-button class="btn-primary" label="Close Survey" size="sm" [disabled]="isClosed" (click)="closeSurvey()"></app-button>
+    <app-button class="btn-error" label="Delete Survey" size="sm" [disabled]="!isClosed" (clickEvent)="onDeleteSurvey()"></app-button>
   </div>
 </div>
 
